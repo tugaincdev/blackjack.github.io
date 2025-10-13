@@ -118,11 +118,7 @@ class Blackjack {
         return this.getGameState;
     }
 
-    //TODO: Implement this method
-    /**
-     * Executes the player's move by adding a card to the player's array.
-     * @returns {Object} - The game state after the player's move.
-     */
+  
     playerMove() {
 
         
@@ -136,11 +132,7 @@ class Blackjack {
 
     }
 
-    //TODO: Implement this method
-    /**
-     * Checks the game state based on the dealer's and player's cards.
-     * @returns {Object} - The updated game state.
-     */
+  
     getGameState() {
 
         if (this.getCardsValue(this.playerCards) > 25) {
