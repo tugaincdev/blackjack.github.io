@@ -112,21 +112,10 @@ class Blackjack {
 
         let cardToAdd = this.deck[1];
         this.updateDeck;
-       
         
         this.dealerCards.push(cardToAdd);
 
-        if (this.getCardsValue(this.dealerCards) > 25) {
-            this.state = {
-                gameEnded: true, // Indicates whether the game has ended
-                playerWon: true, // Indicates if the player has won
-                dealerWon: false, // Indicates if the dealer has won
-                playerBusted: false, // Indicates if the player has exceeded MAX_POINTS
-                dealerBusted: true // Indicates if the dealer has exceeded MAX_POINTS
-            };
-        }
-
-        return this.state;
+        return this.getGameState;
     }
 
     //TODO: Implement this method
@@ -143,17 +132,7 @@ class Blackjack {
         
         this.playerCards.push(cardToAdd);
 
-        if (this.getCardsValue(this.playerCards) > 25) {
-            this.state = {
-                gameEnded: true, // Indicates whether the game has ended
-                playerWon: false, // Indicates if the player has won
-                dealerWon: true, // Indicates if the dealer has won
-                playerBusted: true, // Indicates if the player has exceeded MAX_POINTS
-                dealerBusted: false // Indicates if the dealer has exceeded MAX_POINTS
-            };
-        }
-
-        return this.state;
+        return this.getGameState;
 
     }
 
@@ -164,6 +143,42 @@ class Blackjack {
      */
     getGameState() {
 
+        if (this.getCardsValue(this.playerCards) > 25) {
+            this.state = {
+                gameEnded: true, // Indicates whether the game has ended
+                playerWon: false, // Indicates if the player has won
+                dealerWon: true, // Indicates if the dealer has won
+                playerBusted: true, // Indicates if the player has exceeded MAX_POINTS
+                dealerBusted: false // Indicates if the dealer has exceeded MAX_POINTS
+            };
+        } else if (this.getCardsValue(this.playerCards) = 25) {
+            this.state = {
+                gameEnded: true, // Indicates whether the game has ended
+                playerWon: true, // Indicates if the player has won
+                dealerWon: false, // Indicates if the dealer has won
+                playerBusted: false, // Indicates if the player has exceeded MAX_POINTS
+                dealerBusted: false // Indicates if the dealer has exceeded MAX_POINTS
+            };
+        } else if (this.getCardsValue(this.dealerCards) > 25) {
+            this.state = {
+                gameEnded: true, // Indicates whether the game has ended
+                playerWon: true, // Indicates if the player has won
+                dealerWon: false, // Indicates if the dealer has won
+                playerBusted: false, // Indicates if the player has exceeded MAX_POINTS
+                dealerBusted: true // Indicates if the dealer has exceeded MAX_POINTS
+            };
+        } else if (this.getCardsValue(this.dealerCards) = 25) {
+            this.state = {
+                gameEnded: true, // Indicates whether the game has ended
+                playerWon: false, // Indicates if the player has won
+                dealerWon: true, // Indicates if the dealer has won
+                playerBusted: false, // Indicates if the player has exceeded MAX_POINTS
+                dealerBusted: false // Indicates if the dealer has exceeded MAX_POINTS
+            };
+        }
+
+        return this.state;
+        
     }
 
     updateDeck() {
