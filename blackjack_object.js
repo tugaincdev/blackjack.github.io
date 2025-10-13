@@ -49,7 +49,19 @@ class Blackjack {
      * @returns {Card[]} - The shuffled deck.
      */
     shuffle(deck) {
+        const posArray = [];
+        const newDeck = [];
+        
+        for (let i=52; i>0;i--) {
+            posArray.push(i);
+        }
 
+        for (var pos in posArray) {
+            let cardRef = Math.floor(Math.random * 52);
+            newDeck[pos] = deck[cardRef];
+        }
+
+        return newDeck;
     }
 
     getDealerCards() {
