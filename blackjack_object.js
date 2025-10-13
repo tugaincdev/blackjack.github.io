@@ -78,21 +78,35 @@ class Blackjack {
         this.dealerTurn = val; // Update the dealer's turn status
     }
 
-    //TODO: Implement this method
-    /**
-     * Calculates the total value of the provided cards.
-     * @param {Card[]} cards - Array of cards to be evaluated.
-     * @returns {number} - The total value of the cards.
-     */
-    getCardsValue(cards) {
+   getCardsValue(cards) {
+    let valor = 0;
+    let numAces = 0;
 
+    cards.forEach(contar);
+
+    function contar(item) {
+        switch (item.value) {
+            case 1:  
+                valor += 1;
+                numAces++;
+                break;
+            case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10:
+                valor += item.value; 
+                break;
+            default:  // 11,12,13 = 10
+                valor += 10;
+                break;
+        }
     }
 
-    //TODO: Implement this method
-    /**
-     * Executes the dealer's move by adding a card to the dealer's array.
-     * @returns {Object} - The game state after the dealer's move.
-     */
+    
+    while (numAces > 0 && valor + 10 <= Blackjack.MAX_POINTS) {
+        valor += 10;
+        numAces--;
+    }
+
+    return valor;
+}
     dealerMove() {
 
 
