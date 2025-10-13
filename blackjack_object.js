@@ -52,26 +52,16 @@ class Blackjack {
 
     }
 
-    /**
-     * Returns the dealer's cards.
-     * @returns {Card[]} - An array containing the dealer's cards.
-     */
     getDealerCards() {
         return this.dealerCards.slice(); // Return a copy of the dealer's cards
     }
 
-    /**
-     * Returns the player's cards.
-     * @returns {Card[]} - An array containing the player's cards.
-     */
+
     getPlayerCards() {
         return this.playerCards.slice(); // Return a copy of the player's cards
     }
 
-    /**
-     * Sets whether it is the dealer's turn to play.
-     * @param {boolean} val - Value indicating if it's the dealer's turn.
-     */
+
     setDealerTurn(val) {
         this.dealerTurn = val; // Update the dealer's turn status
     }
