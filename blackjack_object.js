@@ -31,13 +31,15 @@ class Blackjack {
         this.deck = this.shuffle(this.newDeck()); // Create and shuffle a new deck
     }
 
-    //TODO: Implement this method
-    /**
-     * Creates a new deck of cards.
-     * @returns {Card[]} - An array of cards.
-     */
-    newDeck() {
-
+     newDeck() {
+        const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+        const deck = [];
+        for(let suit of suits){
+            for (let value = 1; value <= 13; value++) {
+            deck.push(new Card(suit, value)); 
+        }
+      }
+        return deck;
     }
 
     //TODO: Implement this method
