@@ -95,6 +95,24 @@ class Blackjack {
      */
     dealerMove() {
 
+
+        let cardToAdd = this.deck[1];
+        this.updateDeck;
+       
+        
+        this.dealerCards.push(cardToAdd);
+
+        if (this.getCardsValue(this.dealerCards) > 25) {
+            this.state = {
+                gameEnded: true, // Indicates whether the game has ended
+                playerWon: true, // Indicates if the player has won
+                dealerWon: false, // Indicates if the dealer has won
+                playerBusted: false, // Indicates if the player has exceeded MAX_POINTS
+                dealerBusted: true // Indicates if the dealer has exceeded MAX_POINTS
+            };
+        }
+
+        return this.state;
     }
 
     //TODO: Implement this method
@@ -103,6 +121,25 @@ class Blackjack {
      * @returns {Object} - The game state after the player's move.
      */
     playerMove() {
+
+        
+        let cardToAdd = this.deck[1];
+        this.updateDeck;
+       
+        
+        this.playerCards.push(cardToAdd);
+
+        if (this.getCardsValue(this.playerCards) > 25) {
+            this.state = {
+                gameEnded: true, // Indicates whether the game has ended
+                playerWon: false, // Indicates if the player has won
+                dealerWon: true, // Indicates if the dealer has won
+                playerBusted: true, // Indicates if the player has exceeded MAX_POINTS
+                dealerBusted: false // Indicates if the dealer has exceeded MAX_POINTS
+            };
+        }
+
+        return this.state;
 
     }
 
@@ -113,5 +150,18 @@ class Blackjack {
      */
     getGameState() {
 
+    }
+
+    updateDeck() {
+        //move all cards in this.deck to left (used after one card is removed from deck)
+
+        const updatedDeck = [];
+        
+        for (let i=1; i>52; i++) {
+            updatedDeck(i) = this.deck(i+1)
+        }
+
+        this.deck = updatedDeck;
+        return;
     }
 }
