@@ -46,7 +46,10 @@ function newGame() {
     game = new Blackjack(); // Creates a new instance of the Blackjack game
     debug(game); // Displays the current state of the game for debugging
 
-    //TODO: Add missing code.
+    dealerNewCard();
+    dealerNewCard();    //MISSING: VOLTADA PARA BAIXO
+    playerNewCard();
+    buttonsInitialization();
 }
 
 //TODO: Implement this method.
@@ -55,6 +58,10 @@ function newGame() {
  * @param {Object} state - The current state of the game.
  */
 function finalScore(state) {
+    let playerCardsValue = game.getCardsValue(game.playerCards);
+    let dealerCardsValue = game.getCardsValue(game.dealerCards);
+    
+    //em HTML, display pop-up thingy; playerCardsValue on left, dealerCardsValue on right. use state parameter to check if playerBUusted; if so display playerCardsValue in red; same for other conditions and for dealer
 
 }
 
@@ -65,6 +72,31 @@ function finalScore(state) {
  */
 function updateDealer(state) {
 
+    let string = "";
+    
+    if (game.state.gameEnded) {
+    
+    for (let card of game.dealerCards) {
+        string += card.printName() + ", ";
+    }
+    string = string.slice(0, -2);
+    
+    if (game.state.dealerWon) {
+      string += "      |     The dealer won!";
+    }
+    else {
+      string += "      |     The dealer lost!";
+    
+    }
+    }
+    
+    
+    
+    //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
+    
+    this.finalizeButtons(); //wrong?
+    
+    return;
 }
 
 //TODO: Implement this method.
@@ -74,6 +106,28 @@ function updateDealer(state) {
  */
 function updatePlayer(state) {
 
+    let string = "Player cards: ";
+    for (let card of game.playerCards) {
+        string += card.printName() + ", ";
+    }
+    string = string.slice(0, -2);
+    
+    
+    if (game.state.gameEnded) {
+      if (game.state.playerWon) {
+        string += "      |     You (the player) won!";
+      }
+      else {
+        string += "      |     You (the player) lost!";
+      }
+    }
+    
+    
+    //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
+    
+    this.finalizeButtons(); //wrong?
+    
+    return;
 }
 
 //TODO: Implement this method.
@@ -82,7 +136,7 @@ function updatePlayer(state) {
  * @returns {Object} - The game state after the dealer's move.
  */
 function dealerNewCard() {
-
+    return game.dealerMove();
 }
 
 //TODO: Implement this method.
@@ -91,7 +145,7 @@ function dealerNewCard() {
  * @returns {Object} - The game state after the player's move.
  */
 function playerNewCard() {
-
+    return game.playerMove();
 }
 
 //TODO: Implement this method.
@@ -99,7 +153,24 @@ function playerNewCard() {
  * Finishes the dealer's turn.
  */
 function dealerFinish() {
-
+    state = game.getGameState();
+    
+    game.dealerTurn = true;
+    
+    while (!state.gameEnded) {
+    
+        updateDealer;
+    
+    
+        dealerValue = game.getCardsValue(game.dealerCards);
+        playerValue = game.getCardsValue(game.playerCards);
+        if (!((dealerValue>=21)||(dealerValue>=playerValue))) {
+            dealerNewCard();
+        }
+        state = game.getGameState();
+    }
+    
+    finalScore();
 }
 
 //TODO: Implement this method.
