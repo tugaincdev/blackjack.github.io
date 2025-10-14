@@ -42,13 +42,13 @@ class Card {
                 valueName = "ten";
                 break;
             case 11:
-                valueName = "?";
+                valueName = "jack";
                 break;
             case 12:
-                valueName = "??";
+                valueName = "queen";
                 break;
             case 13:
-                valueName = "???";
+                valueName = "king";
                 break;
             default:
                 valueName = "UNKNOWN_VALUE_NAME";
@@ -58,4 +58,5 @@ class Card {
         name = valueName + " of " + this.suit;
         return name;
     }
+
 }
