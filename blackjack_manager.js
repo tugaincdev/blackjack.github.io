@@ -6,9 +6,14 @@ let game = null; // Stores the current instance of the game
  * Function to debug and display the state of the game object.
  * @param {Object} obj - The object to be debugged.
  */
+/**
+ * Function to debug and display the state of the game object.
+ * @param {Object} obj - The object to be debugged.
+ */
 function debug(obj) {
   document.getElementById("debug").innerHTML = JSON.stringify(obj); // Displays the state of the object as JSON
 }
+
 
 /**
  * Initializes the game buttons.
@@ -17,6 +22,7 @@ function buttonsInitialization() {
   document.getElementById("card").disabled = false; // Enables the button to draw a card
   document.getElementById("stand").disabled = false; // Enables the button to stand
   document.getElementById("new_game").disabled = true; // Disables the button for a new game
+  console.log("init button finish");
 }
 
 /**
@@ -43,11 +49,14 @@ function clearPage() {}
 function newGame() {
   game = new Blackjack(); // Creates a new instance of the Blackjack game
   debug(game); // Displays the current state of the game for debugging
-
+  console.log("Newgame resulta");
   dealerNewCard();
   dealerNewCard(); //MISSING: VOLTADA PARA BAIXO
   playerNewCard();
+  playerNewCard();
   buttonsInitialization();
+  console.log("newgame finish");
+  debug(game);
 }
 
 //TODO: Implement this method.
@@ -81,6 +90,7 @@ function updateDealer(state) {
     } else {
       string += "      |     The dealer lost!";
     }
+    debug(game);
   }
 
   //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
@@ -108,6 +118,7 @@ function updatePlayer(state) {
     } else {
       string += "      |     You (the player) lost!";
     }
+    debug(game);
   }
 
   //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
@@ -123,6 +134,8 @@ function updatePlayer(state) {
  * @returns {Object} - The game state after the dealer's move.
  */
 function dealerNewCard() {
+  console.log("dealer return?");
+  debug(game);
   return game.dealerMove();
 }
 
@@ -132,6 +145,8 @@ function dealerNewCard() {
  * @returns {Object} - The game state after the player's move.
  */
 function playerNewCard() {
+  console.log("player return?");
+  debug(game);
   return game.playerMove();
 }
 
