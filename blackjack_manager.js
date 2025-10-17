@@ -14,7 +14,6 @@ function debug(obj) {
   document.getElementById("debug").innerHTML = JSON.stringify(obj); // Displays the state of the object as JSON
 }
 
-
 /**
  * Initializes the game buttons.
  */
@@ -51,6 +50,12 @@ function newGame() {
   debug(game); // Displays the current state of the game for debugging
   console.log("Newgame resulta");
   dealerNewCard();
+  printCard(
+    document.getElementById("dealer"),
+    game.dealerCards[0],
+    (replace = false)
+  );
+
   dealerNewCard(); //MISSING: VOLTADA PARA BAIXO
   playerNewCard();
   playerNewCard();
@@ -228,7 +233,7 @@ function printCard(element, card, replace = false) {
   }
 
   // Construct the image path: e.g., 'img/svg/2_of_clubs.svg' or 'img/svg/ace_of_clubs.svg'
-  const imagePath = `img/svg/${valueName}_of_${card.suit}.svg`;
+  const imagePath = `./img/svg/${valueName}_of_${card.suit}.svg`;
 
   // Create a new img element
   const img = document.createElement("img");
@@ -248,6 +253,7 @@ function printCard(element, card, replace = false) {
     }
   }
 
+  console.log("Image path:", imagePath);
   // Append the image to the element
   element.appendChild(img);
 }
