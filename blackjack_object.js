@@ -57,7 +57,7 @@ class Blackjack {
         }
 
         for (var pos in posArray) {
-            let cardRef = Math.floor(Math.random * 52);
+            let cardRef = Math.floor(Math.random() * 52);
             newDeck[pos] = deck[cardRef];
         }
 
