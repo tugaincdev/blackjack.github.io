@@ -1,1 +1,16 @@
 
+.card-image {
+  border: 1px solid #000;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+#dealer,
+#player {
+  min-height: 100px;
+  border: 2px dashed #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
