@@ -7,49 +7,47 @@ let game = null; // Stores the current instance of the game
  * @param {Object} obj - The object to be debugged.
  */
 function debug(obj) {
-    document.getElementById('debug').innerHTML = JSON.stringify(obj); // Displays the state of the object as JSON
+  document.getElementById("debug").innerHTML = JSON.stringify(obj); // Displays the state of the object as JSON
 }
 
 /**
  * Initializes the game buttons.
  */
 function buttonsInitialization() {
-    document.getElementById('card').disabled = false; // Enables the button to draw a card
-    document.getElementById('stand').disabled = false; // Enables the button to stand
-    document.getElementById('new_game').disabled = true; // Disables the button for a new game
+  document.getElementById("card").disabled = false; // Enables the button to draw a card
+  document.getElementById("stand").disabled = false; // Enables the button to stand
+  document.getElementById("new_game").disabled = true; // Disables the button for a new game
 }
 
 /**
  * Finalizes the buttons after the game ends.
  */
 function finalizeButtons() {
-    //TODO: Reveal the dealer's hidden card if you hid it like you were supposed to.
+  //TODO: Reveal the dealer's hidden card if you hid it like you were supposed to.
 
-    document.getElementById('card').disabled = true; // Disables the button to draw a card
-    document.getElementById('stand').disabled = true; // Disables the button to stand
-    document.getElementById('new_game').disabled = false; // Enables the button for a new game
+  document.getElementById("card").disabled = true; // Disables the button to draw a card
+  document.getElementById("stand").disabled = true; // Disables the button to stand
+  document.getElementById("new_game").disabled = false; // Enables the button for a new game
 }
 
 //TODO: Implement this method.
 /**
  * Clears the page to start a new game.
  */
-function clearPage() {
-
-}
+function clearPage() {}
 
 //TODO: Complete this method.
 /**
  * Starts a new game of Blackjack.
  */
 function newGame() {
-    game = new Blackjack(); // Creates a new instance of the Blackjack game
-    debug(game); // Displays the current state of the game for debugging
+  game = new Blackjack(); // Creates a new instance of the Blackjack game
+  debug(game); // Displays the current state of the game for debugging
 
-    dealerNewCard();
-    dealerNewCard();    //MISSING: VOLTADA PARA BAIXO
-    playerNewCard();
-    buttonsInitialization();
+  dealerNewCard();
+  dealerNewCard(); //MISSING: VOLTADA PARA BAIXO
+  playerNewCard();
+  buttonsInitialization();
 }
 
 //TODO: Implement this method.
@@ -58,11 +56,10 @@ function newGame() {
  * @param {Object} state - The current state of the game.
  */
 function finalScore(state) {
-    let playerCardsValue = game.getCardsValue(game.playerCards);
-    let dealerCardsValue = game.getCardsValue(game.dealerCards);
-    
-    //em HTML, display pop-up thingy; playerCardsValue on left, dealerCardsValue on right. use state parameter to check if playerBUusted; if so display playerCardsValue in red; same for other conditions and for dealer
+  let playerCardsValue = game.getCardsValue(game.playerCards);
+  let dealerCardsValue = game.getCardsValue(game.dealerCards);
 
+  //em HTML, display pop-up thingy; playerCardsValue on left, dealerCardsValue on right. use state parameter to check if playerBUusted; if so display playerCardsValue in red; same for other conditions and for dealer
 }
 
 //TODO: Implement this method.
@@ -71,32 +68,26 @@ function finalScore(state) {
  * @param {Object} state - The current state of the game.
  */
 function updateDealer(state) {
+  let string = "";
 
-    let string = "";
-    
-    if (game.state.gameEnded) {
-    
+  if (game.state.gameEnded) {
     for (let card of game.dealerCards) {
-        string += card.printName() + ", ";
+      string += card.printName() + ", ";
     }
     string = string.slice(0, -2);
-    
+
     if (game.state.dealerWon) {
       string += "      |     The dealer won!";
-    }
-    else {
+    } else {
       string += "      |     The dealer lost!";
-    
     }
-    }
-    
-    
-    
-    //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
-    
-    this.finalizeButtons(); //wrong?
-    
-    return;
+  }
+
+  //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
+
+  this.finalizeButtons(); //wrong?
+
+  return;
 }
 
 //TODO: Implement this method.
@@ -105,29 +96,25 @@ function updateDealer(state) {
  * @param {Object} state - The current state of the game.
  */
 function updatePlayer(state) {
+  let string = "Player cards: ";
+  for (let card of game.playerCards) {
+    string += card.printName() + ", ";
+  }
+  string = string.slice(0, -2);
 
-    let string = "Player cards: ";
-    for (let card of game.playerCards) {
-        string += card.printName() + ", ";
+  if (game.state.gameEnded) {
+    if (game.state.playerWon) {
+      string += "      |     You (the player) won!";
+    } else {
+      string += "      |     You (the player) lost!";
     }
-    string = string.slice(0, -2);
-    
-    
-    if (game.state.gameEnded) {
-      if (game.state.playerWon) {
-        string += "      |     You (the player) won!";
-      }
-      else {
-        string += "      |     You (the player) lost!";
-      }
-    }
-    
-    
-    //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
-    
-    this.finalizeButtons(); //wrong?
-    
-    return;
+  }
+
+  //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
+
+  this.finalizeButtons(); //wrong?
+
+  return;
 }
 
 //TODO: Implement this method.
@@ -136,7 +123,7 @@ function updatePlayer(state) {
  * @returns {Object} - The game state after the dealer's move.
  */
 function dealerNewCard() {
-    return game.dealerMove();
+  return game.dealerMove();
 }
 
 //TODO: Implement this method.
@@ -145,7 +132,7 @@ function dealerNewCard() {
  * @returns {Object} - The game state after the player's move.
  */
 function playerNewCard() {
-    return game.playerMove();
+  return game.playerMove();
 }
 
 //TODO: Implement this method.
@@ -153,27 +140,24 @@ function playerNewCard() {
  * Finishes the dealer's turn.
  */
 function dealerFinish() {
-    state = game.getGameState();
-    
-    game.dealerTurn = true;
-    
-    while (!state.gameEnded) {
-    
-        updateDealer;
-    
-    
-        dealerValue = game.getCardsValue(game.dealerCards);
-        playerValue = game.getCardsValue(game.playerCards);
-        if (!((dealerValue>=21)||(dealerValue>=playerValue))) {
-            dealerNewCard();
-        }
-        state = game.getGameState();
+  state = game.getGameState();
+
+  game.dealerTurn = true;
+
+  while (!state.gameEnded) {
+    updateDealer;
+
+    dealerValue = game.getCardsValue(game.dealerCards);
+    playerValue = game.getCardsValue(game.playerCards);
+    if (!(dealerValue >= 21 || dealerValue >= playerValue)) {
+      dealerNewCard();
     }
-    
-    finalScore();
+    state = game.getGameState();
+  }
+
+  finalScore();
 }
 
-//TODO: Implement this method.
 /**
  * Prints the card in the graphical interface.
  * @param {HTMLElement} element - The element where the card will be displayed.
@@ -181,6 +165,74 @@ function dealerFinish() {
  * @param {boolean} [replace=false] - Indicates whether to replace the existing image.
  */
 function printCard(element, card, replace = false) {
+  // Compute the value name (e.g., 'ace', 'two', ..., 'jack', 'queen', 'king')
+  let valueName = "";
+  switch (card.value) {
+    case 1:
+      valueName = "ace";
+      break;
+    case 2:
+      valueName = "two";
+      break;
+    case 3:
+      valueName = "three";
+      break;
+    case 4:
+      valueName = "four";
+      break;
+    case 5:
+      valueName = "five";
+      break;
+    case 6:
+      valueName = "six";
+      break;
+    case 7:
+      valueName = "seven";
+      break;
+    case 8:
+      valueName = "eight";
+      break;
+    case 9:
+      valueName = "nine";
+      break;
+    case 10:
+      valueName = "ten";
+      break;
+    case 11:
+      valueName = "jack";
+      break;
+    case 12:
+      valueName = "queen";
+      break;
+    case 13:
+      valueName = "king";
+      break;
+    default:
+      valueName = "unknown";
+      break;
+  }
 
+  // Construct the image path: e.g., 'img/svg/2_of_clubs.svg' or 'img/svg/ace_of_clubs.svg'
+  const imagePath = `img/svg/${valueName}_of_${card.suit}.svg`;
+
+  // Create a new img element
+  const img = document.createElement("img");
+  img.src = imagePath;
+  img.alt = card.printName(); // Use the card's text name for accessibility
+  img.classList.add("card-image"); // Optional: Add a CSS class for styling
+  img.style.width = "60px"; // Optional: Inline style for sizing; adjust as needed
+  img.style.height = "auto";
+  img.style.margin = "2px"; // Small margin between cards
+
+  if (replace && element.children.length > 0) {
+    // If replace is true, replace the last child (e.g., for revealing hidden card)
+    const lastChild = element.lastElementChild;
+    if (lastChild) {
+      lastChild.replaceWith(img);
+      return;
+    }
+  }
+
+  // Append the image to the element
+  element.appendChild(img);
 }
-
