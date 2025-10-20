@@ -45,6 +45,10 @@ function finalizeButtons() {
  */
 function clearPage() {}
 
+//TODO: Complete this method.
+/**
+ * Starts a new game of Blackjack.
+ */
 function newGame() {
   game = new Blackjack(); // Creates a new instance of the Blackjack game
   debug(game); // Displays the current state of the game for debugging
@@ -148,7 +152,7 @@ function dealerNewCard(hidden = false) {
 function playerNewCard() {
   console.log("player return?");
   debug(game);
-  return game.playerMove() & debug(game);
+  return game.playerMove();
 }
 
 function dealerFinish() {
@@ -156,6 +160,13 @@ function dealerFinish() {
   let state = game.getGameState();
 
   game.dealerTurn = true;
+
+  printCard(
+    document.getElementById("dealer"),
+    game.dealerCards[1],
+    false,
+    true
+  );
 
   while (!state.gameEnded) {
     updateDealer(state);
@@ -182,7 +193,7 @@ function dealerFinish() {
 
     while (dealerValue < 21) {
       console.log("Dealer hits: current value =", dealerValue);
-      dealerNewCard(true);
+      dealerNewCard();
       debug(game);
 
       dealerValue = game.getCardsValue(game.dealerCards);
@@ -210,7 +221,7 @@ function dealerFinish() {
  * @param {Card} card - The card to be displayed.
  * @param {boolean} hidden - QWEONG
  */
-function printCard(element, card, hidden = false) {
+function printCard(element, card, hidden = false, replace = false) {
   const cardName = card.printName();
 
   // Construct the image path: e.g., 'img/svg/2_of_clubs.svg' or 'img/svg/ace_of_clubs.svg'
@@ -229,14 +240,14 @@ function printCard(element, card, hidden = false) {
   img.style.height = "auto";
   img.style.margin = "2px"; // Small margin between cards
 
-  /*   if (replace && element.children.length > 0) {
+  if (replace && element.children.length > 0) {
     // If replace is true, replace the last child (e.g., for revealing hidden card)
     const lastChild = element.lastElementChild;
     if (lastChild) {
       lastChild.replaceWith(img);
       return;
     }
-  } */
+  }
 
   console.log("Image path:", imagePath);
   // Append the image to the element
