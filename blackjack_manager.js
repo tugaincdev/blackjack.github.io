@@ -164,22 +164,35 @@ function playerNewCard() {
  * Finishes the dealer's turn.
  */
 function dealerFinish() {
-  state = game.getGameState();
+  console.log("Dealer finish start");
+  let state = game.getGameState();
 
   game.dealerTurn = true;
 
   while (!state.gameEnded) {
-    updateDealer;
+    updateDealer(state);
+    debug(game);
 
-    dealerValue = game.getCardsValue(game.dealerCards);
-    playerValue = game.getCardsValue(game.playerCards);
-    if (!(dealerValue >= 21 || dealerValue >= playerValue)) {
-      dealerNewCard();
+    let dealerValue = game.getCardsValue(game.dealerCards);
+    while (dealerValue < 21) {
+      // Re-evaluate here on each check
+      console.log("Dealer hits: current value =", dealerValue);
+      dealerNewCard(true);
+      debug(game);
+
+      dealerValue = game.getCardsValue(game.dealerCards);
+
+      if (dealerValue > 25) {
+        console.log("Dealer busts at", dealerValue);
+      } else {
+        console.log("Dealer stands at", dealerValue);
+      }
     }
-    state = game.getGameState();
-  }
 
-  finalScore();
+    console.log("Dealer stands at", dealerValue);
+    state = game.getGameState();
+    debug(game);
+  }
 }
 
 /**
