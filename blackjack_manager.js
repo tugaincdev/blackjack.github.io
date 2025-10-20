@@ -45,27 +45,13 @@ function finalizeButtons() {
  */
 function clearPage() {}
 
-//TODO: Complete this method.
-/**
- * Starts a new game of Blackjack.
- */
 function newGame() {
   game = new Blackjack(); // Creates a new instance of the Blackjack game
   debug(game); // Displays the current state of the game for debugging
   console.log("Newgame resulta");
   dealerNewCard();
-  printCard(
-    document.getElementById("dealer"),
-    game.dealerCards[0],
-    (replace = false)
-  );
+  dealerNewCard((hidden = true)); //MISSING: VIRAR PARA CIMA DEPOIS
 
-  dealerNewCard(); //MISSING: VOLTADA PARA BAIXO
-  printCard(
-    document.getElementById("dealer"),
-    new Card(game.dealerCards[1].suit, 0),
-    (replace = false)
-  );
   playerNewCard();
   playerNewCard();
   buttonsInitialization();
@@ -145,12 +131,13 @@ function updatePlayer(state) {
 //TODO: Implement this method.
 /**
  * Causes the dealer to draw a new card.
+ * @param {boolean} hidden - QWEONG
  * @returns {Object} - The game state after the dealer's move.
  */
-function dealerNewCard() {
+function dealerNewCard(hidden = false) {
   console.log("dealer return?");
   debug(game);
-  return game.dealerMove() & debug(game);
+  return game.dealerMove(hidden);
 }
 
 //TODO: Implement this method.
@@ -221,15 +208,15 @@ function dealerFinish() {
  * Prints the card in the graphical interface.
  * @param {HTMLElement} element - The element where the card will be displayed.
  * @param {Card} card - The card to be displayed.
- * @param {boolean} [replace=false] - Indicates whether to replace the existing image.
+ * @param {boolean} hidden - QWEONG
  */
-function printCard(element, card, replace = false) {
+function printCard(element, card, hidden = false) {
   const cardName = card.printName();
 
   // Construct the image path: e.g., 'img/svg/2_of_clubs.svg' or 'img/svg/ace_of_clubs.svg'
   let imagePath = `./img/svg/${cardName}.svg`;
 
-  if (card.value == 0) {
+  if (hidden) {
     imagePath = `./img/svg/card_back.svg`;
   }
 
@@ -242,14 +229,14 @@ function printCard(element, card, replace = false) {
   img.style.height = "auto";
   img.style.margin = "2px"; // Small margin between cards
 
-  if (replace && element.children.length > 0) {
+  /*   if (replace && element.children.length > 0) {
     // If replace is true, replace the last child (e.g., for revealing hidden card)
     const lastChild = element.lastElementChild;
     if (lastChild) {
       lastChild.replaceWith(img);
       return;
     }
-  }
+  } */
 
   console.log("Image path:", imagePath);
   // Append the image to the element
