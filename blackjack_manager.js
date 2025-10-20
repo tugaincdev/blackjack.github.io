@@ -11,7 +11,11 @@ let game = null; // Stores the current instance of the game
  * @param {Object} obj - The object to be debugged.
  */
 function debug(obj) {
-  document.getElementById("debug").innerHTML = JSON.stringify(obj); // Displays the state of the object as JSON
+  document.getElementById("debug").innerHTML = `<pre>${JSON.stringify(
+    obj,
+    null,
+    2
+  )}</pre>`;
 }
 
 /**
