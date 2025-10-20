@@ -61,6 +61,11 @@ function newGame() {
   );
 
   dealerNewCard(); //MISSING: VOLTADA PARA BAIXO
+  printCard(
+    document.getElementById("dealer"),
+    new Card(game.dealerCards[1].suit, 0),
+    (replace = false)
+  );
   playerNewCard();
   playerNewCard();
   buttonsInitialization();
@@ -159,10 +164,6 @@ function playerNewCard() {
   return game.playerMove();
 }
 
-//TODO: Implement this method.
-/**
- * Finishes the dealer's turn.
- */
 function dealerFinish() {
   console.log("Dealer finish start");
   let state = game.getGameState();
@@ -202,55 +203,14 @@ function dealerFinish() {
  * @param {boolean} [replace=false] - Indicates whether to replace the existing image.
  */
 function printCard(element, card, replace = false) {
-  // Compute the value name (e.g., 'ace', 'two', ..., 'jack', 'queen', 'king')
-  let valueName = "";
-  switch (card.value) {
-    case 1:
-      valueName = "ace";
-      break;
-    case 2:
-      valueName = "two";
-      break;
-    case 3:
-      valueName = "three";
-      break;
-    case 4:
-      valueName = "four";
-      break;
-    case 5:
-      valueName = "five";
-      break;
-    case 6:
-      valueName = "six";
-      break;
-    case 7:
-      valueName = "seven";
-      break;
-    case 8:
-      valueName = "eight";
-      break;
-    case 9:
-      valueName = "nine";
-      break;
-    case 10:
-      valueName = "ten";
-      break;
-    case 11:
-      valueName = "jack";
-      break;
-    case 12:
-      valueName = "queen";
-      break;
-    case 13:
-      valueName = "king";
-      break;
-    default:
-      valueName = "unknown";
-      break;
-  }
+  const cardName = card.printName();
 
   // Construct the image path: e.g., 'img/svg/2_of_clubs.svg' or 'img/svg/ace_of_clubs.svg'
-  const imagePath = `./img/svg/${valueName}_of_${card.suit}.svg`;
+  let imagePath = `./img/svg/${cardName}.svg`;
+
+  if (card.value == 0) {
+    imagePath = `./img/svg/card_back.svg`;
+  }
 
   // Create a new img element
   const img = document.createElement("img");
