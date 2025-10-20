@@ -150,7 +150,7 @@ function updatePlayer(state) {
 function dealerNewCard() {
   console.log("dealer return?");
   debug(game);
-  return game.dealerMove();
+  return game.dealerMove() & debug(game);
 }
 
 //TODO: Implement this method.
@@ -161,7 +161,7 @@ function dealerNewCard() {
 function playerNewCard() {
   console.log("player return?");
   debug(game);
-  return game.playerMove();
+  return game.playerMove() & debug(game);
 }
 
 function dealerFinish() {
