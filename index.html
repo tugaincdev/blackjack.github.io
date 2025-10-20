@@ -32,13 +32,31 @@
   </head>
 
   <body>
-    <audio controls>
+    <audio id="bg-music" loop>
       <source
         src="./audio/Clair Obscur_ Expedition 33 (Original Soundtrack) Bonus Track - Gestral Private Club.mp3"
         type="audio/mpeg"
       />
-      Your browser does not support the audio element.
     </audio>
+
+    <script>
+      const audio = document.getElementById("bg-music");
+
+      // Optional: try to start right away
+      audio.autoplay = true;
+      audio.play().catch(() => {
+        console.log("Autoplay blocked — waiting for user interaction.");
+      });
+
+      // Play after any user interaction
+      document.addEventListener(
+        "click",
+        () => {
+          audio.play();
+        },
+        { once: true }
+      );
+    </script>
 
     <!-- Header section containing the game title -->
     <header class="container">
