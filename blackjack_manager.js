@@ -39,11 +39,12 @@ function finalizeButtons() {
   document.getElementById("new_game").disabled = false; // Enables the button for a new game
 }
 
-//TODO: Implement this method.
-/**
- * Clears the page to start a new game.
- */
-function clearPage() {}
+function clearPage() {
+  console.log("Clearing page...");
+  document.getElementById("dealer").innerHTML = "";
+  document.getElementById("player").innerHTML = "";
+  document.getElementById("debug").innerHTML = "";
+}
 
 //TODO: Complete this method.
 /**
@@ -167,6 +168,15 @@ function dealerFinish() {
     false,
     true
   );
+
+  const playerValue = game.getCardsValue(game.playerCards);
+  if (playerValue > 21) {
+    console.log("Player busted! Dealer doesn’t need to play.");
+    state.gameEnded = true;
+    finalizeButtons();
+    debug(game);
+    return; // exit early
+  }
 
   while (!state.gameEnded) {
     updateDealer(state);
