@@ -106,11 +106,18 @@ class Blackjack {
     return valor;
   }
 
-  dealerMove() {
+  dealerMove(hidden = false) {
     if (this.deck.length === 0) return this.getGameState();
     let cardToAdd = this.deck[0];
     this.deck.shift();
     this.dealerCards.push(cardToAdd);
+
+    printCard(
+      document.getElementById("dealer"),
+      game.dealerCards[game.dealerCards.length - 1],
+      hidden
+    );
+
     return this.getGameState();
   }
 
@@ -119,6 +126,12 @@ class Blackjack {
     let cardToAdd = this.deck[0];
     this.deck.shift();
     this.playerCards.push(cardToAdd);
+
+    printCard(
+      document.getElementById("player"),
+      game.playerCards[game.playerCards.length - 1]
+    );
+
     return this.getGameState();
   }
 
