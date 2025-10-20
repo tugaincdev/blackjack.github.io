@@ -175,8 +175,25 @@ function dealerFinish() {
     debug(game);
 
     let dealerValue = game.getCardsValue(game.dealerCards);
+    let playerValue = game.getCardsValue(game.playerCards);
+
+    console.log(
+      "Player value:",
+      playerValue,
+      "| Dealer initial value:",
+      dealerValue
+    );
+
+    if (dealerValue > playerValue && dealerValue <= 25) {
+      console.log("Dealer já está acima do player. Para aqui!");
+      console.log("Dealer stands at", dealerValue);
+
+      state = game.getGameState();
+      debug(game);
+      continue;
+    }
+
     while (dealerValue < 21) {
-      // Re-evaluate here on each check
       console.log("Dealer hits: current value =", dealerValue);
       dealerNewCard(true);
       debug(game);
@@ -185,12 +202,16 @@ function dealerFinish() {
 
       if (dealerValue > 25) {
         console.log("Dealer busts at", dealerValue);
-      } else {
-        console.log("Dealer stands at", dealerValue);
+        break;
       }
     }
 
-    console.log("Dealer stands at", dealerValue);
+    if (dealerValue > 25) {
+      console.log("Dealer final: BUST!");
+    } else {
+      console.log("Dealer final stands at", dealerValue);
+    }
+
     state = game.getGameState();
     debug(game);
   }
