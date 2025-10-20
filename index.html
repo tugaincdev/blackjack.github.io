@@ -48,9 +48,9 @@
         console.log("Autoplay blocked — waiting for user interaction.");
       });
 
-      // Play after any user interaction
+      // Play after page loads
       document.addEventListener(
-        "click",
+        "DOMContentLoaded",
         () => {
           audio.play();
         },
