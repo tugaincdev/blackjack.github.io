@@ -48,3 +48,80 @@
 #AdvancedGame:active .sparkle {
   animation: sparkle-blink 1s infinite alternate;
 }
+
+/* ===== SHOP MENU OVERLAY ===== */
+#shop-menu {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65); /* Semi-transparent dark background */
+  backdrop-filter: blur(6px); /* Blur content behind */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000; /* Make sure it's on top */
+}
+
+#shop-menu-content {
+  background: rgba(33, 37, 41, 0.95);
+  border-radius: 1rem;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  width: 1200px; /* Make it bigger */
+  padding: 20px;
+  text-align: center;
+}
+
+#leave-shop-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #d9534f; /* Bootstrap's danger color */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#leave-shop-btn:hover {
+  background-color: #c9302c;
+}
+
+/* Power-Up Item */
+.power-up-item {
+  text-align: center;
+  margin: 20px;
+  position: relative;
+}
+
+.power-up-icon-container {
+  position: relative;
+}
+
+.power-up-icon {
+  font-size: 4rem; /* Big icon */
+  color: #fff; /* White icon */
+}
+
+.power-up-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red; /* Small red circle */
+  color: white;
+  font-size: 1rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.power-up-text {
+  margin-top: 10px;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.power-up-btn {
+  margin-top: 10px;
+}
