@@ -263,7 +263,7 @@ function printCard(element, card, hidden = false, replace = false) {
   let imagePath = `./images/svg/${cardName}.svg`;
 
   if (hidden) {
-    imagePath = `./img/svg/card_back.svg`;
+    imagePath = `./images/svg/card_back.svg`;
   }
 
   // Create a new img element
