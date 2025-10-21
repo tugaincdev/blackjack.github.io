@@ -276,8 +276,10 @@ function dealerFinish() {
     debug(game);
     if (playerNameExists) {
       showGameResult("💀 " + playerName + ", you lost!");
+      game.applyBetResult("lose");
     } else {
       showGameResult("💀 You lost!");
+      game.applyBetResult("lose");
     }
     return;
   }
@@ -302,8 +304,10 @@ function dealerFinish() {
     debug(game);
     if (playerNameExists) {
       showGameResult("💀 " + playerName + ", you lost!");
+      game.applyBetResult("lose");
     } else {
       showGameResult("💀 You lost!");
+      game.applyBetResult("lose");
     }
     return;
   }
@@ -315,22 +319,30 @@ function dealerFinish() {
     if (playerNameExists) {
       if (dealerValue > 25) {
         showGameResult("🎉 " + playerName + ", you won!");
+        game.applyBetResult("win");
       } else if (dealerValue > playerValue) {
         showGameResult("💀 " + playerName + ", you lost!");
+        game.applyBetResult("lose");
       } else if (dealerValue === playerValue) {
         showGameResult("🤝 " + playerName + ", you tied.");
+        game.applyBetResult("tie");
       } else {
         showGameResult("🎉 " + playerName + ", you won!");
+        game.applyBetResult("win");
       }
     } else {
       if (dealerValue > 25) {
         showGameResult("🎉 You won!");
+        game.applyBetResult("win");
       } else if (dealerValue > playerValue) {
         showGameResult("💀 You lost!");
+        game.applyBetResult("lose");
       } else if (dealerValue === playerValue) {
         showGameResult("🤝 You tied.");
+        game.applyBetResult("tie");
       } else {
         showGameResult("🎉 You won!");
+        game.applyBetResult("win");
       }
     }
 
