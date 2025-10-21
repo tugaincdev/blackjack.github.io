@@ -1,6 +1,6 @@
 // Blackjack OOP
 
-let game = null; // Stores the current instance of the game
+let game = null;
 
 const playerNameInput = document.getElementById("player-name");
 const nameSubmitBtn = document.getElementById("btn-name-submit");
@@ -69,6 +69,21 @@ function debug(obj) {
   )}</pre>`;
 }
 
+function updateMoneyDisplay() {
+  document.getElementById("money-display").textContent = game.money.toFixed(0);
+}
+
+// New function to start game with a bet
+function placeBetAndStart() {
+  const betValue = parseInt(document.getElementById("bet-input").value);
+  if (!game) game = new Blackjack();
+
+  if (game.placeBet(betValue)) {
+    updateMoneyDisplay();
+    newGame();
+  }
+}
+
 /**
  * Initializes the game buttons.
  */
@@ -104,10 +119,18 @@ function clearPage() {
 
 function newGame() {
   clearPage();
-  game = new Blackjack();
+  game.dealerCards = [];
+  game.playerCards = [];
+  game.state = {
+    gameEnded: false,
+    playerWon: false,
+    dealerWon: false,
+    playerBusted: false,
+    dealerBusted: false,
+  };
+  game.deck = game.shuffle(game.newDeck());
   debug(game);
   console.log("Starting new game...");
-
   // dealer first card
   dealerNewCard();
   playCardSoundThenWait(() => {
@@ -261,11 +284,9 @@ function dealerFinish() {
     state.gameEnded = true;
     finalizeButtons();
     debug(game);
-    if (playerNameExists) {
-      showGameResult("💀 " + playerName + ", you lost!");
-    } else {
-      showGameResult("💀 You lost!");
-    }
+    showGameResult("💀 You lost!");
+    game.applyBetResult("lose");
+    updateMoneyDisplay();
     return;
   }
 
@@ -287,11 +308,7 @@ function dealerFinish() {
 
     state = game.getGameState();
     debug(game);
-    if (playerNameExists) {
-      showGameResult("💀 " + playerName + ", you lost!");
-    } else {
-      showGameResult("💀 You lost!");
-    }
+    showGameResult("💀 You lost!");
     return;
   }
 
@@ -299,27 +316,21 @@ function dealerFinish() {
     const dealerValue = game.getCardsValue(game.dealerCards);
     console.log("Dealer final:", dealerValue, "Player:", playerValue);
 
-    if (playerNameExists) {
-      if (dealerValue > 25) {
-        showGameResult("🎉 " + playerName + ", you won!");
-      } else if (dealerValue > playerValue) {
-        showGameResult("💀 " + playerName + ", you lost!");
-      } else if (dealerValue === playerValue) {
-        showGameResult("🤝 " + playerName + ", you tied.");
-      } else {
-        showGameResult("🎉 " + playerName + ", you won!");
-      }
+    if (dealerValue > 25) {
+      showGameResult("🎉 You won!");
+      game.applyBetResult("win");
+    } else if (dealerValue > playerValue) {
+      showGameResult("💀 You lost!");
+      game.applyBetResult("lose");
+    } else if (dealerValue === playerValue) {
+      showGameResult("🤝 You tied.");
+      game.applyBetResult("tie");
     } else {
-      if (dealerValue > 25) {
-        showGameResult("🎉 You won!");
-      } else if (dealerValue > playerValue) {
-        showGameResult("💀 You lost!");
-      } else if (dealerValue === playerValue) {
-        showGameResult("🤝 You tied.");
-      } else {
-        showGameResult("🎉 You won!");
-      }
+      showGameResult("🎉 You won!");
+      game.applyBetResult("win");
     }
+
+    updateMoneyDisplay();
 
     state = game.getGameState();
     finalizeButtons();
