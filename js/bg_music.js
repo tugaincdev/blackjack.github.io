@@ -84,6 +84,10 @@ const vfxVolumeSlider = document.getElementById("vfx-volume");
 
 // Toggle settings panel visibility
 settingsToggleBtn.addEventListener("click", () => {
+  if (extrasPanel) {
+    extrasPanel.style.display = "none";
+  }
+
   const visible = settingsPanel.style.display === "block";
   settingsPanel.style.display = visible ? "none" : "block";
 });
