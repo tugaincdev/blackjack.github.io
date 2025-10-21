@@ -35,6 +35,16 @@
 
 /* Ensure hamburger + panel are above */
 #settings-toggle,
-#settings-panel {
+#settings-panel,
+#extras-toggle,
+#extras-panel {
   z-index: 10000 !important;
+}
+
+#extras-panel {
+  z-index: 11000 !important; /* Make sure it appears above other elements */
+}
+
+#AdvancedGame:active .sparkle {
+  animation: sparkle-blink 1s infinite alternate;
 }
