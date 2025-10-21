@@ -2,6 +2,57 @@
 
 let game = null; // Stores the current instance of the game
 
+const playerNameInput = document.getElementById("player-name");
+const nameSubmitBtn = document.getElementById("btn-name-submit");
+
+let playerName = "";
+let playerNameExists = false;
+
+function showToast(message) {
+  const toast = document.getElementById("toast-message");
+
+  toast.textContent = message;
+  toast.style.opacity = "1";
+
+  // Hide after 5 seconds
+  setTimeout(() => {
+    toast.style.opacity = "0";
+  }, 2000);
+}
+
+nameSubmitBtn.addEventListener("click", () => {
+  const name = playerNameInput.value.trim();
+  if (name && name.length != 0) {
+    console.log("Player name entered (attempt):", name);
+    playerName = name;
+
+    playerNameInput.value = "";
+    playerNameInput.blur();
+
+    playerNameExists = true;
+
+    document.getElementById("playerNameDisplay").textContent = playerName;
+
+    showToast(`Welcome, ${name}!`);
+
+    return;
+  } else {
+    showToast("Please enter a name before continuing.");
+    document.getElementById("playerNameDisplay").textContent = "Player";
+    playerName = "";
+    playerNameExists = false;
+    playerNameInput.focus();
+    return;
+  }
+});
+
+// Allow pressing Enter to submit
+playerNameInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    nameSubmitBtn.click();
+  }
+});
+
 /**
  * Function to debug and display the state of the game object.
  * @param {Object} obj - The object to be debugged.
@@ -210,8 +261,12 @@ function dealerFinish() {
     state.gameEnded = true;
     finalizeButtons();
     debug(game);
-    showGameResult("💀 You lost!");
-    return; // exit early
+    if (playerNameExists) {
+      showGameResult("💀 " + playerName + ", you lost!");
+    } else {
+      showGameResult("💀 You lost!");
+    }
+    return;
   }
 
   updateDealer(state);
@@ -232,7 +287,11 @@ function dealerFinish() {
 
     state = game.getGameState();
     debug(game);
-    showGameResult("💀 You lost!");
+    if (playerNameExists) {
+      showGameResult("💀 " + playerName + ", you lost!");
+    } else {
+      showGameResult("💀 You lost!");
+    }
     return;
   }
 
@@ -240,14 +299,26 @@ function dealerFinish() {
     const dealerValue = game.getCardsValue(game.dealerCards);
     console.log("Dealer final:", dealerValue, "Player:", playerValue);
 
-    if (dealerValue > 25) {
-      showGameResult("🎉 You won!");
-    } else if (dealerValue > playerValue) {
-      showGameResult("💀 You lost!");
-    } else if (dealerValue === playerValue) {
-      showGameResult("🤝 You tied.");
+    if (playerNameExists) {
+      if (dealerValue > 25) {
+        showGameResult("🎉 " + playerName + ", you won!");
+      } else if (dealerValue > playerValue) {
+        showGameResult("💀 " + playerName + ", you lost!");
+      } else if (dealerValue === playerValue) {
+        showGameResult("🤝 " + playerName + ", you tied.");
+      } else {
+        showGameResult("🎉 " + playerName + ", you won!");
+      }
     } else {
-      showGameResult("🎉 You won!");
+      if (dealerValue > 25) {
+        showGameResult("🎉 You won!");
+      } else if (dealerValue > playerValue) {
+        showGameResult("💀 You lost!");
+      } else if (dealerValue === playerValue) {
+        showGameResult("🤝 You tied.");
+      } else {
+        showGameResult("🎉 You won!");
+      }
     }
 
     state = game.getGameState();
