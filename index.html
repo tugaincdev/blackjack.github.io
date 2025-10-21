@@ -32,31 +32,9 @@
   </head>
 
   <body>
-    <audio id="bg-music" loop>
-      <source
-        src="./audio/Clair Obscur_ Expedition 33 (Original Soundtrack) Bonus Track - Gestral Private Club.mp3"
-        type="audio/mpeg"
-      />
-    </audio>
+    <audio id="bg-music"></audio>
 
-    <script>
-      const audio = document.getElementById("bg-music");
-
-      // Optional: try to start right away
-      audio.autoplay = true;
-      audio.play().catch(() => {
-        console.log("Autoplay blocked — waiting for user interaction.");
-      });
-
-      // Play after page loads
-      document.addEventListener(
-        "DOMContentLoaded",
-        () => {
-          audio.play();
-        },
-        { once: true }
-      );
-    </script>
+    <audio id="vfx-sounds"></audio>
 
     <!-- Header section containing the game title -->
     <header class="container">
@@ -82,7 +60,10 @@
           class="btn btn-primary"
           id="card"
           type="button"
-          onclick="playerNewCard()"
+          onclick="
+          playerNewCard();
+          playCardSoundDontWait();
+          "
         >
           Card
         </button>
@@ -129,6 +110,96 @@
       <!-- Any footer content can be added here -->
     </footer>
 
+    <!-- ===== GAME START MENU OVERLAY ===== -->
+    <div id="start-menu">
+      <div id="start-menu-content" class="text-center text-light p-4 rounded">
+        <h2 class="mb-4">Blackjack 25</h2>
+        <button id="btn-start" class="btn btn-success w-100 mb-3">
+          Start Game
+        </button>
+        <button id="btn-quit" class="btn btn-danger w-100">Quit</button>
+      </div>
+    </div>
+
+    <!-- Settings / Hamburger Menu -->
+    <div id="settings-menu">
+      <button
+        id="settings-toggle"
+        class="btn btn-outline-light"
+        style="
+          position: fixed;
+          top: 1rem;
+          right: 1rem;
+          z-index: 10000;
+          background: rgba(33, 37, 41, 0.9);
+          border: none;
+          border-radius: 0.5rem;
+        "
+      >
+        <i class="bi bi-list" style="font-size: 1.5rem"></i>
+      </button>
+
+      <div
+        id="settings-panel"
+        class="card text-light bg-dark"
+        style="
+          position: fixed;
+          top: 4rem;
+          right: 1rem;
+          width: 250px;
+          display: none;
+          z-index: 9999;
+          border-radius: 1rem;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        "
+      >
+        <div class="card-body">
+          <h5 class="card-title mb-3">Settings</h5>
+          <hr class="border-secondary" />
+
+          <!-- Music Section -->
+          <div class="mb-3">
+            <h6>Music</h6>
+            <button id="music-toggle" class="btn btn-sm btn-success w-100 mb-2">
+              Toggle Music
+            </button>
+            <label for="music-volume" class="form-label small"
+              >Music Volume</label
+            >
+            <input
+              type="range"
+              id="music-volume"
+              min="0"
+              max="1"
+              step="0.01"
+              value="1"
+              class="form-range"
+            />
+          </div>
+          <!-- VFX Section -->
+          <div class="mb-3">
+            <h6>VFX</h6>
+            <button id="vfx-toggle" class="btn btn-sm btn-danger w-100 mb-2">
+              Mute VFX
+            </button>
+            <label for="vfx-volume" class="form-label small">VFX Volume</label>
+            <input
+              type="range"
+              id="vfx-volume"
+              min="0"
+              max="1"
+              step="0.01"
+              value="1"
+              class="form-range"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Link your music script -->
+    <script src="js/bg_music.js"></script>
+
     <!-- Link to Bootstrap's JavaScript bundle for interactive components -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -145,7 +216,31 @@
 
     <!-- Execute the newGame function when the window loads to start the game -->
     <script>
-      window.onload = newGame; // Initializes a new game on page load
+      window.onload = () => {
+        // Page loads, show menu but don't start game yet
+        document.getElementById("start-menu").style.display = "flex";
+
+        // Disable gameplay buttons initially
+        document.getElementById("card").disabled = true;
+        document.getElementById("stand").disabled = true;
+        document.getElementById("new_game").disabled = true;
+
+        // Setup menu button logic
+        const btnStart = document.getElementById("btn-start");
+        const btnQuit = document.getElementById("btn-quit");
+
+        btnStart.addEventListener("click", () => {
+          primeAudio(); // unlocks sound context
+          document.getElementById("start-menu").style.display = "none"; // hide menu
+          newGame(); // start the actual game
+        });
+
+        btnQuit.addEventListener("click", () => {
+          window.close(); // tries to close tab
+          // fallback: navigate away if close is blocked
+          setTimeout(() => (window.location.href = "about:blank"), 500);
+        });
+      };
     </script>
   </body>
 </html>
