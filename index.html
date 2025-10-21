@@ -38,56 +38,78 @@
 
     <!-- Header section containing the game title -->
     <header class="container">
-      <h1>Blackjack 25</h1>
-      <!-- Main heading for the game -->
+      <h1>🃏 Blackjack 25 🃏</h1>
     </header>
 
     <main class="container">
+      <!-- Betting and money area -->
+      <section id="betting" class="text-center mb-4">
+        <h4>💰 Balance: <span id="money-display">100</span>$</h4>
+        <label for="bet-input">Place your bet:</label>
+        <input
+          type="number"
+          id="bet-input"
+          min="1"
+          max="100"
+          step="1"
+          value="10"
+          style="width: 80px; margin: 0 8px"
+        />
+        <button class="btn btn-warning btn-sm" onclick="placeBetAndStart()">
+          Bet & Deal
+        </button>
+      </section>
+
       <!-- Main game section -->
       <section id="game">
-        <h2>Dealer</h2>
-        <!-- Subheading for the dealer's section -->
-        <p id="dealer"></p>
-        <!-- Placeholder for displaying dealer's cards -->
+        <!-- Dealer area -->
+        <div class="hand-area dealer-area">
+          <h2><i class="bi bi-person-heart"></i> Dealer</h2>
+          <p id="dealer"></p>
+        </div>
 
-        <h2>Player</h2>
-        <!-- Subheading for the player's section -->
-        <p id="player"></p>
-        <!-- Placeholder for displaying player's cards -->
+        <!-- Controls area -->
+        <div class="controls">
+          <!-- Button for the player to draw a new card -->
+          <button
+            class="btn btn-primary btn-custom"
+            id="card"
+            type="button"
+            onclick="
+            playerNewCard();
+            playCardSoundDontWait();
+            "
+          >
+            <i class="bi bi-plus-circle"></i> Card
+          </button>
 
-        <!-- Button for the player to draw a new card -->
-        <button
-          class="btn btn-primary"
-          id="card"
-          type="button"
-          onclick="
-          playerNewCard();
-          playCardSoundDontWait();
-          "
-        >
-          Card
-        </button>
+          <!-- Button for the player to stand (end their turn) -->
+          <button
+            class="btn btn-secondary btn-custom"
+            id="stand"
+            type="button"
+            onclick="dealerFinish()"
+          >
+            <i class="bi bi-hand-thumbs-up"></i> Stand
+          </button>
 
-        <!-- Button for the player to stand (end their turn) -->
-        <button
-          class="btn btn-secondary"
-          id="stand"
-          type="button"
-          onclick="dealerFinish()"
-        >
-          Stand
-        </button>
+          <!-- Button to start a new game, initially disabled -->
+          <button
+            class="btn btn-success btn-custom"
+            id="new_game"
+            type="button"
+            onclick="newGame()"
+            disabled
+          >
+            <i class="bi bi-arrow-clockwise"></i> New Game
+          </button>
+        </div>
 
-        <!-- Button to start a new game, initially disabled -->
-        <button
-          class="btn btn-success"
-          id="new_game"
-          type="button"
-          onclick="newGame()"
-          disabled
-        >
-          New Game
-        </button>
+        <!-- Player area -->
+        <div class="hand-area player-area">
+          <h2><i class="bi bi-person-fill"></i> Player</h2>
+          <h2 id="playerNameDisplay">Player</h2>
+        </div>
       </section>
 
       <!-- Section to display the game's status and messages -->
@@ -97,8 +119,7 @@
 
       <!-- Debugging section for developers to view game state -->
       <section id="sec_debug">
-        <h2>Debug</h2>
-        <!-- Subheading for the debug section -->
+        <h2><i class="bi bi-bug"></i> Debug</h2>
         <p id="debug">
           <!-- Placeholder for displaying debug information -->
         </p>
@@ -114,6 +135,20 @@
     <div id="start-menu">
       <div id="start-menu-content" class="text-center text-light p-4 rounded">
         <h2 class="mb-4">Blackjack 25</h2>
+
+        <div class="input-group mb-4">
+          <input
+            type="text"
+            id="player-name"
+            class="form-control"
+            placeholder="Your player name here"
+            aria-label="Player name"
+          />
+          <button id="btn-name-submit" class="btn btn-primary" type="button">
+            Enter
+          </button>
+        </div>
+
         <button id="btn-start" class="btn btn-success w-100 mb-3">
           Start Game
         </button>
@@ -196,6 +231,25 @@
         </div>
       </div>
     </div>
+
+    <!-- Toast Message -->
+    <div
+      id="toast-message"
+      style="
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 9999;
+      "
+    ></div>
 
     <!-- Link your music script -->
     <script src="js/bg_music.js"></script>
