@@ -163,6 +163,39 @@
       </div>
     </div>
 
+    <div
+      id="shop-menu"
+      class="text-center text-light p-4 rounded"
+      style="display: none"
+    >
+      <div id="shop-menu-content">
+        <h2>Shop</h2>
+        <p>
+          Welcome to the shop! Here you can buy items to help with your game.
+        </p>
+
+        <!-- Add any shop items here (like buttons, descriptions, etc.) -->
+        <!-- Shop Power-Up: Reveal Hidden Card -->
+        <div class="power-up-item" id="power-up-reveal">
+          <div class="power-up-icon-container">
+            <!-- Eye icon (for Reveal Hidden Card) -->
+            <i class="bi bi-eye-fill power-up-icon"></i>
+
+            <!-- Number of power-ups owned (small circle on top) -->
+            <span class="power-up-count">0x</span>
+          </div>
+          <div class="power-up-text">
+            <p>Reveal hidden card</p>
+          </div>
+          <button class="btn btn-primary w-100 power-up-btn" disabled>
+            Use power up
+          </button>
+        </div>
+
+        <button id="leave-shop-btn">Leave Shop</button>
+      </div>
+    </div>
+
     <!-- Settings / Hamburger Menu -->
     <div id="settings-menu">
       <button
