@@ -31,14 +31,14 @@ nameSubmitBtn.addEventListener("click", () => {
 
     playerNameExists = true;
 
-    document.getElementById("playerNameDisplay").textContent = playerName;
+    playerNameDisplay.innerHTML = `<i class="bi bi-person-fill"></i> ${playerName}`;
 
     showToast(`Welcome, ${name}!`);
 
     return;
   } else {
     showToast("Please enter a name before continuing.");
-    document.getElementById("playerNameDisplay").textContent = "Player";
+    playerNameDisplay.innerHTML = `<i class="bi bi-person-fill"></i> Player`;
     playerName = "";
     playerNameExists = false;
     playerNameInput.focus();
@@ -110,7 +110,7 @@ function newGame() {
     if (name) {
       playerName = name;
       playerNameExists = true;
-      document.getElementById("playerNameDisplay").textContent = playerName;
+      playerNameDisplay.innerHTML = `<i class="bi bi-person-fill"></i> ${playerName}`;
       showToast(`Welcome, ${playerName}!`);
       playerNameInput.value = "";
       playerNameInput.blur();
