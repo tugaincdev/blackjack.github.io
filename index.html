@@ -110,6 +110,7 @@
           <h2 id="playerNameDisplay">
             <i class="bi bi-person-fill"></i> Player
           </h2>
+          <p id="player"></p>
         </div>
       </section>
 
@@ -185,8 +186,8 @@
         class="card text-light bg-dark"
         style="
           position: fixed;
-          top: 4rem;
-          right: 1rem;
+          top: 1rem;
+          right: calc(1rem + 50px);
           width: 250px;
           display: none;
           z-index: 9999;
@@ -238,6 +239,55 @@
       </div>
     </div>
 
+    <!-- ===== SECOND HAMBURGER MENU: SHOP & POWER-UPS ===== -->
+    <div id="extras-menu" style="display: none">
+      <button
+        id="extras-toggle"
+        class="btn btn-outline-light"
+        style="
+          position: fixed;
+          top: calc(1rem + 3rem);
+          right: 1rem;
+          z-index: 10000;
+          background: rgba(33, 37, 41, 0.9);
+          border: none;
+          border-radius: 0.5rem;
+        "
+      >
+        <i class="bi bi-gem" style="font-size: 1.5rem"></i>
+      </button>
+
+      <div
+        id="extras-panel"
+        class="card text-light bg-dark"
+        style="
+          position: fixed;
+          top: calc(1rem + 3rem);
+          right: calc(1rem + 50px);
+          width: 250px;
+          display: none;
+          z-index: 9999;
+          border-radius: 1rem;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        "
+      >
+        <div class="card-body">
+          <h5 class="card-title mb-3">Extras</h5>
+          <hr class="border-secondary" />
+
+          <!-- Shop Section -->
+          <div class="mb-3">
+            <button id="btn-shop" class="btn btn-sm btn-success w-100 mb-2">
+              Shop
+            </button>
+            <button id="btn-powerups" class="btn btn-sm btn-primary w-100">
+              Use Power-Ups
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast Message -->
     <div
       id="toast-message"
@@ -274,6 +324,9 @@
     <!-- Link to the JavaScript file for managing game actions and events -->
     <script src="js/blackjack_manager.js"></script>
 
+    <!-- Link to the JavaScript file for managing game actions and events -->
+    <script src="js/blackjack_manager_advanced.js"></script>
+
     <!-- Execute the newGame function when the window loads to start the game -->
     <script>
       window.onload = () => {
@@ -287,12 +340,19 @@
 
         // Setup menu button logic
         const btnStart = document.getElementById("btn-start");
+        const btnStartAdvanced = document.getElementById("btn-start-advanced");
         const btnQuit = document.getElementById("btn-quit");
 
         btnStart.addEventListener("click", () => {
           primeAudio(); // unlocks sound context
           document.getElementById("start-menu").style.display = "none"; // hide menu
           newGame(); // start the actual game
+        });
+
+        btnStartAdvanced.addEventListener("click", () => {
+          primeAudio(); // unlocks sound context
+          document.getElementById("start-menu").style.display = "none"; // hide menu
+          newAdvancedGame(); // start the actual game
         });
 
         btnQuit.addEventListener("click", () => {
