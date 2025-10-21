@@ -48,6 +48,7 @@ function clearPage() {
   document.getElementById("dealer").innerHTML = "";
   document.getElementById("player").innerHTML = "";
   document.getElementById("debug").innerHTML = "";
+  document.getElementById("game_status").textContent = "";
 }
 
 function newGame() {
@@ -169,25 +170,24 @@ function playerNewCard() {
   return game.playerMove();
 }
 
-function dealerDrawLoop() {
-  const dealerValue = game.getCardsValue(game.dealerCards);
+function dealerDrawLoop(next_method) {
+  let dealerValue = game.getCardsValue(game.dealerCards);
   const playerValue = game.getCardsValue(game.playerCards);
 
+  // stop if dealer already beat or tied player, or busted
   if (dealerValue >= playerValue || dealerValue >= 21) {
     console.log("Dealer done.");
-    game.getGameState();
-    return; // stop drawing
+    if (typeof next_method === "function") next_method();
+    return;
   }
 
   // draw one card
   dealerNewCard();
-
   game.getGameState();
 
-  // play the sound
-
+  // play sound then draw next
   playCardSoundThenWait(() => {
-    dealerDrawLoop();
+    dealerDrawLoop(next_method);
   });
 }
 
@@ -210,44 +210,50 @@ function dealerFinish() {
     state.gameEnded = true;
     finalizeButtons();
     debug(game);
+    showGameResult("💀 You lost!");
     return; // exit early
   }
 
-  while (!state.gameEnded) {
-    updateDealer(state);
-    debug(game);
+  updateDealer(state);
+  debug(game);
 
-    let dealerValue = game.getCardsValue(game.dealerCards);
-    let playerValue = game.getCardsValue(game.playerCards);
+  let dealerValue = game.getCardsValue(game.dealerCards);
 
-    console.log(
-      "Player value:",
-      playerValue,
-      "| Dealer initial value:",
-      dealerValue
-    );
+  console.log(
+    "Player value:",
+    playerValue,
+    "| Dealer initial value:",
+    dealerValue
+  );
 
-    if (dealerValue > playerValue && dealerValue <= 25) {
-      console.log("Dealer já está acima do player. Para aqui!");
-      console.log("Dealer stands at", dealerValue);
-
-      state = game.getGameState();
-      debug(game);
-      continue;
-    }
-
-    dealerDrawLoop();
-
-    if (dealerValue > 25) {
-      console.log("Dealer final: BUST!");
-      state = game.getGameState();
-    } else {
-      console.log("Dealer final stands at", dealerValue);
-    }
+  if (dealerValue > playerValue && dealerValue <= 25) {
+    console.log("Dealer já está acima do player. Para aqui!");
+    console.log("Dealer stands at", dealerValue);
 
     state = game.getGameState();
     debug(game);
+    showGameResult("💀 You lost!");
+    return;
   }
+
+  dealerDrawLoop(() => {
+    const dealerValue = game.getCardsValue(game.dealerCards);
+    console.log("Dealer final:", dealerValue, "Player:", playerValue);
+
+    if (dealerValue > 25) {
+      showGameResult("🎉 You won!");
+    } else if (dealerValue > playerValue) {
+      showGameResult("💀 You lost!");
+    } else if (dealerValue === playerValue) {
+      showGameResult("🤝 You tied.");
+    } else {
+      showGameResult("🎉 You won!");
+    }
+
+    state = game.getGameState();
+    finalizeButtons();
+    debug(game);
+  });
 }
 
 /**
@@ -287,4 +293,13 @@ function printCard(element, card, hidden = false, replace = false) {
   console.log("Image path:", imagePath);
   // Append the image to the element
   element.appendChild(img);
+}
+
+function showGameResult(message) {
+  const statusEl = document.getElementById("game_status");
+  statusEl.textContent = message;
+  statusEl.style.fontSize = "1.5rem";
+  statusEl.style.fontWeight = "bold";
+  statusEl.style.textAlign = "center";
+  statusEl.style.marginTop = "1rem";
 }
