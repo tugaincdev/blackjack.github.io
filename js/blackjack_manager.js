@@ -260,7 +260,7 @@ function printCard(element, card, hidden = false, replace = false) {
   const cardName = card.printName();
 
   // Construct the image path: e.g., 'img/svg/2_of_clubs.svg' or 'img/svg/ace_of_clubs.svg'
-  let imagePath = `./img/svg/${cardName}.svg`;
+  let imagePath = `./images/svg/${cardName}.svg`;
 
   if (hidden) {
     imagePath = `./img/svg/card_back.svg`;
