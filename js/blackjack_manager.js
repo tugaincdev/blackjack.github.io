@@ -1,6 +1,6 @@
 // Blackjack OOP
 
-let game = null;
+let game = null; // Stores the current instance of the game
 
 const playerNameInput = document.getElementById("player-name");
 const nameSubmitBtn = document.getElementById("btn-name-submit");
@@ -69,21 +69,6 @@ function debug(obj) {
   )}</pre>`;
 }
 
-function updateMoneyDisplay() {
-  document.getElementById("money-display").textContent = game.money.toFixed(0);
-}
-
-// New function to start game with a bet
-function placeBetAndStart() {
-  const betValue = parseInt(document.getElementById("bet-input").value);
-  if (!game) game = new Blackjack();
-
-  if (game.placeBet(betValue)) {
-    updateMoneyDisplay();
-    newGame();
-  }
-}
-
 /**
  * Initializes the game buttons.
  */
@@ -118,19 +103,24 @@ function clearPage() {
 }
 
 function newGame() {
+  // When clicking Start buttons, check if name exists — if not, try to use textbox value
+
+  if (!playerNameExists) {
+    const name = playerNameInput.value.trim();
+    if (name) {
+      playerName = name;
+      playerNameExists = true;
+      document.getElementById("playerNameDisplay").textContent = playerName;
+      showToast(`Welcome, ${playerName}!`);
+      playerNameInput.value = "";
+      playerNameInput.blur();
+    }
+  }
   clearPage();
-  game.dealerCards = [];
-  game.playerCards = [];
-  game.state = {
-    gameEnded: false,
-    playerWon: false,
-    dealerWon: false,
-    playerBusted: false,
-    dealerBusted: false,
-  };
-  game.deck = game.shuffle(game.newDeck());
+  game = new Blackjack();
   debug(game);
   console.log("Starting new game...");
+
   // dealer first card
   dealerNewCard();
   playCardSoundThenWait(() => {
@@ -289,8 +279,6 @@ function dealerFinish() {
     } else {
       showGameResult("💀 You lost!");
     }
-    game.applyBetResult("lose");
-    updateMoneyDisplay();
     return;
   }
 
@@ -345,8 +333,6 @@ function dealerFinish() {
         showGameResult("🎉 You won!");
       }
     }
-
-    updateMoneyDisplay();
 
     state = game.getGameState();
     finalizeButtons();
