@@ -284,7 +284,11 @@ function dealerFinish() {
     state.gameEnded = true;
     finalizeButtons();
     debug(game);
-    showGameResult("💀 You lost!");
+    if (playerNameExists) {
+      showGameResult("💀 " + playerName + ", you lost!");
+    } else {
+      showGameResult("💀 You lost!");
+    }
     game.applyBetResult("lose");
     updateMoneyDisplay();
     return;
@@ -308,7 +312,11 @@ function dealerFinish() {
 
     state = game.getGameState();
     debug(game);
-    showGameResult("💀 You lost!");
+    if (playerNameExists) {
+      showGameResult("💀 " + playerName + ", you lost!");
+    } else {
+      showGameResult("💀 You lost!");
+    }
     return;
   }
 
@@ -316,18 +324,26 @@ function dealerFinish() {
     const dealerValue = game.getCardsValue(game.dealerCards);
     console.log("Dealer final:", dealerValue, "Player:", playerValue);
 
-    if (dealerValue > 25) {
-      showGameResult("🎉 You won!");
-      game.applyBetResult("win");
-    } else if (dealerValue > playerValue) {
-      showGameResult("💀 You lost!");
-      game.applyBetResult("lose");
-    } else if (dealerValue === playerValue) {
-      showGameResult("🤝 You tied.");
-      game.applyBetResult("tie");
+    if (playerNameExists) {
+      if (dealerValue > 25) {
+        showGameResult("🎉 " + playerName + ", you won!");
+      } else if (dealerValue > playerValue) {
+        showGameResult("💀 " + playerName + ", you lost!");
+      } else if (dealerValue === playerValue) {
+        showGameResult("🤝 " + playerName + ", you tied.");
+      } else {
+        showGameResult("🎉 " + playerName + ", you won!");
+      }
     } else {
-      showGameResult("🎉 You won!");
-      game.applyBetResult("win");
+      if (dealerValue > 25) {
+        showGameResult("🎉 You won!");
+      } else if (dealerValue > playerValue) {
+        showGameResult("💀 You lost!");
+      } else if (dealerValue === playerValue) {
+        showGameResult("🤝 You tied.");
+      } else {
+        showGameResult("🎉 You won!");
+      }
     }
 
     updateMoneyDisplay();
