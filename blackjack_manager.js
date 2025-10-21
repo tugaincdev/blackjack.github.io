@@ -39,6 +39,10 @@ function finalizeButtons() {
   document.getElementById("new_game").disabled = false; // Enables the button for a new game
 }
 
+//TODO: Implement this method.
+/**
+ * Clears the page to start a new game.
+ */
 function clearPage() {
   console.log("Clearing page...");
   document.getElementById("dealer").innerHTML = "";
@@ -46,22 +50,31 @@ function clearPage() {
   document.getElementById("debug").innerHTML = "";
 }
 
-//TODO: Complete this method.
-/**
- * Starts a new game of Blackjack.
- */
 function newGame() {
-  game = new Blackjack(); // Creates a new instance of the Blackjack game
-  debug(game); // Displays the current state of the game for debugging
-  console.log("Newgame resulta");
-  dealerNewCard();
-  dealerNewCard((hidden = true)); //MISSING: VIRAR PARA CIMA DEPOIS
-
-  playerNewCard();
-  playerNewCard();
-  buttonsInitialization();
-  console.log("newgame finish");
+  clearPage();
+  game = new Blackjack();
   debug(game);
+  console.log("Starting new game...");
+
+  // dealer first card
+  dealerNewCard();
+  playCardSoundThenWait(() => {
+    // dealer hidden card
+    dealerNewCard(true);
+    playCardSoundThenWait(() => {
+      // player first card
+      playerNewCard();
+      playCardSoundThenWait(() => {
+        // player second card
+        playerNewCard();
+        playCardSoundThenWait(() => {
+          buttonsInitialization();
+          debug(game);
+          console.log("Dealing done!");
+        });
+      });
+    });
+  });
 }
 
 //TODO: Implement this method.
@@ -156,6 +169,28 @@ function playerNewCard() {
   return game.playerMove();
 }
 
+function dealerDrawLoop() {
+  const dealerValue = game.getCardsValue(game.dealerCards);
+  const playerValue = game.getCardsValue(game.playerCards);
+
+  if (dealerValue >= playerValue || dealerValue >= 21) {
+    console.log("Dealer done.");
+    game.getGameState();
+    return; // stop drawing
+  }
+
+  // draw one card
+  dealerNewCard();
+
+  game.getGameState();
+
+  // play the sound
+
+  playCardSoundThenWait(() => {
+    dealerDrawLoop();
+  });
+}
+
 function dealerFinish() {
   console.log("Dealer finish start");
   let state = game.getGameState();
@@ -170,7 +205,7 @@ function dealerFinish() {
   );
 
   const playerValue = game.getCardsValue(game.playerCards);
-  if (playerValue > 21) {
+  if (playerValue > 25) {
     console.log("Player busted! Dealer doesn’t need to play.");
     state.gameEnded = true;
     finalizeButtons();
@@ -201,21 +236,11 @@ function dealerFinish() {
       continue;
     }
 
-    while (dealerValue < 21) {
-      console.log("Dealer hits: current value =", dealerValue);
-      dealerNewCard();
-      debug(game);
-
-      dealerValue = game.getCardsValue(game.dealerCards);
-
-      if (dealerValue > 25) {
-        console.log("Dealer busts at", dealerValue);
-        break;
-      }
-    }
+    dealerDrawLoop();
 
     if (dealerValue > 25) {
       console.log("Dealer final: BUST!");
+      state = game.getGameState();
     } else {
       console.log("Dealer final stands at", dealerValue);
     }
