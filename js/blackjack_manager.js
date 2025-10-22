@@ -120,9 +120,7 @@ function getGameObject(gameType) {
 
 function newGame(gameType) {
   // When clicking Start buttons, check if name exists — if not, try to use textbox value
-
-  game = getGameObject(gameType); // ✅ initialize immediately
-
+  updateMoneyDisplay();
   if (!playerNameExists) {
     const name = playerNameInput.value.trim();
     if (name) {
@@ -163,6 +161,7 @@ function newGame(gameType) {
           buttonsInitialization();
           debug(game);
           console.log("Dealing done!");
+          updateMoneyDisplay();
         });
       });
     });
@@ -173,18 +172,33 @@ function updateMoneyDisplay() {
   document.getElementById("money-display").textContent = game.money.toFixed(0);
 }
 
-// New function to start game with a bet
+// New function to start game with a bet (preserves money across games)
 function placeBetAndStart() {
   const betValue = parseInt(document.getElementById("bet-input").value);
+
+  // Step 1: Preserve existing money (or use default for first-time setup)
+  const preservedMoney = game ? game.money : 1000; // Adjust default as needed (e.g., 1000 starting chips)
+
+  // Step 2: Create the correct game instance based on version
   if (gameVersion == "basic") {
     game = new Blackjack();
   } else {
     game = new Blackjack_Advanced();
   }
 
+  // Step 3: Restore the preserved money to the new instance
+  game.money = preservedMoney;
+
+  // Step 4: Update display to show the restored (pre-bet) balance
+  updateMoneyDisplay();
+
+  // Step 5: Place the bet (this will deduct from the restored money)
   if (game.placeBet(betValue)) {
-    updateMoneyDisplay();
+    updateMoneyDisplay(); // Update again to show post-bet balance
     newGameBasicOrAdvanced();
+  } else {
+    // Optional: Handle invalid bet (e.g., insufficient funds)
+    showToast("Insufficient funds!"); // Assuming you have this from earlier code
   }
 }
 
@@ -354,9 +368,11 @@ function dealerFinish() {
     if (playerNameExists) {
       showGameResult("💀 " + playerName + ", you lost!");
       game.applyBetResult("lose");
+      updateMoneyDisplay();
     } else {
       showGameResult("💀 You lost!");
       game.applyBetResult("lose");
+      updateMoneyDisplay();
     }
     return;
   }
@@ -369,29 +385,37 @@ function dealerFinish() {
       if (dealerValue > 25) {
         showGameResult("🎉 " + playerName + ", you won!");
         game.applyBetResult("win");
+        updateMoneyDisplay();
       } else if (dealerValue > playerValue) {
         showGameResult("💀 " + playerName + ", you lost!");
         game.applyBetResult("lose");
+        updateMoneyDisplay();
       } else if (dealerValue === playerValue) {
         showGameResult("🤝 " + playerName + ", you tied.");
         game.applyBetResult("tie");
+        updateMoneyDisplay();
       } else {
         showGameResult("🎉 " + playerName + ", you won!");
         game.applyBetResult("win");
+        updateMoneyDisplay();
       }
     } else {
       if (dealerValue > 25) {
         showGameResult("🎉 You won!");
         game.applyBetResult("win");
+        updateMoneyDisplay();
       } else if (dealerValue > playerValue) {
         showGameResult("💀 You lost!");
         game.applyBetResult("lose");
+        updateMoneyDisplay();
       } else if (dealerValue === playerValue) {
         showGameResult("🤝 You tied.");
         game.applyBetResult("tie");
+        updateMoneyDisplay();
       } else {
         showGameResult("🎉 You won!");
         game.applyBetResult("win");
+        updateMoneyDisplay();
       }
     }
 
