@@ -126,41 +126,74 @@ compassPowerUpsBtn.addEventListener("click", () => {
   compassPowerUpsBtn.disabled = true;
 });
 
+let numberOfLightningsUsedThisRound = 0;
+
 lightningPowerUpsBtn.addEventListener("click", () => {
-  // Close the power ups menu and unblock the main game
   if (!game.dealerTurn) {
     let playerCurrentDeck = game.playerCards;
-    let playerCurrentCardNumber = playerCurrentDeck.length;
-    let indexCardToRemove = Math.floor(Math.random() * playerCurrentCardNumber);
-    let playerNewDeck = [];
+    let cardImages = document.querySelectorAll("#player img");
 
-    //add smth visually maybe of card being destroyed
+    let unstruckCards = Array.from(cardImages).filter((img) => {
+      return !img.classList.contains("struck");
+    });
 
-    for (let i = 0; i <= playerCurrentCardNumber; i++) {
-      if (i != indexCardToRemove) {
-        playerNewDeck[i] = playerCurrentDeck[i];
-      }
-    }
     powerUpsMenu.style.display = "none"; // hide the power ups menu
 
-    //MISSING: VISUALLY, ALSO TONS OF OTHER STUFF MAYBE
+    let randomIndex = Math.floor(Math.random() * unstruckCards.length);
+    let cardToStrike = unstruckCards[randomIndex];
+
+    cardToStrike.classList.add("struck");
+
+    // ===== Add lightning bolt =====
+    const lightning = document.createElement("div");
+    lightning.classList.add("lightning-overlay");
+    cardToStrike.parentNode.appendChild(lightning);
+
+    // ===== Add burned/charred effect =====
+    cardToStrike.classList.add("burned");
+
+    // ===== Add electric sparks =====
+    const sparks = document.createElement("div");
+    sparks.classList.add("electric-sparks");
+    cardToStrike.parentNode.appendChild(sparks);
+
+    let logicalIndex = playerCurrentDeck.findIndex(
+      (card) => card.printName() === cardToStrike.alt
+    );
+    if (logicalIndex !== -1) playerCurrentDeck.splice(logicalIndex, 1);
 
     game.powerUpList.lightning--;
-    if (game.powerUpList.lightning == 0) lightningPowerUpsBtn.disabled = true;
+
+    if (unstruckCards.length == 0 || game.powerUpList.lightning == 0) {
+      lightningPowerUpsBtn.disabled = true;
+    }
   }
 });
 
+
 inspectPowerUpsBtn.addEventListener("click", () => {
-  // Close the power ups menu and unblock the main game
   if (!game.dealerTurn) {
+    const overlay = document.getElementById("quick-inspect-overlay");
+    const cardImg = document.getElementById("quick-inspect-card");
+
     let nextCardOnDeck = game.deck[0];
+    let nextCardName = nextCardOnDeck.printName();
+    const imagePath = `./images/svg/${nextCardName}.svg`;
+
     powerUpsMenu.style.display = "none"; // hide the power ups menu
 
-    //MISSING: display nextCardOnDeck on its own defutly hidden menu like main menu
+    cardImg.src = imagePath;
+    cardImg.alt = nextCardName;
 
-    game.powerUpList.compass--;
+    overlay.style.display = "block";
+
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 500);
+
+    game.powerUpList.quick_inspect--;
   }
-  compassPowerUpsBtn.disabled = true;
+  inspectPowerUpsBtn.disabled = true;
 });
 
 //-----------------------------------------
@@ -266,3 +299,4 @@ function printCardThenAdjustPowerUps(
     inspectShopBtn.disabled = game.getBalance() < 300;
   }
 }
+
