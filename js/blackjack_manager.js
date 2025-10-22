@@ -1,5 +1,6 @@
 // Blackjack OOP
 
+let gameVersion = null;
 let game = null; // Stores the current instance of the game
 
 const playerNameInput = document.getElementById("player-name");
@@ -102,7 +103,20 @@ function clearPage() {
   document.getElementById("game_status").textContent = "";
 }
 
-function newGame() {
+function getGameObject(gameType) {
+  let gameReturn = null;
+  if (gameType == "basic") {
+    gameVersion = "basic";
+    gameReturn = new Blackjack();
+  } else if (gameType == "advanced") {
+    gameVersion = "advanced";
+    gameReturn = new Blackjack_Advanced();
+  }
+
+  return gameReturn;
+}
+
+function newGame(gameType) {
   // When clicking Start buttons, check if name exists — if not, try to use textbox value
 
   if (!playerNameExists) {
@@ -117,7 +131,7 @@ function newGame() {
     }
   }
   clearPage();
-  game = new Blackjack();
+  game = getGameObject(gameType);
   debug(game);
   console.log("Starting new game...");
 
