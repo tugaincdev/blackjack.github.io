@@ -553,10 +553,12 @@
         btnStart.addEventListener("click", () => {
           primeAudio(); // unlocks sound context
           document.getElementById("start-menu").style.display = "none"; // hide menu
+          gameVersion = "basic";
           newGame(gameVersion); // start the actual game
         });
 
         btnStartAdvanced.addEventListener("click", () => {
+          gameVersion = "advanced";
           primeAudio(); // unlocks sound context
           document.getElementById("start-menu").style.display = "none"; // hide menu
           newAdvancedGame(); // start the actual game
