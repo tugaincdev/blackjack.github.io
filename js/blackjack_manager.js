@@ -137,6 +137,16 @@ function newGame(gameType) {
   clearPage();
   debug(game);
   console.log("Starting new game...");
+  game.dealerCards = [];
+  game.playerCards = [];
+  game.dealerTurn = false;
+  game.state = {
+    gameEnded: false,
+    playerWon: false,
+    dealerWon: false,
+    playerBusted: false,
+    dealerBusted: false,
+  };
 
   // dealer first card
   dealerNewCard();
@@ -157,6 +167,25 @@ function newGame(gameType) {
       });
     });
   });
+}
+
+function updateMoneyDisplay() {
+  document.getElementById("money-display").textContent = game.money.toFixed(0);
+}
+
+// New function to start game with a bet
+function placeBetAndStart() {
+  const betValue = parseInt(document.getElementById("bet-input").value);
+  if (gameVersion == "basic") {
+    game = new Blackjack();
+  } else {
+    game = new Blackjack_Advanced();
+  }
+
+  if (game.placeBet(betValue)) {
+    updateMoneyDisplay();
+    newGameBasicOrAdvanced();
+  }
 }
 
 //TODO: Implement this method.
