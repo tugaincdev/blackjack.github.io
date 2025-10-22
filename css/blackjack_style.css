@@ -1,17 +1,94 @@
+/* Card image styling */
 .card-image {
   border: 1px solid #000;
   border-radius: 8px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  width: 80px !important; /* or any size you want */
+  height: auto;
+  display: inline-block; /* Ensure inline display for flex centering */
+  margin: 5px; /* Small margin for spacing in hand areas */
 }
+
+/* Full viewport centering for body */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #000; /* Black background */
+  margin: 0;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  color: #fff; /* Default text white */
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+}
+
+/* Center main sections */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Hand areas centering */
+.hand-area {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  color: #fff; /* Ensure white text */
+}
+
 #dealer,
 #player {
-  min-height: 100px;
-  border: 2px dashed #ccc;
-  padding: 10px;
-  margin: 10px 0;
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  gap: 10px;
+  min-height: 120px;
+  color: #fff;
+}
+
+/* Controls centering */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.btn-custom {
+  min-width: 100px;
+}
+
+/* Header text */
+header h1 {
+  color: #fff;
+}
+
+/* Betting section text */
+#betting h4,
+#betting label {
+  color: #fff;
+}
+
+/* Game status text */
+#game_status {
+  color: #fff;
+  text-align: center;
 }
 
 /* ===== START MENU OVERLAY ===== */
@@ -31,6 +108,13 @@
   border-radius: 1rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
   width: 280px;
+  padding: 20px; /* Add padding for better content spacing */
+  text-align: center; /* Ensure text centering */
+  color: #fff; /* White text */
+}
+
+#start-menu-content h2 {
+  color: #fff;
 }
 
 /* Ensure hamburger + panel are above */
@@ -65,9 +149,18 @@
   background: rgba(33, 37, 41, 0.95);
   border-radius: 1rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-  width: 1200px; /* Make it bigger */
+  width: 90%; /* Responsive width instead of fixed 1200px */
+  max-width: 1200px; /* Cap for large screens */
   padding: 20px;
   text-align: center;
+  max-height: 80vh; /* Prevent overflow on small screens */
+  overflow-y: auto; /* Scroll if needed */
+  color: #fff; /* White text */
+}
+
+#powerUps-menu-content h2,
+#powerUps-menu-content p {
+  color: #fff;
 }
 
 #leave-powerUps-btn {
@@ -89,6 +182,10 @@
   text-align: center;
   margin: 20px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center contents */
+  color: #fff;
 }
 
 .power-up-icon-container {
@@ -124,12 +221,8 @@
 
 .power-up-btn {
   margin-top: 10px;
-}
-
-#shop-menu,
-#powerUps-menu {
-  overflow-y: auto; /* Enable vertical scrolling */
-  padding-right: 10px; /* Space for scrollbar */
+  width: 100%;
+  max-width: 200px; /* Limit button width */
 }
 
 /* ===== SHOP MENU ===== */
@@ -148,9 +241,18 @@
   background: rgba(33, 37, 41, 0.95);
   border-radius: 1rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-  width: 1200px; /* Make it bigger */
+  width: 90%; /* Responsive width */
+  max-width: 1200px; /* Cap for large screens */
   padding: 20px;
   text-align: center;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: #fff; /* White text */
+}
+
+#shop-menu-content h2,
+#shop-menu-content p {
+  color: #fff;
 }
 
 #leave-shop-btn {
@@ -167,11 +269,15 @@
   background-color: #c9302c;
 }
 
-/* Power-Up Item */
+/* Shop Item */
 .shop-item {
   text-align: center;
   margin: 20px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center contents */
+  color: #fff;
 }
 
 .shop-icon-container {
@@ -207,6 +313,14 @@
 
 .shop-btn {
   margin-top: 10px;
+  width: 100%;
+  max-width: 200px; /* Limit button width */
+}
+
+#shop-menu,
+#powerUps-menu {
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Space for scrollbar */
 }
 
 /* Lightning Bolt flash overlay */
@@ -263,5 +377,45 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+/* Debug section - subtle centering */
+#sec_debug {
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0.7;
+  color: #fff;
+}
+
+#sec_debug h2,
+#sec_debug p {
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-custom {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .card-image {
+    width: 60px !important;
+  }
+
+  #powerUps-menu-content,
+  #shop-menu-content {
+    width: 95%;
+    padding: 10px;
   }
 }
