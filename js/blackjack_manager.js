@@ -275,7 +275,7 @@ function dealerFinish() {
 
   game.dealerTurn = true;
 
-  printCard(
+  basicOrAdvancedPrintCard(
     document.getElementById("dealer"),
     game.dealerCards[1],
     false,
