@@ -13,7 +13,7 @@ class Blackjack {
    * Creates an instance of Blackjack and initializes the deck.
    * @param {number} initialMoney - The starting money for the player.
    */
-  constructor(initialMoney = 100) {
+  constructor(initialMoney = 10000) {
     this.dealerCards = []; // Dealer's cards
     this.playerCards = []; // Player's cards
     this.dealerTurn = false; // Flag for dealer's turn
@@ -127,7 +127,7 @@ class Blackjack {
     this.deck.shift();
     this.dealerCards.push(cardToAdd);
 
-    printCard(
+    basicOrAdvancedPrintCard(
       document.getElementById("dealer"),
       game.dealerCards[game.dealerCards.length - 1],
       hidden
@@ -146,7 +146,7 @@ class Blackjack {
     this.deck.shift();
     this.playerCards.push(cardToAdd);
 
-    printCard(
+    basicOrAdvancedPrintCard(
       document.getElementById("player"),
       game.playerCards[game.playerCards.length - 1]
     );
