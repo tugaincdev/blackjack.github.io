@@ -166,63 +166,47 @@ inspectPowerUpsBtn.addEventListener("click", () => {
 //-----------------------------------------
 
 revealHiddenShopBtn.addEventListener("click", () => {
-  if (game.getBalance() < 10) {
-    showToast("To buy this power up, you need more money."); //NEVER USED; ALSO, MAKE NEW TOAST AND TOAST METHOD
-  } else {
-    game.powerUpList.revealHidden++;
-    revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
-    revealHiddenPowerUpsBtn.disabled = false;
-    game.money = game.money - 10;
-    revealHiddenShopBtn.disabled = game.getBalance() < 10;
-    compassShopBtn.disabled = game.getBalance() < 50;
-    lightningShopBtn.disabled = game.getBalance() < 100;
-    inspectShopBtn.disabled = game.getBalance() < 300;
-  }
+  game.powerUpList.revealHidden++;
+  revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
+  revealHiddenPowerUpsBtn.disabled = false;
+  game.money = game.money - 10;
+  revealHiddenShopBtn.disabled = game.getBalance() < 10;
+  compassShopBtn.disabled = game.getBalance() < 50;
+  lightningShopBtn.disabled = game.getBalance() < 100;
+  inspectShopBtn.disabled = game.getBalance() < 300;
 });
 
 compassShopBtn.addEventListener("click", () => {
-  if (game.getBalance() < 50) {
-    showToast("To buy this power up, you need more money."); //NEVER USED; ALSO, MAKE NEW TOAST AND TOAST METHOD
-  } else {
-    game.powerUpList.compass++;
-    compassCount.textContent = `${game.powerUpList.compass}x`;
-    compassPowerUpsBtn.disabled = false;
-    game.money = game.money - 50;
-    revealHiddenShopBtn.disabled = game.getBalance() < 10;
-    compassShopBtn.disabled = game.getBalance() < 50;
-    lightningShopBtn.disabled = game.getBalance() < 100;
-    inspectShopBtn.disabled = game.getBalance() < 300;
-  }
+  game.powerUpList.compass++;
+  compassCount.textContent = `${game.powerUpList.compass}x`;
+  compassPowerUpsBtn.disabled = false;
+  game.money = game.money - 50;
+  revealHiddenShopBtn.disabled = game.getBalance() < 10;
+  compassShopBtn.disabled = game.getBalance() < 50;
+  lightningShopBtn.disabled = game.getBalance() < 100;
+  inspectShopBtn.disabled = game.getBalance() < 300;
 });
 
 lightningShopBtn.addEventListener("click", () => {
-  if (game.getBalance() < 100) {
-    showToast("To buy this power up, you need more money."); //NEVER USED; ALSO, MAKE NEW TOAST AND TOAST METHOD
-  } else {
-    game.powerUpList.lightning++;
-    lightningCount.textContent = `${game.powerUpList.lightning}x`;
-    lightningPowerUpsBtn.disabled = false;
-    game.money = game.money - 100;
-    revealHiddenShopBtn.disabled = game.getBalance() < 10;
-    compassShopBtn.disabled = game.getBalance() < 50;
-    lightningShopBtn.disabled = game.getBalance() < 100;
-    inspectShopBtn.disabled = game.getBalance() < 300;
-  }
+  game.powerUpList.lightning++;
+  lightningCount.textContent = `${game.powerUpList.lightning}x`;
+  lightningPowerUpsBtn.disabled = false;
+  game.money = game.money - 100;
+  revealHiddenShopBtn.disabled = game.getBalance() < 10;
+  compassShopBtn.disabled = game.getBalance() < 50;
+  lightningShopBtn.disabled = game.getBalance() < 100;
+  inspectShopBtn.disabled = game.getBalance() < 300;
 });
 
 inspectShopBtn.addEventListener("click", () => {
-  if (game.getBalance() < 300) {
-    showToast("To buy this power up, you need more money."); //NEVER USED; ALSO, MAKE NEW TOAST AND TOAST METHOD
-  } else {
-    game.powerUpList.quick_inspect++;
-    inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
-    inspectPowerUpsBtn.disabled = false;
-    game.money = game.money - 300;
-    revealHiddenShopBtn.disabled = game.getBalance() < 10;
-    compassShopBtn.disabled = game.getBalance() < 50;
-    lightningShopBtn.disabled = game.getBalance() < 100;
-    inspectShopBtn.disabled = game.getBalance() < 300;
-  }
+  game.powerUpList.quick_inspect++;
+  inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
+  inspectPowerUpsBtn.disabled = false;
+  game.money = game.money - 300;
+  revealHiddenShopBtn.disabled = game.getBalance() < 10;
+  compassShopBtn.disabled = game.getBalance() < 50;
+  lightningShopBtn.disabled = game.getBalance() < 100;
+  inspectShopBtn.disabled = game.getBalance() < 300;
 });
 
 function newGameBasicOrAdvanced() {
