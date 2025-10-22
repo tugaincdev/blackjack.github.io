@@ -104,6 +104,8 @@ function clearPage() {
 }
 
 function getGameObject(gameType) {
+  console.log("started getGameObject next wil send gametype=");
+  console.log(gameType);
   let gameReturn = null;
   if (gameType == "basic") {
     gameVersion = "basic";
@@ -119,6 +121,8 @@ function getGameObject(gameType) {
 function newGame(gameType) {
   // When clicking Start buttons, check if name exists — if not, try to use textbox value
 
+  game = getGameObject(gameType); // ✅ initialize immediately
+
   if (!playerNameExists) {
     const name = playerNameInput.value.trim();
     if (name) {
@@ -131,7 +135,6 @@ function newGame(gameType) {
     }
   }
   clearPage();
-  game = getGameObject(gameType);
   debug(game);
   console.log("Starting new game...");
 
@@ -232,6 +235,9 @@ function updatePlayer(state) {
  * @returns {Object} - The game state after the dealer's move.
  */
 function dealerNewCard(hidden = false) {
+  console.log("After getGameObject:", game);
+  console.log("Type of dealerMove:", typeof game?.dealerMove);
+
   console.log("dealer return?");
   debug(game);
   return game.dealerMove(hidden);
