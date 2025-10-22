@@ -49,8 +49,8 @@
   animation: sparkle-blink 1s infinite alternate;
 }
 
-/* ===== SHOP MENU OVERLAY ===== */
-#shop-menu {
+/* ===== POWER UP MENU OVERLAY ===== */
+#powerUps-menu {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.65); /* Semi-transparent dark background */
@@ -61,7 +61,7 @@
   z-index: 9000; /* Make sure it's on top */
 }
 
-#shop-menu-content {
+#powerUps-menu-content {
   background: rgba(33, 37, 41, 0.95);
   border-radius: 1rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
@@ -70,7 +70,7 @@
   text-align: center;
 }
 
-#leave-shop-btn {
+#leave-powerUps-btn {
   margin-top: 20px;
   padding: 10px 20px;
   background-color: #d9534f; /* Bootstrap's danger color */
@@ -80,7 +80,7 @@
   cursor: pointer;
 }
 
-#leave-shop-btn:hover {
+#leave-powerUps-btn:hover {
   background-color: #c9302c;
 }
 
@@ -123,5 +123,82 @@
 }
 
 .power-up-btn {
+  margin-top: 10px;
+}
+
+/* ===== SHOP MENU ===== */
+#shop-menu {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65); /* Semi-transparent dark background */
+  backdrop-filter: blur(6px); /* Blur content behind */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000; /* Make sure it's on top */
+}
+
+#shop-menu-content {
+  background: rgba(33, 37, 41, 0.95);
+  border-radius: 1rem;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  width: 1200px; /* Make it bigger */
+  padding: 20px;
+  text-align: center;
+}
+
+#leave-shop-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #d9534f; /* Bootstrap's danger color */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+#leave-shop-btn:hover {
+  background-color: #c9302c;
+}
+
+/* Power-Up Item */
+.shop-item {
+  text-align: center;
+  margin: 20px;
+  position: relative;
+}
+
+.shop-icon-container {
+  position: relative;
+}
+
+.shop-icon {
+  font-size: 4rem; /* Big icon */
+  color: #fff; /* White icon */
+}
+
+.shop-price {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red; /* Small red circle */
+  color: white;
+  font-size: 1rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.shop-text {
+  margin-top: 10px;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.shop-btn {
   margin-top: 10px;
 }
