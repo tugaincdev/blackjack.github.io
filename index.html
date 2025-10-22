@@ -37,20 +37,20 @@
     <audio id="vfx-sounds"></audio>
 
     <!-- Header section containing the game title -->
-    <header class="container">
+    <header class="container text-white">
       <h1>🃏 Blackjack 25 🃏</h1>
     </header>
 
-    <main class="container">
+    <main class="container text-white">
       <!-- Betting and money area -->
       <section id="betting" class="text-center mb-4">
-        <h4>💰 Balance: <span id="money-display">100</span>$</h4>
+        <h4>💰 Balance: <span id="money-display">1000</span>$</h4>
         <label for="bet-input">Place your bet:</label>
         <input
           type="number"
           id="bet-input"
           min="1"
-          max="100"
+          max="1000"
           step="1"
           value="10"
           style="width: 80px; margin: 0 8px"
@@ -115,12 +115,12 @@
       </section>
 
       <!-- Section to display the game's status and messages -->
-      <section id="game_status">
+      <section id="game_status" class="text-white">
         <!-- This will be populated dynamically during the game -->
       </section>
 
       <!-- Debugging section for developers to view game state -->
-      <section id="sec_debug">
+      <section id="sec_debug" class="text-white">
         <h2><i class="bi bi-bug"></i> Debug</h2>
         <p id="debug">
           <!-- Placeholder for displaying debug information -->
@@ -129,7 +129,7 @@
     </main>
 
     <!-- Footer section, currently empty -->
-    <footer class="container">
+    <footer class="container text-white">
       <!-- Any footer content can be added here -->
     </footer>
 
@@ -164,12 +164,8 @@
     </div>
 
     <!-- ===== SHOP MENU ===== -->
-    <div
-      id="shop-menu"
-      class="text-center text-light p-4 rounded"
-      style="display: none"
-    >
-      <div id="shop-menu-content">
+    <div id="shop-menu" style="display: none">
+      <div id="shop-menu-content" class="text-center text-light p-4 rounded">
         <h2>Shop</h2>
         <p>
           Welcome to the shop! Here you can buy items and abilities to help with
@@ -262,12 +258,11 @@
     </div>
 
     <!-- ===== POWER UPS MENU ===== -->
-    <div
-      id="powerUps-menu"
-      class="text-center text-light p-4 rounded"
-      style="display: none"
-    >
-      <div id="powerUps-menu-content">
+    <div id="powerUps-menu" style="display: none">
+      <div
+        id="powerUps-menu-content"
+        class="text-center text-light p-4 rounded"
+      >
         <h2>Power Ups</h2>
         <p>
           Welcome to the power up menu! Here you can use items and abilities to
@@ -348,11 +343,13 @@
             id="use-power-up-quick-inspect"
             disabled
           >
-            300$
+            Use power up
           </button>
         </div>
 
-        <button id="leave-powerUps-btn">Leave Power Ups Menu</button>
+        <button id="leave-powerUps-btn" class="btn btn-danger mt-3 w-100">
+          Leave Power Ups Menu
+        </button>
       </div>
     </div>
 
@@ -370,6 +367,7 @@
         padding: 20px;
         border-radius: 12px;
         text-align: center;
+        color: white;
       "
     >
       <img
