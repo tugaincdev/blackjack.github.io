@@ -250,10 +250,10 @@ lootboxShopBtn.addEventListener("click", () => {
   game.money = game.money - 150;
 
   const powerUps = [
-    { name: "card_reveal", weight: 45 }, // 45% chance
-    { name: "compass", weight: 40 }, // 40% chance
-    { name: "lightning", weight: 10 }, // 10% chance
-    { name: "quick_inspect", weight: 5 }, // 5% chance
+    { name: "Card Reveal", weight: 45 }, // 45% chance
+    { name: "Compass Intuition", weight: 40 }, // 40% chance
+    { name: "Lightning Strike", weight: 10 }, // 10% chance
+    { name: "Quick Inspect", weight: 5 }, // 5% chance
   ];
 
   const totalWeight = 100;
@@ -272,8 +272,15 @@ lootboxShopBtn.addEventListener("click", () => {
   console.log("Lootbox gave you: ");
   console.log(selectedPowerUp);
 
+  
+  const overlay = document.getElementById("lootbox-result-overlay");
+  const textEl = document.getElementById("lootbox-result-text");
+  const iconEl = document.getElementById("lootbox-result-icon");
+  iconName = null;
+
   switch (selectedPowerUp) {
-    case "card_reveal":
+    case "Card Reveal":
+      iconName = "eye-fill";
       game.powerUpList.revealHidden++;
       revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
       revealHiddenPowerUpsBtn.disabled = false;
@@ -284,7 +291,8 @@ lootboxShopBtn.addEventListener("click", () => {
       inspectShopBtn.disabled = game.getBalance() < 300;
       //
       break;
-    case "compass":
+    case "Compass Intuition":
+      iconName = "compass";
       game.powerUpList.compass++;
       compassCount.textContent = `${game.powerUpList.compass}x`;
       compassPowerUpsBtn.disabled = false;
@@ -295,7 +303,8 @@ lootboxShopBtn.addEventListener("click", () => {
       inspectShopBtn.disabled = game.getBalance() < 300;
       //
       break;
-    case "lightning":
+    case "Lightning Strike":
+      iconName = "lightning";
       game.powerUpList.lightning++;
       lightningCount.textContent = `${game.powerUpList.lightning}x`;
       lightningPowerUpsBtn.disabled = false;
@@ -306,7 +315,8 @@ lootboxShopBtn.addEventListener("click", () => {
       inspectShopBtn.disabled = game.getBalance() < 300;
       //
       break;
-    case "quick_inspect":
+    case "Quick Inspect":
+      iconName = "search";
       game.powerUpList.quick_inspect++;
       inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
       inspectPowerUpsBtn.disabled = false;
@@ -320,6 +330,16 @@ lootboxShopBtn.addEventListener("click", () => {
     default:
       break;
   }
+
+  textEl.textContent = selectedPowerUp;
+  iconEl.className = `bi bi-${iconName} power-up-icon`;
+
+  overlay.style.display = "block";
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 3000);
+
   return;
 });
 
