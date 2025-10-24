@@ -1,5 +1,7 @@
 // Blackjack OOP ADVANCED
 
+let revealHasBeenUsedThisRound = false;
+
 const btnShop = document.getElementById("btn-shop");
 const shopMenu = document.getElementById("shop-menu");
 const leaveShopBtn = document.getElementById("leave-shop-btn");
@@ -8,6 +10,7 @@ const revealHiddenShopBtn = document.getElementById("buy-shop-reveal");
 const compassShopBtn = document.getElementById("buy-shop-compass");
 const lightningShopBtn = document.getElementById("buy-shop-lightning");
 const inspectShopBtn = document.getElementById("buy-shop-quick-inspect");
+const lootboxShopBtn = document.getElementById("buy-shop-lootbox");
 
 const btnPowerUps = document.getElementById("btn-powerups");
 const powerUpsMenu = document.getElementById("powerUps-menu");
@@ -79,7 +82,6 @@ leaveShopBtn.addEventListener("click", () => {
 //------------------
 
 revealHiddenPowerUpsBtn.addEventListener("click", () => {
-  // Close the power ups menu and unblock the main game
   if (game.powerUpList.revealHidden == 0) {
     showToast("To use this power up, you need to buy it in the shop."); //THIS IS NEVER USED; ALSO, MAKE NEW TOAST AND TOAST METHOD
   } else {
@@ -106,7 +108,6 @@ revealHiddenPowerUpsBtn.addEventListener("click", () => {
 });
 
 compassPowerUpsBtn.addEventListener("click", () => {
-  // Close the power ups menu and unblock the main game
   if (!game.dealerTurn) {
     let nextCardOnDeck = game.deck[0];
     let playerCurrentDeck = game.playerCards;
@@ -170,7 +171,6 @@ lightningPowerUpsBtn.addEventListener("click", () => {
   }
 });
 
-
 inspectPowerUpsBtn.addEventListener("click", () => {
   if (!game.dealerTurn) {
     const overlay = document.getElementById("quick-inspect-overlay");
@@ -206,6 +206,7 @@ revealHiddenShopBtn.addEventListener("click", () => {
   revealHiddenShopBtn.disabled = game.getBalance() < 10;
   compassShopBtn.disabled = game.getBalance() < 50;
   lightningShopBtn.disabled = game.getBalance() < 100;
+  lootboxShopBtn.disabled = game.getBalance() < 150;
   inspectShopBtn.disabled = game.getBalance() < 300;
 });
 
@@ -217,6 +218,7 @@ compassShopBtn.addEventListener("click", () => {
   revealHiddenShopBtn.disabled = game.getBalance() < 10;
   compassShopBtn.disabled = game.getBalance() < 50;
   lightningShopBtn.disabled = game.getBalance() < 100;
+  lootboxShopBtn.disabled = game.getBalance() < 150;
   inspectShopBtn.disabled = game.getBalance() < 300;
 });
 
@@ -228,6 +230,7 @@ lightningShopBtn.addEventListener("click", () => {
   revealHiddenShopBtn.disabled = game.getBalance() < 10;
   compassShopBtn.disabled = game.getBalance() < 50;
   lightningShopBtn.disabled = game.getBalance() < 100;
+  lootboxShopBtn.disabled = game.getBalance() < 150;
   inspectShopBtn.disabled = game.getBalance() < 300;
 });
 
@@ -239,7 +242,85 @@ inspectShopBtn.addEventListener("click", () => {
   revealHiddenShopBtn.disabled = game.getBalance() < 10;
   compassShopBtn.disabled = game.getBalance() < 50;
   lightningShopBtn.disabled = game.getBalance() < 100;
+  lootboxShopBtn.disabled = game.getBalance() < 150;
   inspectShopBtn.disabled = game.getBalance() < 300;
+});
+
+lootboxShopBtn.addEventListener("click", () => {
+  game.money = game.money - 150;
+
+  const powerUps = [
+    { name: "card_reveal", weight: 45 }, // 45% chance
+    { name: "compass", weight: 40 }, // 40% chance
+    { name: "lightning", weight: 10 }, // 10% chance
+    { name: "quick_inspect", weight: 5 }, // 5% chance
+  ];
+
+  const totalWeight = 100;
+
+  let random = Math.random() * totalWeight;
+
+  let selectedPowerUp = null;
+  for (let pu of powerUps) {
+    if (random < pu.weight) {
+      selectedPowerUp = pu.name;
+      break;
+    }
+    random -= pu.weight;
+  }
+
+  console.log("Lootbox gave you: ");
+  console.log(selectedPowerUp);
+
+  switch (selectedPowerUp) {
+    case "card_reveal":
+      game.powerUpList.revealHidden++;
+      revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
+      revealHiddenPowerUpsBtn.disabled = false;
+      revealHiddenShopBtn.disabled = game.getBalance() < 10;
+      compassShopBtn.disabled = game.getBalance() < 50;
+      lightningShopBtn.disabled = game.getBalance() < 100;
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+      inspectShopBtn.disabled = game.getBalance() < 300;
+      //
+      break;
+    case "compass":
+      game.powerUpList.compass++;
+      compassCount.textContent = `${game.powerUpList.compass}x`;
+      compassPowerUpsBtn.disabled = false;
+      revealHiddenShopBtn.disabled = game.getBalance() < 10;
+      compassShopBtn.disabled = game.getBalance() < 50;
+      lightningShopBtn.disabled = game.getBalance() < 100;
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+      inspectShopBtn.disabled = game.getBalance() < 300;
+      //
+      break;
+    case "lightning":
+      game.powerUpList.lightning++;
+      lightningCount.textContent = `${game.powerUpList.lightning}x`;
+      lightningPowerUpsBtn.disabled = false;
+      revealHiddenShopBtn.disabled = game.getBalance() < 10;
+      compassShopBtn.disabled = game.getBalance() < 50;
+      lightningShopBtn.disabled = game.getBalance() < 100;
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+      inspectShopBtn.disabled = game.getBalance() < 300;
+      //
+      break;
+    case "quick_inspect":
+      game.powerUpList.quick_inspect++;
+      inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
+      inspectPowerUpsBtn.disabled = false;
+      revealHiddenShopBtn.disabled = game.getBalance() < 10;
+      compassShopBtn.disabled = game.getBalance() < 50;
+      lightningShopBtn.disabled = game.getBalance() < 100;
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+      inspectShopBtn.disabled = game.getBalance() < 300;
+      //
+      break;
+    default:
+      break;
+  }
+  return;
 });
 
 function newGameBasicOrAdvanced() {
@@ -264,8 +345,6 @@ function basicOrAdvancedPrintCard(
     printCardThenAdjustPowerUps(element, card, hidden, replace);
   }
 }
-
-let revealHasBeenUsedThisRound = false;
 
 function printCardThenAdjustPowerUps(
   element,
@@ -296,7 +375,7 @@ function printCardThenAdjustPowerUps(
     revealHiddenShopBtn.disabled = game.getBalance() < 10;
     compassShopBtn.disabled = game.getBalance() < 50;
     lightningShopBtn.disabled = game.getBalance() < 100;
+    lootboxShopBtn.disabled = game.getBalance() < 150;
     inspectShopBtn.disabled = game.getBalance() < 300;
   }
 }
-
