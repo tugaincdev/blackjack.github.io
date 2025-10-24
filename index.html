@@ -397,6 +397,31 @@
       />
     </div>
 
+    <!-- Lootbox Result overlay -->
+    <div
+      id="lootbox-result-overlay"
+      style="
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 11111000;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+      "
+    >
+      <div class="power-up-icon-container">
+        <i class="bi bi-search power-up-icon" id="lootbox-result-icon"></i>
+      </div>
+      <div class="power-up-text" id="lootbox-result-text">
+        <p>I don't know what you got. (default text)</p>
+      </div>
+    </div>
+
+
     <!-- Settings / Hamburger Menu -->
     <div id="settings-menu">
       <button
