@@ -1,4 +1,4 @@
-// Blackjack OOP ADVANCED
+
 
 const btnShop = document.getElementById("btn-shop");
 const shopMenu = document.getElementById("shop-menu");
@@ -24,11 +24,11 @@ const inspectPowerUpsBtn = document.getElementById(
 );
 
 function newAdvancedGame() {
-  //ADJYST POWERUP INICIALIZATION LATER
+
   console.log("✅ newAdvancedGame() called");
   newGame("advanced"); //still in its infancy
   const extrasMenu = document.getElementById("extras-menu");
-  extrasMenu.style.display = "block"; // make the whole thing visible
+  extrasMenu.style.display = "block";
 
   console.log("✅ extrasMenu display set to block");
 }
@@ -47,33 +47,33 @@ extrasToggleBtn.addEventListener("click", () => {
 
   sparkleEl.style.display = "none";
 
-  // Hide settings panel if open
+
   if (settingsPanel) settingsPanel.style.display = "none";
 
-  // Toggle the extras panel visibility
+ 
   const visible = extrasPanel.style.display === "block";
   extrasPanel.style.display = visible ? "none" : "block";
 });
 
 btnPowerUps.addEventListener("click", () => {
-  // Block the main game by showing the power ups menu overlay
+ 
   shopMenu.style.display = "none"; // hide the shop menu
   powerUpsMenu.style.display = "flex"; // show the power ups menu
 });
 
 leavePowerUpsBtn.addEventListener("click", () => {
-  // Close the power ups menu and unblock the main game
+
   powerUpsMenu.style.display = "none"; // hide the power ups menu
 });
 
 btnShop.addEventListener("click", () => {
-  // Block the main game by showing the shop menu overlay
+  
   powerUpsMenu.style.display = "none"; // hide the power ups menu
   shopMenu.style.display = "flex"; // show the shop menu
 });
 
 leaveShopBtn.addEventListener("click", () => {
-  // Close the shop menu and unblock the main game
+  
   shopMenu.style.display = "none"; // hide the shop menu
 });
 
@@ -102,7 +102,7 @@ revealHiddenPowerUpsBtn.addEventListener("click", () => {
         revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
       }
 
-      powerUpsMenu.style.display = "none"; // hide the power ups menu
+      powerUpsMenu.style.display = "none"; 
     }
   }
 });
@@ -157,15 +157,14 @@ lightningPowerUpsBtn.addEventListener("click", () => {
 
     playLightningAndLaugh();
 
-    // ===== Add lightning bolt =====
+    
     const lightning = document.createElement("div");
     lightning.classList.add("lightning-overlay");
     cardToStrike.parentNode.appendChild(lightning);
 
-    // ===== Add burned/charred effect =====
     cardToStrike.classList.add("burned");
 
-    // ===== Add electric sparks =====
+   
     const sparks = document.createElement("div");
     sparks.classList.add("electric-sparks");
     cardToStrike.parentNode.appendChild(sparks);
@@ -478,3 +477,4 @@ function printCardThenAdjustPowerUps(
     inspectShopBtn.disabled = game.getBalance() < 300;
   }
 }
+
