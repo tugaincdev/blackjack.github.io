@@ -31,6 +31,12 @@ const strikePath = "./audio/lightning-strike.mp3";
 // Laugh sound (plays when Lightning Strike is used)
 const heathPath = "./audio/erlking-laugh.mp3";
 
+// Inspect sound (plays when Quick Inspect is used)
+const inspectPath = "./audio/inspect.mp3";
+
+// Reveal sound (plays when Reveal Hidden Card is used)
+const revealPath = "./audio/reveal.mp3";
+
 // Audio elements
 const bgAudio = document.getElementById("bg-music");
 const vfxAudio = document.getElementById("vfx-sounds");
@@ -166,6 +172,24 @@ function playLightningAndLaugh() {
   // Play both at the same time
   lightningSound.play();
   laughSound.play();
+}
+
+function playInspectSound() {
+  const inspectSound = new Audio(inspectPath);
+
+  inspectSound.volume = 0.2;
+
+  // Play both at the same time
+  inspectSound.play();
+}
+
+function playRevealSound() {
+  const revealSound = new Audio(revealPath);
+
+  revealSound.volume = 1;
+
+  // Play both at the same time
+  revealSound.play();
 }
 
 //fuck you François Beaufort
