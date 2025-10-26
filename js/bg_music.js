@@ -23,7 +23,7 @@ const songList = [
 const diceTimePath = "./audio/diceTimeRuina.mp3";
 
 // Card sound (plays when new card drawn)
-const cardPath = "./audio/card2.mp3";
+const cardPath = "./audio/card.mp3";
 
 // Lightning sound (plays when Lightning Strike is used)
 const strikePath = "./audio/lightning-strike.mp3";
