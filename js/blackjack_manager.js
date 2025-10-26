@@ -119,8 +119,6 @@ function getGameObject(gameType) {
 function newGame(gameType) {
   // When clicking Start buttons, check if name exists — if not, try to use textbox value
 
-  game = getGameObject(gameType); // ✅ initialize immediately
-
   if (!playerNameExists) {
     const name = playerNameInput.value.trim();
     if (name) {
@@ -171,18 +169,26 @@ function updateMoneyDisplay() {
   document.getElementById("money-display").textContent = game.money.toFixed(0);
 }
 
-// New function to start game with a bet
 function placeBetAndStart() {
   const betValue = parseInt(document.getElementById("bet-input").value);
+
+  const preservedMoney = game ? game.money : 1000; // Adjust default as needed (e.g., 1000 starting chips)
+
   if (gameVersion == "basic") {
     game = new Blackjack();
   } else {
     game = new Blackjack_Advanced();
   }
 
+  game.money = preservedMoney;
+
+  updateMoneyDisplay();
+
   if (game.placeBet(betValue)) {
-    updateMoneyDisplay();
+    updateMoneyDisplay(); // Update again to show post-bet balance
     newGameBasicOrAdvanced();
+  } else {
+    showToast("Insufficient funds!"); // Assuming you have this from earlier code
   }
 }
 
