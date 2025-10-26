@@ -1,641 +1,448 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Character encoding for the document -->
-    <meta charset="UTF-8" />
+// Blackjack OOP ADVANCED
 
-    <!-- Responsive design settings to ensure proper rendering on mobile devices -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+const btnShop = document.getElementById("btn-shop");
+const shopMenu = document.getElementById("shop-menu");
+const leaveShopBtn = document.getElementById("leave-shop-btn");
+const revealHiddenShopBtn = document.getElementById("buy-shop-reveal");
+//---------------------------------------------
+const compassShopBtn = document.getElementById("buy-shop-compass");
+const lightningShopBtn = document.getElementById("buy-shop-lightning");
+const inspectShopBtn = document.getElementById("buy-shop-quick-inspect");
+const lootboxShopBtn = document.getElementById("buy-shop-lootbox");
 
-    <!-- Compatibility settings for Internet Explorer -->
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+const btnPowerUps = document.getElementById("btn-powerups");
+const powerUpsMenu = document.getElementById("powerUps-menu");
+const leavePowerUpsBtn = document.getElementById("leave-powerUps-btn");
+const revealHiddenPowerUpsBtn = document.getElementById(
+  "use-power-up-reveal-button"
+);
+//---------------------------------------
+const compassPowerUpsBtn = document.getElementById("use-power-up-compass");
+const lightningPowerUpsBtn = document.getElementById("use-power-up-lightning");
+const inspectPowerUpsBtn = document.getElementById(
+  "use-power-up-quick-inspect"
+);
 
-    <!-- Link to Bootstrap CSS for styling the page -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+function newAdvancedGame() {
+  //ADJYST POWERUP INICIALIZATION LATER
+  console.log("✅ newAdvancedGame() called");
+  newGame("advanced"); //still in its infancy
+  const extrasMenu = document.getElementById("extras-menu");
+  extrasMenu.style.display = "block"; // make the whole thing visible
 
-    <!-- Link to Bootstrap Icons for using icon fonts -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
+  console.log("✅ extrasMenu display set to block");
+}
 
-    <!-- Link to custom stylesheet for additional styles specific to the Blackjack game -->
-    <link rel="stylesheet" href="css/blackjack_style.css" />
+const sparkleEl = document.getElementById("sparkle");
+const extrasToggleBtn = document.getElementById("extras-toggle");
+const extrasPanel = document.getElementById("extras-panel");
+const revealHiddenCount = document.getElementById("power-up-reveal-count");
+//-----------------------------------------
+const compassCount = document.getElementById("power-up-compass-count");
+const lightningCount = document.getElementById("power-up-lightning-count");
+const inspectCount = document.getElementById("power-up-quick-inspect-count");
 
-    <!-- Title of the webpage, displayed in the browser tab -->
-    <title>Blackjack</title>
-  </head>
+extrasToggleBtn.addEventListener("click", () => {
+  console.log("🎯 extras toggle clicked!");
 
-  <body>
-    <audio id="bg-music"></audio>
+  sparkleEl.style.display = "none";
 
-    <audio id="vfx-sounds"></audio>
+  // Hide settings panel if open
+  if (settingsPanel) settingsPanel.style.display = "none";
 
-    <!-- Header section containing the game title -->
-    <header class="container">
-      <h1>🃏 Blackjack 25 🃏</h1>
-    </header>
+  // Toggle the extras panel visibility
+  const visible = extrasPanel.style.display === "block";
+  extrasPanel.style.display = visible ? "none" : "block";
+});
 
-    <main class="container">
-      <!-- Betting and money area -->
-      <section id="betting" class="text-center mb-4">
-        <h4>💰 Balance: <span id="money-display">100</span>$</h4>
-        <label for="bet-input">Place your bet:</label>
-        <input
-          type="number"
-          id="bet-input"
-          min="1"
-          max="100"
-          step="1"
-          value="10"
-          style="width: 80px; margin: 0 8px"
-        />
-        <button class="btn btn-warning btn-sm" onclick="placeBetAndStart()">
-          Bet & Deal
-        </button>
-      </section>
+btnPowerUps.addEventListener("click", () => {
+  // Block the main game by showing the power ups menu overlay
+  shopMenu.style.display = "none"; // hide the shop menu
+  powerUpsMenu.style.display = "flex"; // show the power ups menu
+});
 
-      <!-- Main game section -->
-      <section id="game">
-        <!-- Dealer area -->
-        <div class="hand-area dealer-area">
-          <h2><i class="bi bi-person-heart"></i> Dealer</h2>
-          <p id="dealer"></p>
-        </div>
+leavePowerUpsBtn.addEventListener("click", () => {
+  // Close the power ups menu and unblock the main game
+  powerUpsMenu.style.display = "none"; // hide the power ups menu
+});
 
-        <!-- Controls area -->
-        <div class="controls">
-          <!-- Button for the player to draw a new card -->
-          <button
-            class="btn btn-primary btn-custom"
-            id="card"
-            type="button"
-            onclick="
-            playerNewCard();
-            playCardSoundDontWait();
-            "
-          >
-            <i class="bi bi-plus-circle"></i> Card
-          </button>
+btnShop.addEventListener("click", () => {
+  // Block the main game by showing the shop menu overlay
+  powerUpsMenu.style.display = "none"; // hide the power ups menu
+  shopMenu.style.display = "flex"; // show the shop menu
+});
 
-          <!-- Button for the player to stand (end their turn) -->
-          <button
-            class="btn btn-secondary btn-custom"
-            id="stand"
-            type="button"
-            onclick="dealerFinish()"
-          >
-            <i class="bi bi-hand-thumbs-up"></i> Stand
-          </button>
+leaveShopBtn.addEventListener("click", () => {
+  // Close the shop menu and unblock the main game
+  shopMenu.style.display = "none"; // hide the shop menu
+});
 
-          <!-- Button to start a new game, initially disabled -->
-          <button
-            class="btn btn-success btn-custom"
-            id="new_game"
-            type="button"
-            onclick="newGameBasicOrAdvanced()"
-            disabled
-          >
-            <i class="bi bi-arrow-clockwise"></i> New Game
-          </button>
-        </div>
+//------------------
 
-        <!-- Player area -->
-        <div class="hand-area player-area">
-          <h2 id="playerNameDisplay">
-            <i class="bi bi-person-fill"></i> Player
-          </h2>
-          <p id="player"></p>
-        </div>
-      </section>
+let revealHasBeenUsedThisRound = false;
 
-      <!-- Section to display the game's status and messages -->
-      <section id="game_status">
-        <!-- This will be populated dynamically during the game -->
-      </section>
+revealHiddenPowerUpsBtn.addEventListener("click", () => {
+  if (!game.dealerTurn) {
+    const hiddenSlot = document.getElementById("dealer").lastElementChild;
+    const hiddenCard = hiddenSlot.querySelector("img");
+    if (hiddenCard) {
+      let cardToAddName = game.dealerCards[1].printName();
+      hiddenCard.src = `./images/svg/${cardToAddName}.svg`;
 
-      <!-- Debugging section for developers to view game state -->
-      <section id="sec_debug">
-        <h2><i class="bi bi-bug"></i> Debug</h2>
-        <p id="debug">
-          <!-- Placeholder for displaying debug information -->
-        </p>
-      </section>
-    </main>
+      game.powerUpList.revealHidden--;
+      revealHasBeenUsedThisRound = true;
 
-    <!-- Footer section, currently empty -->
-    <footer class="container">
-      <!-- Any footer content can be added here -->
-    </footer>
+      //if (game.powerUpList.revealHidden == 0) //not using this if, because will only be used once per game
+      revealHiddenPowerUpsBtn.disabled = true;
 
-    <!-- ===== GAME START MENU OVERLAY ===== -->
-    <div id="start-menu">
-      <div id="start-menu-content" class="text-center text-light p-4 rounded">
-        <h2 class="mb-4">Blackjack 25</h2>
+      //change "0x" text to revealHidden value
+      if (revealHiddenCount) {
+        revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
+      }
 
-        <div class="input-group mb-4">
-          <input
-            type="text"
-            id="player-name"
-            class="form-control"
-            placeholder="Your player name here"
-            aria-label="Player name"
-          />
-          <button id="btn-name-submit" class="btn btn-primary" type="button">
-            Enter
-          </button>
-        </div>
+      powerUpsMenu.style.display = "none"; // hide the power ups menu
+    }
+  }
+});
 
-        <button id="btn-start" class="btn btn-success w-100 mb-3">
-          Start Basic Game
-        </button>
+let compassHasBeenUsedThisRound = false;
 
-        <button id="btn-start-advanced" class="btn btn-warning w-100 mb-3">
-          Start Advanced Game
-        </button>
+compassPowerUpsBtn.addEventListener("click", () => {
+  if (!game.dealerTurn) {
+    let nextCardOnDeck = game.deck[0];
+    let playerCurrentDeck = game.playerCards;
+    let playerHypotheticalDeck = [...playerCurrentDeck, nextCardOnDeck];
+    let playerHypotheticalValue = game.getCardsValue(playerHypotheticalDeck);
 
-        <button id="btn-quit" class="btn btn-danger w-100">Quit</button>
-      </div>
-    </div>
+    if (playerHypotheticalValue > 25) {
+      showToast("Be careful. The next card on the deck will make you bust.");
+    } else {
+      showToast("At ease. The next card on the deck will not make you bust.");
+    }
 
-    <!-- ===== SHOP MENU ===== -->
-    <div
-      id="shop-menu"
-      class="text-center text-light p-4 rounded"
-      style="display: none"
-    >
-      <div id="shop-menu-content">
-        <h2>Shop</h2>
-        <p>
-          Welcome to the shop! Here you can buy items and abilities to help with
-          your game.
-        </p>
+    game.powerUpList.compass--;
+    compassHasBeenUsedThisRound = true;
 
-        <!-- Shop Power-Up: Reveal Hidden Card -->
-        <div class="shop-item" id="shop-reveal">
-          <div class="shop-icon-container">
-            <!-- Eye icon (for Reveal Hidden Card) -->
-            <i class="bi bi-eye-fill shop-icon"></i>
+    //change "0x" text to compass value
+    if (compassCount) {
+      compassCount.textContent = `${game.powerUpList.compass}x`;
+    }
 
-            <!-- Price for the item -->
-            <span class="shop-price" id="shop-reveal-price">10$</span>
-          </div>
-          <div class="shop-text">
-            <p>Reveal Hidden Card</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 shop-btn"
-            id="buy-shop-reveal"
-            disabled
-          >
-            Buy item
-          </button>
-        </div>
+    powerUpsMenu.style.display = "none"; // hide the power ups menu
+  }
+  compassPowerUpsBtn.disabled = true;
+});
 
-        <!-- Shop Power-Up: Compass Intuition -->
-        <div class="shop-item" id="shop-compass">
-          <div class="shop-icon-container">
-            <i class="bi bi-compass shop-icon"></i>
-            <span class="shop-price" id="shop-compass-price">50$</span>
-          </div>
-          <div class="shop-text">
-            <p>Compass Intuition</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 shop-btn"
-            id="buy-shop-compass"
-            disabled
-          >
-            Buy item
-          </button>
-        </div>
+let numberOfLightningsUsedThisRound = 0;
 
-        <!-- Shop Power-Up: Lightning Strike -->
-        <div class="shop-item" id="shop-lightning">
-          <div class="shop-icon-container">
-            <i class="bi bi-lightning shop-icon"></i>
-            <span class="shop-price" id="shop-lightning-price">100$</span>
-          </div>
-          <div class="shop-text">
-            <p>Lightning Strike</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 shop-btn"
-            id="buy-shop-lightning"
-            disabled
-          >
-            Buy item
-          </button>
-        </div>
+lightningPowerUpsBtn.addEventListener("click", async () => {
+  if (!game.dealerTurn) {
+    let playerCurrentDeck = game.playerCards;
+    let cardImages = document.querySelectorAll("#player img");
 
-        <!-- Shop Power-Up: Quick Inspect -->
-        <div class="shop-item" id="shop-quick-inspect">
-          <div class="shop-icon-container">
-            <i class="bi bi-search shop-icon"></i>
-            <span class="shop-price" id="shop-quick-inspect-price">300$</span>
-          </div>
-          <div class="shop-text">
-            <p>Quick Inspect</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 shop-btn"
-            id="buy-shop-quick-inspect"
-            disabled
-          >
-            Buy item
-          </button>
-        </div>
+    let unstruckCards = Array.from(cardImages).filter((img) => {
+      return !img.classList.contains("struck");
+    });
 
-        <!-- Shop Lootbox -->
-        <div class="shop-item" id="shop-lootbox">
-          <div class="shop-icon-container">
-            <i class="bi bi-gift shop-icon"></i>
-            <span class="shop-price" id="shop-lootbox-price">150$</span>
-          </div>
-          <div class="shop-text">
-            <p>???</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 shop-btn"
-            id="buy-shop-lootbox"
-            disabled
-          >
-            Buy item
-          </button>
-        </div>
+    powerUpsMenu.style.display = "none"; // hide the power ups menu
 
-        <!-- Add more items here if needed -->
-        <!-- e.g., another power-up or shop item -->
+    let randomIndex = Math.floor(Math.random() * unstruckCards.length);
+    let cardToStrike = unstruckCards[randomIndex];
 
-        <!-- Button to leave the shop -->
-        <button id="leave-shop-btn" class="btn btn-danger mt-3 w-100">
-          Leave Shop
-        </button>
-      </div>
-    </div>
+    cardToStrike.classList.add("struck");
 
-    <!-- ===== POWER UPS MENU ===== -->
-    <div
-      id="powerUps-menu"
-      class="text-center text-light p-4 rounded"
-      style="display: none"
-    >
-      <div id="powerUps-menu-content">
-        <h2>Power Ups</h2>
-        <p>
-          Welcome to the power up menu! Here you can use items and abilities to
-          help with your game.
-        </p>
+    playLightningAndLaugh();
 
-        <!-- Add any power up items here (like buttons, descriptions, etc.) -->
-        <!-- Power-Up: Reveal Hidden Card -->
-        <div class="power-up-item" id="power-up-reveal">
-          <div class="power-up-icon-container">
-            <!-- Eye icon (for Reveal Hidden Card) -->
-            <i class="bi bi-eye-fill power-up-icon"></i>
+    // ===== Add lightning bolt =====
+    const lightning = document.createElement("div");
+    lightning.classList.add("lightning-overlay");
+    cardToStrike.parentNode.appendChild(lightning);
 
-            <!-- Number of power-ups owned (small circle on top) -->
-            <span class="power-up-count" id="power-up-reveal-count">0x</span>
-          </div>
-          <div class="power-up-text">
-            <p>Card Reveal</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 power-up-btn"
-            id="use-power-up-reveal-button"
-            disabled
-          >
-            Use power up
-          </button>
-        </div>
+    // ===== Add burned/charred effect =====
+    cardToStrike.classList.add("burned");
 
-        <!-- Power-Up: Compass Intuition -->
-        <div class="power-up-item" id="power-up-compass">
-          <div class="power-up-icon-container">
-            <i class="bi bi-compass power-up-icon"></i>
-            <span class="power-up-count" id="power-up-compass-count">0x</span>
-          </div>
-          <div class="power-up-text">
-            <p>Compass Intuition</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 power-up-btn"
-            id="use-power-up-compass"
-            disabled
-          >
-            Use power up
-          </button>
-        </div>
+    // ===== Add electric sparks =====
+    const sparks = document.createElement("div");
+    sparks.classList.add("electric-sparks");
+    cardToStrike.parentNode.appendChild(sparks);
 
-        <!-- Power-Up: Lightning Strike -->
-        <div class="power-up-item" id="power-up-lightning">
-          <div class="power-up-icon-container">
-            <i class="bi bi-lightning power-up-icon"></i>
-            <span class="power-up-count" id="power-up-lightning-count">0x</span>
-          </div>
-          <div class="power-up-text">
-            <p>Lightning Strike</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 power-up-btn"
-            id="use-power-up-lightning"
-            disabled
-          >
-            Use power up
-          </button>
-        </div>
+    let logicalIndex = playerCurrentDeck.findIndex(
+      (card) => card.printName() === cardToStrike.alt
+    );
+    if (logicalIndex !== -1) playerCurrentDeck.splice(logicalIndex, 1);
 
-        <!-- Power-Up: Quick Inspect -->
-        <div class="power-up-item" id="power-up-quick-inspect">
-          <div class="power-up-icon-container">
-            <i class="bi bi-search power-up-icon"></i>
-            <span class="power-up-count" id="power-up-quick-inspect-count"
-              >0x</span
-            >
-          </div>
-          <div class="power-up-text">
-            <p>Quick Inspect</p>
-          </div>
-          <button
-            class="btn btn-primary w-100 power-up-btn"
-            id="use-power-up-quick-inspect"
-            disabled
-          >
-            300$
-          </button>
-        </div>
+    game.powerUpList.lightning--;
 
-        <button id="leave-powerUps-btn">Leave Power Ups Menu</button>
-      </div>
-    </div>
+    //change "0x" text to compass value
+    if (lightningCount) {
+      lightningCount.textContent = `${game.powerUpList.lightning}x`;
+    }
 
-    <!-- Quick Inspect overlay -->
-    <div
-      id="quick-inspect-overlay"
-      style="
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 111000;
-        background: rgba(0, 0, 0, 0.7);
-        padding: 20px;
-        border-radius: 12px;
-        text-align: center;
-      "
-    >
-      <img
-        id="quick-inspect-card"
-        src=""
-        alt="Next card"
-        style="width: 100px; height: auto"
-      />
-    </div>
+    if (unstruckCards.length - 1 == 0 || game.powerUpList.lightning == 0) {
+      lightningPowerUpsBtn.disabled = true;
+    }
+  }
+});
 
-    <!-- Lootbox Result overlay -->
-    <div
-      id="lootbox-result-overlay"
-      style="
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 11111000;
-        background: rgba(0, 0, 0, 0.7);
-        padding: 20px;
-        border-radius: 12px;
-        text-align: center;
-      "
-    >
-      <div class="power-up-icon-container">
-        <i class="bi bi-search power-up-icon" id="lootbox-result-icon"></i>
-      </div>
-      <div class="power-up-text" id="lootbox-result-text">
-        <p>I don't know what you got. (default text)</p>
-      </div>
-    </div>
+let inspectHasBeenUsedThisRound = false;
 
-    <!-- Settings / Hamburger Menu -->
-    <div id="settings-menu">
-      <button
-        id="settings-toggle"
-        class="btn btn-outline-light"
-        style="
-          position: fixed;
-          top: 1rem;
-          right: 1rem;
-          z-index: 10000;
-          background: rgba(33, 37, 41, 0.9);
-          border: none;
-          border-radius: 0.5rem;
-        "
-      >
-        <i class="bi bi-list" style="font-size: 1.5rem"></i>
-      </button>
+inspectPowerUpsBtn.addEventListener("click", () => {
+  if (!game.dealerTurn) {
+    const overlay = document.getElementById("quick-inspect-overlay");
+    const cardImg = document.getElementById("quick-inspect-card");
 
-      <div
-        id="settings-panel"
-        class="card text-light bg-dark"
-        style="
-          position: fixed;
-          top: 1rem;
-          right: calc(1rem + 50px);
-          width: 250px;
-          display: none;
-          z-index: 9999;
-          border-radius: 1rem;
-          box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        "
-      >
-        <div class="card-body">
-          <h5 class="card-title mb-3">Settings</h5>
-          <hr class="border-secondary" />
+    let nextCardOnDeck = game.deck[0];
+    let nextCardName = nextCardOnDeck.printName();
+    const imagePath = `./images/svg/${nextCardName}.svg`;
 
-          <!-- Music Section -->
-          <div class="mb-3">
-            <h6>Music</h6>
-            <button id="music-toggle" class="btn btn-sm btn-success w-100 mb-2">
-              Toggle Music
-            </button>
-            <label for="music-volume" class="form-label small"
-              >Music Volume</label
-            >
-            <input
-              type="range"
-              id="music-volume"
-              min="0"
-              max="1"
-              step="0.01"
-              value="1"
-              class="form-range"
-            />
-          </div>
-          <!-- VFX Section -->
-          <div class="mb-3">
-            <h6>VFX</h6>
-            <button id="vfx-toggle" class="btn btn-sm btn-danger w-100 mb-2">
-              Mute VFX
-            </button>
-            <label for="vfx-volume" class="form-label small">VFX Volume</label>
-            <input
-              type="range"
-              id="vfx-volume"
-              min="0"
-              max="1"
-              step="0.01"
-              value="1"
-              class="form-range"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    powerUpsMenu.style.display = "none"; // hide the power ups menu
 
-    <!-- ===== SECOND HAMBURGER MENU: SHOP & POWER-UPS ===== -->
-    <div id="extras-menu" style="display: none">
-      <button
-        id="extras-toggle"
-        class="btn btn-outline-light"
-        style="
-          position: fixed;
-          top: calc(1rem + 3rem);
-          right: 1rem;
-          z-index: 10000;
-          background: rgba(33, 37, 41, 0.9);
-          border: none;
-          border-radius: 0.5rem;
-        "
-      >
-        <i class="bi bi-gem" style="font-size: 1.5rem"></i>
-        <span
-          id="sparkle"
-          style="
-            display: block;
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            animation: sparkle 1s infinite;
-          "
-          >✨</span
-        >
-      </button>
+    cardImg.src = imagePath;
+    cardImg.alt = nextCardName;
 
-      <div
-        id="extras-panel"
-        class="card text-light bg-dark"
-        style="
-          position: fixed;
-          top: calc(1rem + 3rem);
-          right: calc(1rem + 50px);
-          width: 250px;
-          display: none;
-          z-index: 9999;
-          border-radius: 1rem;
-          box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-        "
-      >
-        <div class="card-body">
-          <h5 class="card-title mb-3">Extras</h5>
-          <hr class="border-secondary" />
+    overlay.style.display = "block";
 
-          <!-- Shop Section -->
-          <div class="mb-3">
-            <button id="btn-shop" class="btn btn-sm btn-success w-100 mb-2">
-              Shop
-            </button>
-            <button id="btn-powerups" class="btn btn-sm btn-primary w-100">
-              Use Power-Ups
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 500);
 
-    <!-- Toast Message -->
-    <div
-      id="toast-message"
-      style="
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        z-index: 9999;
-      "
-    ></div>
+    game.powerUpList.quick_inspect--;
+    inspectHasBeenUsedThisRound = true;
 
-    <!-- Execute the newGame function when the window loads to start the game -->
-    <script>
-      window.onload = () => {
-        // Page loads, show menu but don't start game yet
-        document.getElementById("start-menu").style.display = "flex";
+    if (inspectCount) {
+      inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
+    }
+  }
+  inspectPowerUpsBtn.disabled = true;
+});
 
-        // Disable gameplay buttons initially
-        document.getElementById("card").disabled = true;
-        document.getElementById("stand").disabled = true;
-        document.getElementById("new_game").disabled = true;
+//-----------------------------------------
 
-        // Setup menu button logic
-        const btnStart = document.getElementById("btn-start");
-        const btnStartAdvanced = document.getElementById("btn-start-advanced");
-        const btnQuit = document.getElementById("btn-quit");
+revealHiddenShopBtn.addEventListener("click", () => {
+  game.powerUpList.revealHidden++;
+  revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
 
-        btnStart.addEventListener("click", () => {
-          gameVersion = "basic";
-          primeAudio(); // unlocks sound context
-          document.getElementById("start-menu").style.display = "none"; // hide menu
-          newGame(gameVersion); // start the actual game
-        });
+  if (!revealHasBeenUsedThisRound) {
+    revealHiddenPowerUpsBtn.disabled = false;
+  }
 
-        btnStartAdvanced.addEventListener("click", () => {
-          gameVersion = "advanced";
-          primeAudio(); // unlocks sound context
-          document.getElementById("start-menu").style.display = "none"; // hide menu
-          newAdvancedGame(); // start the actual game
-        });
+  game.money = game.money - 10;
+  revealHiddenShopBtn.disabled = game.getBalance() < 10;
+  compassShopBtn.disabled = game.getBalance() < 50;
+  lightningShopBtn.disabled = game.getBalance() < 100;
+  lootboxShopBtn.disabled = game.getBalance() < 150;
+  inspectShopBtn.disabled = game.getBalance() < 300;
+});
 
-        btnQuit.addEventListener("click", () => {
-          window.close(); // tries to close tab
-          // fallback: navigate away if close is blocked
-          setTimeout(() => (window.location.href = "about:blank"), 500);
-        });
-      };
-    </script>
+compassShopBtn.addEventListener("click", () => {
+  game.powerUpList.compass++;
+  compassCount.textContent = `${game.powerUpList.compass}x`;
 
-    <!-- Link your music script -->
-    <script src="js/bg_music.js"></script>
+  if (!compassHasBeenUsedThisRound) {
+    compassPowerUpsBtn.disabled = false;
+  }
 
-    <!-- Link to Bootstrap's JavaScript bundle for interactive components -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-    <script src="js/card.js"></script>
+  game.money = game.money - 50;
+  revealHiddenShopBtn.disabled = game.getBalance() < 10;
+  compassShopBtn.disabled = game.getBalance() < 50;
+  lightningShopBtn.disabled = game.getBalance() < 100;
+  lootboxShopBtn.disabled = game.getBalance() < 150;
+  inspectShopBtn.disabled = game.getBalance() < 300;
+});
 
-    <!-- Link to the JavaScript file containing the Blackjack game logic -->
-    <script src="js/blackjack_object.js"></script>
+lightningShopBtn.addEventListener("click", () => {
+  game.powerUpList.lightning++;
+  lightningCount.textContent = `${game.powerUpList.lightning}x`;
 
-    <!-- Link to the JavaScript file containing the Blackjack advanced game logic -->
-    <script src="js/blackjack_object_advanced.js"></script>
+  if (game.playerCards.length != 0) {
+    lightningPowerUpsBtn.disabled = false;
+  }
+  game.money = game.money - 100;
+  revealHiddenShopBtn.disabled = game.getBalance() < 10;
+  compassShopBtn.disabled = game.getBalance() < 50;
+  lightningShopBtn.disabled = game.getBalance() < 100;
+  lootboxShopBtn.disabled = game.getBalance() < 150;
+  inspectShopBtn.disabled = game.getBalance() < 300;
+});
 
-    <!-- Link to the JavaScript file for managing game actions and events -->
-    <script src="js/blackjack_manager.js"></script>
+inspectShopBtn.addEventListener("click", () => {
+  game.powerUpList.quick_inspect++;
+  inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
 
-    <!-- Link to the JavaScript file for managing advanced game actions and events -->
-    <script src="js/blackjack_manager_advanced.js"></script>
-  </body>
-</html>
+  if (!inspectHasBeenUsedThisRound) {
+    inspectPowerUpsBtn.disabled = false;
+  }
+
+  game.money = game.money - 300;
+  revealHiddenShopBtn.disabled = game.getBalance() < 10;
+  compassShopBtn.disabled = game.getBalance() < 50;
+  lightningShopBtn.disabled = game.getBalance() < 100;
+  lootboxShopBtn.disabled = game.getBalance() < 150;
+  inspectShopBtn.disabled = game.getBalance() < 300;
+});
+
+lootboxShopBtn.addEventListener("click", () => {
+  game.money = game.money - 150;
+
+  const powerUps = [
+    { name: "Card Reveal", weight: 25 }, // 45% chance
+    { name: "Compass Intuition", weight: 25 }, // 40% chance
+    { name: "Lightning Strike", weight: 25 }, // 10% chance
+    { name: "Quick Inspect", weight: 25 }, // 5% chance
+  ];
+
+  const totalWeight = 100;
+
+  let random = Math.random() * totalWeight;
+
+  let selectedPowerUp = null;
+  for (let pu of powerUps) {
+    if (random < pu.weight) {
+      selectedPowerUp = pu.name;
+      break;
+    }
+    random -= pu.weight;
+  }
+
+  console.log("Lootbox gave you: ");
+  console.log(selectedPowerUp);
+
+  //-----------------------------------------------------------------------------------
+
+  const overlay = document.getElementById("lootbox-result-overlay");
+  const textEl = document.getElementById("lootbox-result-text");
+  const iconEl = document.getElementById("lootbox-result-icon");
+  iconName = null;
+
+  switch (selectedPowerUp) {
+    case "Card Reveal":
+      iconName = "eye-fill";
+      game.powerUpList.revealHidden++;
+      revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
+      if (!revealHasBeenUsedThisRound) {
+        revealHiddenPowerUpsBtn.disabled = false;
+      }
+      revealHiddenShopBtn.disabled = game.getBalance() < 10;
+      compassShopBtn.disabled = game.getBalance() < 50;
+      lightningShopBtn.disabled = game.getBalance() < 100;
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+      inspectShopBtn.disabled = game.getBalance() < 300;
+      //
+      break;
+    case "Compass Intuition":
+      iconName = "compass";
+      game.powerUpList.compass++;
+      compassCount.textContent = `${game.powerUpList.compass}x`;
+      if (!compassHasBeenUsedThisRound) {
+        compassPowerUpsBtn.disabled = false;
+      }
+      revealHiddenShopBtn.disabled = game.getBalance() < 10;
+      compassShopBtn.disabled = game.getBalance() < 50;
+      lightningShopBtn.disabled = game.getBalance() < 100;
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+      inspectShopBtn.disabled = game.getBalance() < 300;
+      //
+      break;
+    case "Lightning Strike":
+      iconName = "lightning";
+      game.powerUpList.lightning++;
+      lightningCount.textContent = `${game.powerUpList.lightning}x`;
+      if (game.playerCards.length != 0) {
+        lightningPowerUpsBtn.disabled = false;
+      }
+      revealHiddenShopBtn.disabled = game.getBalance() < 10;
+      compassShopBtn.disabled = game.getBalance() < 50;
+      lightningShopBtn.disabled = game.getBalance() < 100;
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+      inspectShopBtn.disabled = game.getBalance() < 300;
+      //
+      break;
+    case "Quick Inspect":
+      iconName = "search";
+      game.powerUpList.quick_inspect++;
+      inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
+      if (!inspectHasBeenUsedThisRound) {
+        inspectPowerUpsBtn.disabled = false;
+      }
+      revealHiddenShopBtn.disabled = game.getBalance() < 10;
+      compassShopBtn.disabled = game.getBalance() < 50;
+      lightningShopBtn.disabled = game.getBalance() < 100;
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+      inspectShopBtn.disabled = game.getBalance() < 300;
+      //
+      break;
+    default:
+      break;
+  }
+
+  textEl.textContent = selectedPowerUp;
+  iconEl.className = `bi bi-${iconName} power-up-icon`;
+
+  overlay.style.display = "block";
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 3000);
+
+  return;
+});
+
+function newGameBasicOrAdvanced() {
+  revealHasBeenUsedThisRound = false;
+  compassHasBeenUsedThisRound = false;
+  inspectHasBeenUsedThisRound = false;
+  numberOfLightningsUsedThisRound = 0;
+
+  if (gameVersion == "basic") {
+    newGame(gameVersion); // start the actual game
+  } else if (gameVersion == "advanced") {
+    newAdvancedGame(); // start the actual game
+  }
+}
+
+function basicOrAdvancedPrintCard(
+  element,
+  card,
+  hidden = false,
+  replace = false
+) {
+  if (gameVersion == "basic") {
+    printCard(element, card, hidden, replace);
+  } else if (gameVersion == "advanced") {
+    printCardThenAdjustPowerUps(element, card, hidden, replace);
+  }
+}
+
+function printCardThenAdjustPowerUps(
+  element,
+  card,
+  hidden = false,
+  replace = false
+) {
+  if (revealHasBeenUsedThisRound && hidden) {
+    console.log(
+      "Tried to replace hidden card, but reveal power up was already used this round, so don't do anything."
+    );
+  } else {
+    printCard(element, card, hidden, replace);
+
+    compassHasBeenUsedThisRound = false;
+    inspectHasBeenUsedThisRound = false;
+
+    if (game.powerUpList.compass != 0) compassPowerUpsBtn.disabled = false;
+    if (game.powerUpList.lightning != 0) lightningPowerUpsBtn.disabled = false;
+    if (game.powerUpList.quick_inspect != 0)
+      inspectPowerUpsBtn.disabled = false;
+
+    if (game.deck.length == 0) {
+      compassPowerUpsBtn.disabled = true;
+      inspectPowerUpsBtn.disabled = true;
+    }
+
+    revealHiddenShopBtn.disabled = game.getBalance() < 10;
+    compassShopBtn.disabled = game.getBalance() < 50;
+    lightningShopBtn.disabled = game.getBalance() < 100;
+    lootboxShopBtn.disabled = game.getBalance() < 150;
+    inspectShopBtn.disabled = game.getBalance() < 300;
+  }
+}
