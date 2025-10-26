@@ -84,6 +84,16 @@ function playCardSoundThenWait(next_method) {
   };
 }
 
+function playRevealCardSoundThenWait(next_method) {
+  vfxAudio.src = revealPath;
+  vfxAudio.play();
+
+  // when sound ends, move to next step
+  vfxAudio.onended = () => {
+    if (typeof next_method === "function") next_method();
+  };
+}
+
 // -------------------------------
 // ⚙️ SETTINGS MENU
 // -------------------------------
@@ -189,7 +199,7 @@ function playInspectSound() {
 function playRevealSound() {
   const revealSound = new Audio(revealPath);
 
-  revealSound.volume = 0.4;
+  revealSound.volume = 0.2;
 
   // Play both at the same time
   revealSound.play();
