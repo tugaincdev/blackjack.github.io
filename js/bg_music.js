@@ -1,10 +1,4 @@
-// bg_music.js
 
-// -------------------------------
-// 🎵 MUSIC SYSTEM
-// -------------------------------
-
-// List of background songs
 const songList = [
   "./audio/LibraryOfRuinaBgmTheme02.mp3",
   "./audio/LimbusCompanyOSTCasinoStoryTheme2.mp3",
@@ -46,14 +40,14 @@ const lootboxPath = "./audio/lootbox.mp3";
 // Money sound (plays when money is spent in the shop)
 const moneyPath = "./audio/money_spent.mp3";
 
-// Audio elements
+
 const bgAudio = document.getElementById("bg-music");
 const vfxAudio = document.getElementById("vfx-sounds");
 
 // Keep track of last played song
 let lastSongIndex = -1;
 
-// Function to get a random song index different from the last one
+
 function getRandomSong() {
   let newIndex;
   do {
@@ -63,7 +57,7 @@ function getRandomSong() {
   return songList[newIndex];
 }
 
-// Function to play the cue, then a random background song
+
 function playCueThenSong() {
   bgAudio.src = diceTimePath;
   bgAudio.play();
@@ -100,11 +94,7 @@ function playRevealCardSoundThenWait(next_method) {
   };
 }
 
-// -------------------------------
-// ⚙️ SETTINGS MENU
-// -------------------------------
 
-// Cache settings elements
 const settingsToggleBtn = document.getElementById("settings-toggle");
 const settingsPanel = document.getElementById("settings-panel");
 const musicControlBtn = document.getElementById("music-toggle");
@@ -124,7 +114,7 @@ settingsToggleBtn.addEventListener("click", () => {
   settingsPanel.style.display = visible ? "none" : "block";
 });
 
-// Toggle music on/off
+
 musicControlBtn.addEventListener("click", () => {
   primeAudio(); // unlocks sound context
   if (bgAudio.paused) {
@@ -142,7 +132,7 @@ musicControlBtn.addEventListener("click", () => {
   }
 });
 
-// Adjust volume
+
 musicVolumeSlider.addEventListener("input", (e) => {
   const volume = e.target.value;
   bgAudio.volume = volume;
@@ -150,7 +140,7 @@ musicVolumeSlider.addEventListener("input", (e) => {
   console.log(volume);
 });
 
-// Toggle vfx on/off
+
 vfxControlBtn.addEventListener("click", () => {
   primeAudio(); // unlocks sound context
 
@@ -169,7 +159,7 @@ vfxControlBtn.addEventListener("click", () => {
   }
 });
 
-// Adjust volume
+
 vfxVolumeSlider.addEventListener("input", (e) => {
   const volume = e.target.value;
   vfxAudio.volume = volume;
@@ -188,7 +178,7 @@ function playLightningAndLaugh() {
   lightningSound.volume = 0.2;
   laughSound.volume = 0.2;
 
-  // Play both at the same time
+ 
   lightningSound.play();
   laughSound.play();
 }
@@ -198,7 +188,7 @@ function playInspectSound() {
 
   inspectSound.volume = 0.2;
 
-  // Play both at the same time
+  
   inspectSound.play();
 }
 
@@ -207,7 +197,7 @@ function playRevealSound() {
 
   revealSound.volume = 0.2;
 
-  // Play both at the same time
+ 
   revealSound.play();
 }
 
@@ -216,7 +206,7 @@ function playCompassSound() {
 
   compassSound.volume = 0.2;
 
-  // Play both at the same time
+ 
   compassSound.play();
 }
 
@@ -225,7 +215,7 @@ function playLootboxSound() {
 
   lootboxSound.volume = 0.2;
 
-  // Play both at the same time
+ 
   lootboxSound.play();
 }
 
@@ -234,13 +224,13 @@ function playMoneySound() {
 
   moneySound.volume = 0.2;
 
-  // Play both at the same time
+ 
   moneySound.play();
 }
 
-//fuck you François Beaufort
+//f FrançoisBeaufort
 function primeAudio() {
-  // Save current volumes
+  
 
   if (audioPrimedAlready == true) {
     return;
@@ -248,15 +238,15 @@ function primeAudio() {
     const oldMusicVol = bgAudio.volume;
     const oldVfxVol = vfxAudio.volume;
 
-    // Mute both
+    
     bgAudio.volume = 0;
     vfxAudio.volume = 0;
 
-    // Use your existing cue as a quick unlock source
+    
     bgAudio.src = diceTimePath;
     vfxAudio.src = diceTimePath;
 
-    // Play and immediately pause — unlocks audio context
+   
     bgAudio.play();
     vfxAudio.play();
 
@@ -266,7 +256,7 @@ function primeAudio() {
     bgAudio.currentTime = 0;
     vfxAudio.currentTime = 0;
 
-    // Restore volumes
+  
     bgAudio.volume = oldMusicVol;
     vfxAudio.volume = oldVfxVol;
 
@@ -275,3 +265,4 @@ function primeAudio() {
     console.log("Audio primed successfully.");
   }
 }
+
