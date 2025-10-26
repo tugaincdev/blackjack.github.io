@@ -321,87 +321,89 @@ function dealerFinish() {
     true
   );
 
-  const playerValue = game.getCardsValue(game.playerCards);
-  if (playerValue > 25) {
-    console.log("Player busted! Dealer doesn’t need to play.");
-    state.gameEnded = true;
-    finalizeButtons();
-    debug(game);
-    if (playerNameExists) {
-      showGameResult("💀 " + playerName + ", you lost!");
-      game.applyBetResult("lose");
-    } else {
-      showGameResult("💀 You lost!");
-      game.applyBetResult("lose");
-    }
-    return;
-  }
-
-  updateDealer(state);
-  debug(game);
-
-  let dealerValue = game.getCardsValue(game.dealerCards);
-
-  console.log(
-    "Player value:",
-    playerValue,
-    "| Dealer initial value:",
-    dealerValue
-  );
-
-  if (dealerValue > playerValue && dealerValue <= 25) {
-    console.log("Dealer já está acima do player. Para aqui!");
-    console.log("Dealer stands at", dealerValue);
-
-    state = game.getGameState();
-    debug(game);
-    if (playerNameExists) {
-      showGameResult("💀 " + playerName + ", you lost!");
-      game.applyBetResult("lose");
-    } else {
-      showGameResult("💀 You lost!");
-      game.applyBetResult("lose");
-    }
-    return;
-  }
-
-  dealerDrawLoop(() => {
-    const dealerValue = game.getCardsValue(game.dealerCards);
-    console.log("Dealer final:", dealerValue, "Player:", playerValue);
-
-    if (playerNameExists) {
-      if (dealerValue > 25) {
-        showGameResult("🎉 " + playerName + ", you won!");
-        game.applyBetResult("win");
-      } else if (dealerValue > playerValue) {
+  playRevealCardSoundThenWait(() => {
+    const playerValue = game.getCardsValue(game.playerCards);
+    if (playerValue > 25) {
+      console.log("Player busted! Dealer doesn’t need to play.");
+      state.gameEnded = true;
+      finalizeButtons();
+      debug(game);
+      if (playerNameExists) {
         showGameResult("💀 " + playerName + ", you lost!");
         game.applyBetResult("lose");
-      } else if (dealerValue === playerValue) {
-        showGameResult("🤝 " + playerName + ", you tied.");
-        game.applyBetResult("tie");
       } else {
-        showGameResult("🎉 " + playerName + ", you won!");
-        game.applyBetResult("win");
-      }
-    } else {
-      if (dealerValue > 25) {
-        showGameResult("🎉 You won!");
-        game.applyBetResult("win");
-      } else if (dealerValue > playerValue) {
         showGameResult("💀 You lost!");
         game.applyBetResult("lose");
-      } else if (dealerValue === playerValue) {
-        showGameResult("🤝 You tied.");
-        game.applyBetResult("tie");
-      } else {
-        showGameResult("🎉 You won!");
-        game.applyBetResult("win");
       }
+      return;
     }
 
-    state = game.getGameState();
-    finalizeButtons();
+    updateDealer(state);
     debug(game);
+
+    let dealerValue = game.getCardsValue(game.dealerCards);
+
+    console.log(
+      "Player value:",
+      playerValue,
+      "| Dealer initial value:",
+      dealerValue
+    );
+
+    if (dealerValue > playerValue && dealerValue <= 25) {
+      console.log("Dealer já está acima do player. Para aqui!");
+      console.log("Dealer stands at", dealerValue);
+
+      state = game.getGameState();
+      debug(game);
+      if (playerNameExists) {
+        showGameResult("💀 " + playerName + ", you lost!");
+        game.applyBetResult("lose");
+      } else {
+        showGameResult("💀 You lost!");
+        game.applyBetResult("lose");
+      }
+      return;
+    }
+
+    dealerDrawLoop(() => {
+      const dealerValue = game.getCardsValue(game.dealerCards);
+      console.log("Dealer final:", dealerValue, "Player:", playerValue);
+
+      if (playerNameExists) {
+        if (dealerValue > 25) {
+          showGameResult("🎉 " + playerName + ", you won!");
+          game.applyBetResult("win");
+        } else if (dealerValue > playerValue) {
+          showGameResult("💀 " + playerName + ", you lost!");
+          game.applyBetResult("lose");
+        } else if (dealerValue === playerValue) {
+          showGameResult("🤝 " + playerName + ", you tied.");
+          game.applyBetResult("tie");
+        } else {
+          showGameResult("🎉 " + playerName + ", you won!");
+          game.applyBetResult("win");
+        }
+      } else {
+        if (dealerValue > 25) {
+          showGameResult("🎉 You won!");
+          game.applyBetResult("win");
+        } else if (dealerValue > playerValue) {
+          showGameResult("💀 You lost!");
+          game.applyBetResult("lose");
+        } else if (dealerValue === playerValue) {
+          showGameResult("🤝 You tied.");
+          game.applyBetResult("tie");
+        } else {
+          showGameResult("🎉 You won!");
+          game.applyBetResult("win");
+        }
+      }
+
+      state = game.getGameState();
+      finalizeButtons();
+      debug(game);
+    });
   });
 }
 
