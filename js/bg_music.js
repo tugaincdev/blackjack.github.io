@@ -171,7 +171,7 @@ vfxAudio.volume = 1.0;
 let audioPrimedAlready = false;
 
 function playLightningAndLaugh() {
-  // Create two separate Audio objects
+  
   const lightningSound = new Audio(strikePath);
   const laughSound = new Audio(heathPath);
 
@@ -265,4 +265,5 @@ function primeAudio() {
     console.log("Audio primed successfully.");
   }
 }
+
 
