@@ -116,6 +116,8 @@ compassPowerUpsBtn.addEventListener("click", () => {
     let playerHypotheticalDeck = [...playerCurrentDeck, nextCardOnDeck];
     let playerHypotheticalValue = game.getCardsValue(playerHypotheticalDeck);
 
+    playCompassSound();
+
     if (playerHypotheticalValue > 25) {
       showToast("Be careful. The next card on the deck will make you bust.");
     } else {
