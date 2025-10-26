@@ -3,10 +3,10 @@
   border: 1px solid #000;
   border-radius: 8px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  width: 80px !important; /* or any size you want */
+  width: 80px !important; 
   height: auto;
-  display: inline-block; /* Ensure inline display for flex centering */
-  margin: 5px; /* Small margin for spacing in hand areas */
+  display: inline-block; 
+  margin: 5px; 
 }
 
 /* Full viewport centering for body */
@@ -20,7 +20,7 @@ body {
   margin: 0;
   padding: 20px;
   font-family: "Arial", sans-serif;
-  color: #fff; /* Default text white */
+  color: #fff; 
 }
 
 .container {
@@ -28,7 +28,7 @@ body {
   width: 100%;
 }
 
-/* Center main sections */
+
 main {
   flex: 1;
   display: flex;
@@ -38,7 +38,6 @@ main {
   width: 100%;
 }
 
-/* Hand areas centering */
 .hand-area {
   text-align: center;
   margin: 20px 0;
@@ -91,7 +90,7 @@ header h1 {
   text-align: center;
 }
 
-/* ===== START MENU OVERLAY ===== */
+
 #start-menu {
   position: fixed;
   inset: 0;
@@ -100,7 +99,7 @@ header h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9000; /* slightly below settings menu */
+  z-index: 9000; 
 }
 
 #start-menu-content {
@@ -108,16 +107,16 @@ header h1 {
   border-radius: 1rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
   width: 280px;
-  padding: 20px; /* Add padding for better content spacing */
-  text-align: center; /* Ensure text centering */
-  color: #fff; /* White text */
+  padding: 20px; 
+  text-align: center; 
+  color: #fff; 
 }
 
 #start-menu-content h2 {
   color: #fff;
 }
 
-/* Ensure hamburger + panel are above */
+
 #settings-toggle,
 #settings-panel,
 #extras-toggle,
@@ -126,7 +125,7 @@ header h1 {
 }
 
 #extras-panel {
-  z-index: 11000 !important; /* Make sure it appears above other elements */
+  z-index: 11000 !important; 
 }
 
 #AdvancedGame:active .sparkle {
@@ -137,25 +136,25 @@ header h1 {
 #powerUps-menu {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65); /* Semi-transparent dark background */
-  backdrop-filter: blur(6px); /* Blur content behind */
+  background: rgba(0, 0, 0, 0.65); 
+  backdrop-filter: blur(6px); 
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9000; /* Make sure it's on top */
+  z-index: 9000; 
 }
 
 #powerUps-menu-content {
   background: rgba(33, 37, 41, 0.95);
   border-radius: 1rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-  width: 90%; /* Responsive width instead of fixed 1200px */
-  max-width: 1200px; /* Cap for large screens */
+  width: 90%; 
+  max-width: 1200px; 
   padding: 20px;
   text-align: center;
-  max-height: 80vh; /* Prevent overflow on small screens */
-  overflow-y: auto; /* Scroll if needed */
-  color: #fff; /* White text */
+  max-height: 80vh; 
+  overflow-y: auto; 
+  color: #fff; 
 }
 
 #powerUps-menu-content h2,
@@ -166,7 +165,7 @@ header h1 {
 #leave-powerUps-btn {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #d9534f; /* Bootstrap's danger color */
+  background-color: #d9534f; 
   color: white;
   border: none;
   border-radius: 0.5rem;
@@ -184,7 +183,7 @@ header h1 {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center contents */
+  align-items: center;
   color: #fff;
 }
 
@@ -193,15 +192,15 @@ header h1 {
 }
 
 .power-up-icon {
-  font-size: 4rem; /* Big icon */
-  color: #fff; /* White icon */
+  font-size: 4rem; 
+  color: #fff;
 }
 
 .power-up-count {
   position: absolute;
   top: -10px;
   right: -10px;
-  background-color: red; /* Small red circle */
+  background-color: red; 
   color: white;
   font-size: 1rem;
   width: 30px;
@@ -222,27 +221,27 @@ header h1 {
 .power-up-btn {
   margin-top: 10px;
   width: 100%;
-  max-width: 200px; /* Limit button width */
+  max-width: 200px; 
 }
 
-/* ===== SHOP MENU ===== */
+
 #shop-menu {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65); /* Semi-transparent dark background */
-  backdrop-filter: blur(6px); /* Blur content behind */
+  background: rgba(0, 0, 0, 0.65); 
+  backdrop-filter: blur(6px); 
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9000; /* Make sure it's on top */
+  z-index: 9000;
 }
 
 #shop-menu-content {
   background: rgba(33, 37, 41, 0.95);
   border-radius: 1rem;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
-  width: 90%; /* Responsive width */
-  max-width: 1200px; /* Cap for large screens */
+  width: 90%; 
+  max-width: 1200px; 
   padding: 20px;
   text-align: center;
   max-height: 80vh;
@@ -276,7 +275,7 @@ header h1 {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center contents */
+  align-items: center; 
   color: #fff;
 }
 
@@ -285,15 +284,15 @@ header h1 {
 }
 
 .shop-icon {
-  font-size: 4rem; /* Big icon */
-  color: #fff; /* White icon */
+  font-size: 4rem; 
+  color: #fff; 
 }
 
 .shop-price {
   position: absolute;
   top: -10px;
   right: -10px;
-  background-color: red; /* Small red circle */
+  background-color: red;
   color: white;
   font-size: 1rem;
   width: 30px;
@@ -314,28 +313,28 @@ header h1 {
 .shop-btn {
   margin-top: 10px;
   width: 100%;
-  max-width: 200px; /* Limit button width */
+  max-width: 200px;
 }
 
 #shop-menu,
 #powerUps-menu {
-  overflow-y: auto; /* Enable vertical scrolling */
-  padding-right: 10px; /* Space for scrollbar */
+  overflow-y: auto;
+  padding-right: 10px; 
 }
 
-/* Burned / Charred effect */
+
 .burned {
   filter: grayscale(100%) brightness(0.4);
   box-shadow: inset 0 0 15px 5px rgba(0, 0, 0, 0.8);
   transition: filter 0.4s ease, box-shadow 0.4s ease;
 }
 
-/* Lightning bolt flash */
+
 .lightning-overlay {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 2px; /* thin bolt line */
+  width: 2px; 
   height: 100%;
   background: linear-gradient(
     to bottom,
@@ -408,7 +407,7 @@ header h1 {
 }
 
 
-/* Debug section - subtle centering */
+
 #sec_debug {
   text-align: center;
   margin-top: 20px;
