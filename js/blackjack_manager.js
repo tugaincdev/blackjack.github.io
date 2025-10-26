@@ -15,7 +15,8 @@ function showToast(message) {
   toast.textContent = message;
   toast.style.opacity = "1";
 
-  // Hide after 2 seconds
+
+  
   setTimeout(() => {
     toast.style.opacity = "0";
   }, 2000);
@@ -47,7 +48,8 @@ nameSubmitBtn.addEventListener("click", () => {
   }
 });
 
-// Allow pressing Enter to submit
+
+
 playerNameInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
     nameSubmitBtn.click();
@@ -65,19 +67,19 @@ function debug(obj) {
 
 
 function buttonsInitialization() {
-  document.getElementById("card").disabled = false; // Enables the button to draw a card
-  document.getElementById("stand").disabled = false; // Enables the button to stand
-  document.getElementById("new_game").disabled = true; // Disables the button for a new game
+  document.getElementById("card").disabled = false; 
+  document.getElementById("stand").disabled = false; 
+  document.getElementById("new_game").disabled = true; 
   console.log("init button finish");
 }
 
 
 function finalizeButtons() {
-  //TODO: Reveal the dealer's hidden card if you hid it like you were supposed to.
 
-  document.getElementById("card").disabled = true; // Disables the button to draw a card
-  document.getElementById("stand").disabled = true; // Disables the button to stand
-  document.getElementById("new_game").disabled = false; // Enables the button for a new game
+
+  document.getElementById("card").disabled = true;
+  document.getElementById("stand").disabled = true; 
+  document.getElementById("new_game").disabled = false;
 }
 
 
@@ -103,7 +105,7 @@ function getGameObject(gameType) {
 }
 
 function newGame(gameType) {
-  // When clicking Start buttons, check if name exists — if not, try to use textbox value
+
 
   if (!playerNameExists) {
     const name = playerNameInput.value.trim();
@@ -130,7 +132,7 @@ function newGame(gameType) {
     dealerBusted: false,
   };
 
-  // dealer first card
+
   dealerNewCard();
   playCardSoundThenWait(() => {
     // dealer hidden card
@@ -158,7 +160,7 @@ function updateMoneyDisplay() {
 function placeBetAndStart() {
   const betValue = parseInt(document.getElementById("bet-input").value);
 
-  const preservedMoney = game ? game.money : 1000; // Adjust default as needed (e.g., 1000 starting chips)
+  const preservedMoney = game ? game.money : 1000; 
 
   if (gameVersion == "basic") {
     game = new Blackjack();
@@ -171,10 +173,10 @@ function placeBetAndStart() {
   updateMoneyDisplay();
 
   if (game.placeBet(betValue)) {
-    updateMoneyDisplay(); // Update again to show post-bet balance
+    updateMoneyDisplay(); 
     newGameBasicOrAdvanced();
   } else {
-    showToast("Insufficient funds!"); // Assuming you have this from earlier code
+    showToast("Insufficient funds!"); 
   }
 }
 
