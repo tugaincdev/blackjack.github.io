@@ -1,4 +1,4 @@
-// Blackjack OOP
+
 
 let gameVersion = null;
 let game = null; // Stores the current instance of the game
@@ -54,14 +54,7 @@ playerNameInput.addEventListener("keypress", (e) => {
   }
 });
 
-/**
- * Function to debug and display the state of the game object.
- * @param {Object} obj - The object to be debugged.
- */
-/**
- * Function to debug and display the state of the game object.
- * @param {Object} obj - The object to be debugged.
- */
+
 function debug(obj) {
   document.getElementById("debug").innerHTML = `<pre>${JSON.stringify(
     obj,
@@ -70,9 +63,7 @@ function debug(obj) {
   )}</pre>`;
 }
 
-/**
- * Initializes the game buttons.
- */
+
 function buttonsInitialization() {
   document.getElementById("card").disabled = false; // Enables the button to draw a card
   document.getElementById("stand").disabled = false; // Enables the button to stand
@@ -80,9 +71,7 @@ function buttonsInitialization() {
   console.log("init button finish");
 }
 
-/**
- * Finalizes the buttons after the game ends.
- */
+
 function finalizeButtons() {
   //TODO: Reveal the dealer's hidden card if you hid it like you were supposed to.
 
@@ -91,10 +80,7 @@ function finalizeButtons() {
   document.getElementById("new_game").disabled = false; // Enables the button for a new game
 }
 
-//TODO: Implement this method.
-/**
- * Clears the page to start a new game.
- */
+
 function clearPage() {
   console.log("Clearing page...");
   document.getElementById("dealer").innerHTML = "";
@@ -192,23 +178,15 @@ function placeBetAndStart() {
   }
 }
 
-//TODO: Implement this method.
-/**
- * Calculates and displays the final score of the game.
- * @param {Object} state - The current state of the game.
- */
+
 function finalScore(state) {
   let playerCardsValue = game.getCardsValue(game.playerCards);
   let dealerCardsValue = game.getCardsValue(game.dealerCards);
 
-  //em HTML, display pop-up thingy; playerCardsValue on left, dealerCardsValue on right. use state parameter to check if playerBUusted; if so display playerCardsValue in red; same for other conditions and for dealer
+ 
 }
 
-//TODO: Implement this method.
-/**
- * Updates the dealer's state in the game.
- * @param {Object} state - The current state of the game.
- */
+
 function updateDealer(state) {
   let string = "";
 
@@ -226,18 +204,14 @@ function updateDealer(state) {
     debug(game);
   }
 
-  //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
+
 
   this.finalizeButtons(); //wrong?
 
   return;
 }
 
-//TODO: Implement this method.
-/**
- * Updates the player's state in the game.
- * @param {Object} state - The current state of the game.
- */
+
 function updatePlayer(state) {
   let string = "Player cards: ";
   for (let card of game.playerCards) {
@@ -254,19 +228,14 @@ function updatePlayer(state) {
     debug(game);
   }
 
-  //TODO: ATUALIZAR STRING NO HTML ASSOCIADA AO PLAYER
+
 
   this.finalizeButtons(); //wrong?
 
   return;
 }
 
-//TODO: Implement this method.
-/**
- * Causes the dealer to draw a new card.
- * @param {boolean} hidden - QWEONG
- * @returns {Object} - The game state after the dealer's move.
- */
+
 function dealerNewCard(hidden = false) {
   console.log("After getGameObject:", game);
   console.log("Type of dealerMove:", typeof game?.dealerMove);
@@ -276,11 +245,7 @@ function dealerNewCard(hidden = false) {
   return game.dealerMove(hidden);
 }
 
-//TODO: Implement this method.
-/**
- * Causes the player to draw a new card.
- * @returns {Object} - The game state after the player's move.
- */
+
 function playerNewCard() {
   console.log("player return?");
   debug(game);
@@ -291,18 +256,18 @@ function dealerDrawLoop(next_method) {
   let dealerValue = game.getCardsValue(game.dealerCards);
   const playerValue = game.getCardsValue(game.playerCards);
 
-  // stop if dealer already beat or tied player, or busted
+
   if (dealerValue >= playerValue || dealerValue >= 21) {
     console.log("Dealer done.");
     if (typeof next_method === "function") next_method();
     return;
   }
 
-  // draw one card
+
   dealerNewCard();
   game.getGameState();
 
-  // play sound then draw next
+  
   playCardSoundThenWait(() => {
     dealerDrawLoop(next_method);
   });
@@ -407,43 +372,39 @@ function dealerFinish() {
   });
 }
 
-/**
- * Prints the card in the graphical interface.
- * @param {HTMLElement} element - The element where the card will be displayed.
- * @param {Card} card - The card to be displayed.
- * @param {boolean} hidden - QWEONG
- */
+
 function printCard(element, card, hidden = false, replace = false) {
   const cardName = card.printName();
 
-  // Construct the image path: e.g., 'img/svg/2_of_clubs.svg' or 'img/svg/ace_of_clubs.svg'
+  
   let imagePath = `./images/svg/${cardName}.svg`;
 
   if (hidden) {
     imagePath = `./images/svg/card_back.svg`;
   }
 
-  // Create wrapper div for this card
+ 
   const cardSlot = document.createElement("div");
   cardSlot.classList.add("card-slot");
   cardSlot.style.display = "inline-block";
   cardSlot.style.position = "relative";
   cardSlot.style.margin = "2px";
 
-  // Create a new img element
+
   const img = document.createElement("img");
   img.src = imagePath;
-  img.alt = card.printName(); // Use the card's text name for accessibility
-  img.classList.add("card-image"); // Optional: Add a CSS class for styling
-  img.style.width = "60px"; // Optional: Inline style for sizing; adjust as needed
+  img.alt = card.printName(); 
+  img.classList.add("card-image"); 
+  img.style.width = "60px"; 
   img.style.height = "auto";
-  //img.style.margin = "2px"; // Small margin between cards
+ 
 
   img.style.display = "block";
   cardSlot.appendChild(img);
 
   if (replace && element.children.length > 0) {
-    // If replace is true, replace the last child (e.g., for revealing hidden card)
+
+    
     const lastChild = element.lastElementChild;
     if (lastChild) {
       lastChild.replaceWith(img);
@@ -452,7 +413,7 @@ function printCard(element, card, hidden = false, replace = false) {
   }
 
   console.log("Image path:", imagePath);
-  // Append the image to the element
+ 
   element.appendChild(cardSlot);
 }
 
