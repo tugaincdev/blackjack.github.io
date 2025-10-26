@@ -12,7 +12,6 @@ const songList = [
   "./audio/LimbusCompanyCantoIIBattleThemeB1.mp3",
   "./audio/LimbusCompanyOSTCantoIIBattleThemeA1.mp3",
   "./audio/ClairObscurExpedition33MonocoOriginalSoundtrack.mp3",
-  "./audio/ClairObscurExpedition33OriginalSoundtrackBonusTrackFightfortheWinUnoPuncho.mp3",
   "./audio/ClairObscurExpedition33OriginalSoundtrackBonusTrackGestralPrivateClub.mp3",
   "./audio/LimbusCompanyIntervalloIV1BattleTheme.mp3",
   "./audio/LimbusCompanyOSTTimeKillingTime.mp3",
@@ -24,7 +23,13 @@ const songList = [
 const diceTimePath = "./audio/diceTimeRuina.mp3";
 
 // Card sound (plays when new card drawn)
-const cardPath = "./audio/card.mp3";
+const cardPath = "./audio/card2.mp3";
+
+// Lightning sound (plays when Lightning Strike is used)
+const strikePath = "./audio/lightning-strike.mp3";
+
+// Laugh sound (plays when Lightning Strike is used)
+const heathPath = "./audio/erlking-laugh.mp3";
 
 // Audio elements
 const bgAudio = document.getElementById("bg-music");
@@ -82,12 +87,14 @@ const musicVolumeSlider = document.getElementById("music-volume");
 const vfxControlBtn = document.getElementById("vfx-toggle");
 const vfxVolumeSlider = document.getElementById("vfx-volume");
 
+musicVolumeSlider.value = 0.04;
+bgAudio.volume = musicVolumeSlider.value;
+
 // Toggle settings panel visibility
 settingsToggleBtn.addEventListener("click", () => {
   if (extrasPanel) {
     extrasPanel.style.display = "none";
   }
-
   const visible = settingsPanel.style.display === "block";
   settingsPanel.style.display = visible ? "none" : "block";
 });
@@ -114,6 +121,8 @@ musicControlBtn.addEventListener("click", () => {
 musicVolumeSlider.addEventListener("input", (e) => {
   const volume = e.target.value;
   bgAudio.volume = volume;
+  console.log("new volume:");
+  console.log(volume);
 });
 
 // Toggle vfx on/off
@@ -145,6 +154,19 @@ vfxVolumeSlider.addEventListener("input", (e) => {
 vfxAudio.volume = 1.0;
 
 let audioPrimedAlready = false;
+
+function playLightningAndLaugh() {
+  // Create two separate Audio objects
+  const lightningSound = new Audio(strikePath);
+  const laughSound = new Audio(heathPath);
+
+  lightningSound.volume = 0.2;
+  laughSound.volume = 0.2;
+
+  // Play both at the same time
+  lightningSound.play();
+  laughSound.play();
+}
 
 //fuck you François Beaufort
 function primeAudio() {
