@@ -135,7 +135,7 @@ compassPowerUpsBtn.addEventListener("click", () => {
 
 let numberOfLightningsUsedThisRound = 0;
 
-lightningPowerUpsBtn.addEventListener("click", async () => {
+lightningPowerUpsBtn.addEventListener("click", () => {
   if (!game.dealerTurn) {
     let playerCurrentDeck = game.playerCards;
     let cardImages = document.querySelectorAll("#player img");
@@ -285,10 +285,10 @@ lootboxShopBtn.addEventListener("click", () => {
   game.money = game.money - 150;
 
   const powerUps = [
-    { name: "Card Reveal", weight: 25 }, // 45% chance
-    { name: "Compass Intuition", weight: 25 }, // 40% chance
-    { name: "Lightning Strike", weight: 25 }, // 10% chance
-    { name: "Quick Inspect", weight: 25 }, // 5% chance
+    { name: "Card Reveal", weight: 45 }, // 45% chance
+    { name: "Compass Intuition", weight: 40 }, // 40% chance
+    { name: "Lightning Strike", weight: 10 }, // 10% chance
+    { name: "Quick Inspect", weight: 5 }, // 5% chance
   ];
 
   const totalWeight = 100;
