@@ -603,15 +603,15 @@
     <!-- Execute the newGame function when the window loads to start the game -->
     <script>
       window.onload = () => {
-        // Page loads, show menu but don't start game yet
+       
         document.getElementById("start-menu").style.display = "flex";
 
-        // Disable gameplay buttons initially
+      
         document.getElementById("card").disabled = true;
         document.getElementById("stand").disabled = true;
         document.getElementById("new_game").disabled = true;
 
-        // Setup menu button logic
+        
         const btnStart = document.getElementById("btn-start");
         const btnStartAdvanced = document.getElementById("btn-start-advanced");
         const btnQuit = document.getElementById("btn-quit");
@@ -620,19 +620,19 @@
           primeAudio(); // unlocks sound context
           document.getElementById("start-menu").style.display = "none"; // hide menu
           gameVersion = "basic";
-          newGame(gameVersion); // start the actual game
+          newGame(gameVersion); 
         });
 
         btnStartAdvanced.addEventListener("click", () => {
           gameVersion = "advanced";
-          primeAudio(); // unlocks sound context
+          primeAudio(); 
           document.getElementById("start-menu").style.display = "none"; // hide menu
           newAdvancedGame(); // start the actual game
         });
 
         btnQuit.addEventListener("click", () => {
           window.close(); // tries to close tab
-          // fallback: navigate away if close is blocked
+          // fallbac navigate away if close is blocked
           setTimeout(() => (window.location.href = "about:blank"), 500);
         });
       };
