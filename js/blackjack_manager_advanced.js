@@ -1,7 +1,5 @@
 // Blackjack OOP ADVANCED
 
-let revealHasBeenUsedThisRound = false;
-
 const btnShop = document.getElementById("btn-shop");
 const shopMenu = document.getElementById("shop-menu");
 const leaveShopBtn = document.getElementById("leave-shop-btn");
@@ -81,31 +79,33 @@ leaveShopBtn.addEventListener("click", () => {
 
 //------------------
 
+let revealHasBeenUsedThisRound = false;
+
 revealHiddenPowerUpsBtn.addEventListener("click", () => {
-  if (game.powerUpList.revealHidden == 0) {
-    showToast("To use this power up, you need to buy it in the shop."); //THIS IS NEVER USED; ALSO, MAKE NEW TOAST AND TOAST METHOD
-  } else {
-    if (!game.dealerTurn) {
-      const hiddenCard = document.getElementById("dealer").lastElementChild;
-      if (hiddenCard) {
-        let cardToAddName = game.dealerCards[1].printName();
-        hiddenCard.src = `./images/svg/${cardToAddName}.svg`;
+  if (!game.dealerTurn) {
+    const hiddenSlot = document.getElementById("dealer").lastElementChild;
+    const hiddenCard = hiddenSlot.querySelector("img");
+    if (hiddenCard) {
+      let cardToAddName = game.dealerCards[1].printName();
+      hiddenCard.src = `./images/svg/${cardToAddName}.svg`;
 
-        game.powerUpList.revealHidden--;
-        if (game.powerUpList.revealHidden == 0) {
-          revealHiddenPowerUpsBtn.disabled = true;
-          console.log("disabled reveal power up bc count == 0");
-        }
-        //change "0x" text to revealHidden value
-        if (revealHiddenCount) {
-          revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
-        }
+      game.powerUpList.revealHidden--;
+      revealHasBeenUsedThisRound = true;
 
-        powerUpsMenu.style.display = "none"; // hide the power ups menu
+      //if (game.powerUpList.revealHidden == 0) //not using this if, because will only be used once per game
+      revealHiddenPowerUpsBtn.disabled = true;
+
+      //change "0x" text to revealHidden value
+      if (revealHiddenCount) {
+        revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
       }
+
+      powerUpsMenu.style.display = "none"; // hide the power ups menu
     }
   }
 });
+
+let compassHasBeenUsedThisRound = false;
 
 compassPowerUpsBtn.addEventListener("click", () => {
   if (!game.dealerTurn) {
@@ -121,6 +121,12 @@ compassPowerUpsBtn.addEventListener("click", () => {
     }
 
     game.powerUpList.compass--;
+    compassHasBeenUsedThisRound = true;
+
+    //change "0x" text to compass value
+    if (compassCount) {
+      compassCount.textContent = `${game.powerUpList.compass}x`;
+    }
 
     powerUpsMenu.style.display = "none"; // hide the power ups menu
   }
@@ -129,7 +135,7 @@ compassPowerUpsBtn.addEventListener("click", () => {
 
 let numberOfLightningsUsedThisRound = 0;
 
-lightningPowerUpsBtn.addEventListener("click", () => {
+lightningPowerUpsBtn.addEventListener("click", async () => {
   if (!game.dealerTurn) {
     let playerCurrentDeck = game.playerCards;
     let cardImages = document.querySelectorAll("#player img");
@@ -144,6 +150,8 @@ lightningPowerUpsBtn.addEventListener("click", () => {
     let cardToStrike = unstruckCards[randomIndex];
 
     cardToStrike.classList.add("struck");
+
+    playLightningAndLaugh();
 
     // ===== Add lightning bolt =====
     const lightning = document.createElement("div");
@@ -165,11 +173,18 @@ lightningPowerUpsBtn.addEventListener("click", () => {
 
     game.powerUpList.lightning--;
 
-    if (unstruckCards.length == 0 || game.powerUpList.lightning == 0) {
+    //change "0x" text to compass value
+    if (lightningCount) {
+      lightningCount.textContent = `${game.powerUpList.lightning}x`;
+    }
+
+    if (unstruckCards.length - 1 == 0 || game.powerUpList.lightning == 0) {
       lightningPowerUpsBtn.disabled = true;
     }
   }
 });
+
+let inspectHasBeenUsedThisRound = false;
 
 inspectPowerUpsBtn.addEventListener("click", () => {
   if (!game.dealerTurn) {
@@ -192,6 +207,11 @@ inspectPowerUpsBtn.addEventListener("click", () => {
     }, 500);
 
     game.powerUpList.quick_inspect--;
+    inspectHasBeenUsedThisRound = true;
+
+    if (inspectCount) {
+      inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
+    }
   }
   inspectPowerUpsBtn.disabled = true;
 });
@@ -201,7 +221,11 @@ inspectPowerUpsBtn.addEventListener("click", () => {
 revealHiddenShopBtn.addEventListener("click", () => {
   game.powerUpList.revealHidden++;
   revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
-  revealHiddenPowerUpsBtn.disabled = false;
+
+  if (!revealHasBeenUsedThisRound) {
+    revealHiddenPowerUpsBtn.disabled = false;
+  }
+
   game.money = game.money - 10;
   revealHiddenShopBtn.disabled = game.getBalance() < 10;
   compassShopBtn.disabled = game.getBalance() < 50;
@@ -213,7 +237,11 @@ revealHiddenShopBtn.addEventListener("click", () => {
 compassShopBtn.addEventListener("click", () => {
   game.powerUpList.compass++;
   compassCount.textContent = `${game.powerUpList.compass}x`;
-  compassPowerUpsBtn.disabled = false;
+
+  if (!compassHasBeenUsedThisRound) {
+    compassPowerUpsBtn.disabled = false;
+  }
+
   game.money = game.money - 50;
   revealHiddenShopBtn.disabled = game.getBalance() < 10;
   compassShopBtn.disabled = game.getBalance() < 50;
@@ -225,7 +253,10 @@ compassShopBtn.addEventListener("click", () => {
 lightningShopBtn.addEventListener("click", () => {
   game.powerUpList.lightning++;
   lightningCount.textContent = `${game.powerUpList.lightning}x`;
-  lightningPowerUpsBtn.disabled = false;
+
+  if (game.playerCards.length != 0) {
+    lightningPowerUpsBtn.disabled = false;
+  }
   game.money = game.money - 100;
   revealHiddenShopBtn.disabled = game.getBalance() < 10;
   compassShopBtn.disabled = game.getBalance() < 50;
@@ -237,7 +268,11 @@ lightningShopBtn.addEventListener("click", () => {
 inspectShopBtn.addEventListener("click", () => {
   game.powerUpList.quick_inspect++;
   inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
-  inspectPowerUpsBtn.disabled = false;
+
+  if (!inspectHasBeenUsedThisRound) {
+    inspectPowerUpsBtn.disabled = false;
+  }
+
   game.money = game.money - 300;
   revealHiddenShopBtn.disabled = game.getBalance() < 10;
   compassShopBtn.disabled = game.getBalance() < 50;
@@ -250,10 +285,10 @@ lootboxShopBtn.addEventListener("click", () => {
   game.money = game.money - 150;
 
   const powerUps = [
-    { name: "card_reveal", weight: 45 }, // 45% chance
-    { name: "compass", weight: 40 }, // 40% chance
-    { name: "lightning", weight: 10 }, // 10% chance
-    { name: "quick_inspect", weight: 5 }, // 5% chance
+    { name: "Card Reveal", weight: 25 }, // 45% chance
+    { name: "Compass Intuition", weight: 25 }, // 40% chance
+    { name: "Lightning Strike", weight: 25 }, // 10% chance
+    { name: "Quick Inspect", weight: 25 }, // 5% chance
   ];
 
   const totalWeight = 100;
@@ -272,11 +307,21 @@ lootboxShopBtn.addEventListener("click", () => {
   console.log("Lootbox gave you: ");
   console.log(selectedPowerUp);
 
+  //-----------------------------------------------------------------------------------
+
+  const overlay = document.getElementById("lootbox-result-overlay");
+  const textEl = document.getElementById("lootbox-result-text");
+  const iconEl = document.getElementById("lootbox-result-icon");
+  iconName = null;
+
   switch (selectedPowerUp) {
-    case "card_reveal":
+    case "Card Reveal":
+      iconName = "eye-fill";
       game.powerUpList.revealHidden++;
       revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
-      revealHiddenPowerUpsBtn.disabled = false;
+      if (!revealHasBeenUsedThisRound) {
+        revealHiddenPowerUpsBtn.disabled = false;
+      }
       revealHiddenShopBtn.disabled = game.getBalance() < 10;
       compassShopBtn.disabled = game.getBalance() < 50;
       lightningShopBtn.disabled = game.getBalance() < 100;
@@ -284,10 +329,13 @@ lootboxShopBtn.addEventListener("click", () => {
       inspectShopBtn.disabled = game.getBalance() < 300;
       //
       break;
-    case "compass":
+    case "Compass Intuition":
+      iconName = "compass";
       game.powerUpList.compass++;
       compassCount.textContent = `${game.powerUpList.compass}x`;
-      compassPowerUpsBtn.disabled = false;
+      if (!compassHasBeenUsedThisRound) {
+        compassPowerUpsBtn.disabled = false;
+      }
       revealHiddenShopBtn.disabled = game.getBalance() < 10;
       compassShopBtn.disabled = game.getBalance() < 50;
       lightningShopBtn.disabled = game.getBalance() < 100;
@@ -295,10 +343,13 @@ lootboxShopBtn.addEventListener("click", () => {
       inspectShopBtn.disabled = game.getBalance() < 300;
       //
       break;
-    case "lightning":
+    case "Lightning Strike":
+      iconName = "lightning";
       game.powerUpList.lightning++;
       lightningCount.textContent = `${game.powerUpList.lightning}x`;
-      lightningPowerUpsBtn.disabled = false;
+      if (game.playerCards.length != 0) {
+        lightningPowerUpsBtn.disabled = false;
+      }
       revealHiddenShopBtn.disabled = game.getBalance() < 10;
       compassShopBtn.disabled = game.getBalance() < 50;
       lightningShopBtn.disabled = game.getBalance() < 100;
@@ -306,10 +357,13 @@ lootboxShopBtn.addEventListener("click", () => {
       inspectShopBtn.disabled = game.getBalance() < 300;
       //
       break;
-    case "quick_inspect":
+    case "Quick Inspect":
+      iconName = "search";
       game.powerUpList.quick_inspect++;
       inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
-      inspectPowerUpsBtn.disabled = false;
+      if (!inspectHasBeenUsedThisRound) {
+        inspectPowerUpsBtn.disabled = false;
+      }
       revealHiddenShopBtn.disabled = game.getBalance() < 10;
       compassShopBtn.disabled = game.getBalance() < 50;
       lightningShopBtn.disabled = game.getBalance() < 100;
@@ -320,11 +374,24 @@ lootboxShopBtn.addEventListener("click", () => {
     default:
       break;
   }
+
+  textEl.textContent = selectedPowerUp;
+  iconEl.className = `bi bi-${iconName} power-up-icon`;
+
+  overlay.style.display = "block";
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+  }, 3000);
+
   return;
 });
 
 function newGameBasicOrAdvanced() {
   revealHasBeenUsedThisRound = false;
+  compassHasBeenUsedThisRound = false;
+  inspectHasBeenUsedThisRound = false;
+  numberOfLightningsUsedThisRound = 0;
 
   if (gameVersion == "basic") {
     newGame(gameVersion); // start the actual game
@@ -359,12 +426,12 @@ function printCardThenAdjustPowerUps(
   } else {
     printCard(element, card, hidden, replace);
 
-    if (!(game.powerUpList.revealHidden == 0))
-      revealHiddenPowerUpsBtn.disabled = false;
-    if (!(game.powerUpList.compass == 0)) compassPowerUpsBtn.disabled = false;
-    if (!(game.powerUpList.lightning == 0))
-      lightningPowerUpsBtn.disabled = false;
-    if (!(game.powerUpList.quick_inspect == 0))
+    compassHasBeenUsedThisRound = false;
+    inspectHasBeenUsedThisRound = false;
+
+    if (game.powerUpList.compass != 0) compassPowerUpsBtn.disabled = false;
+    if (game.powerUpList.lightning != 0) lightningPowerUpsBtn.disabled = false;
+    if (game.powerUpList.quick_inspect != 0)
       inspectPowerUpsBtn.disabled = false;
 
     if (game.deck.length == 0) {
