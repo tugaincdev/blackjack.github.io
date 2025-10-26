@@ -225,6 +225,8 @@ inspectPowerUpsBtn.addEventListener("click", () => {
 //-----------------------------------------
 
 revealHiddenShopBtn.addEventListener("click", () => {
+  playMoneySound();
+
   game.powerUpList.revealHidden++;
   revealHiddenCount.textContent = `${game.powerUpList.revealHidden}x`;
 
@@ -243,6 +245,8 @@ revealHiddenShopBtn.addEventListener("click", () => {
 });
 
 compassShopBtn.addEventListener("click", () => {
+  playMoneySound();
+
   game.powerUpList.compass++;
   compassCount.textContent = `${game.powerUpList.compass}x`;
 
@@ -261,6 +265,8 @@ compassShopBtn.addEventListener("click", () => {
 });
 
 lightningShopBtn.addEventListener("click", () => {
+  playMoneySound();
+
   game.powerUpList.lightning++;
   lightningCount.textContent = `${game.powerUpList.lightning}x`;
 
@@ -278,6 +284,8 @@ lightningShopBtn.addEventListener("click", () => {
 });
 
 inspectShopBtn.addEventListener("click", () => {
+  playMoneySound();
+
   game.powerUpList.quick_inspect++;
   inspectCount.textContent = `${game.powerUpList.quick_inspect}x`;
 
@@ -296,6 +304,8 @@ inspectShopBtn.addEventListener("click", () => {
 });
 
 lootboxShopBtn.addEventListener("click", () => {
+  playMoneySound();
+
   game.money = game.money - 150;
 
   updateMoneyDisplay();
@@ -394,12 +404,18 @@ lootboxShopBtn.addEventListener("click", () => {
   textEl.textContent = selectedPowerUp;
   iconEl.className = `bi bi-${iconName} power-up-icon`;
 
-  overlay.style.display = "block";
+  lootboxShopBtn.disabled = true;
 
   setTimeout(() => {
-    overlay.style.display = "none";
-  }, 3000);
+    playLootboxSound();
 
+    overlay.style.display = "block";
+
+    setTimeout(() => {
+      overlay.style.display = "none";
+      lootboxShopBtn.disabled = game.getBalance() < 150;
+    }, 2000);
+  }, 1000);
   return;
 });
 
