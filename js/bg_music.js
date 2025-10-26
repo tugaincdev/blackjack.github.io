@@ -37,6 +37,9 @@ const inspectPath = "./audio/inspect.mp3";
 // Reveal sound (plays when Reveal Hidden Card is used)
 const revealPath = "./audio/reveal.mp3";
 
+// Compass sound (plays when Compass Intuition is used)
+const compassPath = "./audio/compass.mp3";
+
 // Audio elements
 const bgAudio = document.getElementById("bg-music");
 const vfxAudio = document.getElementById("vfx-sounds");
@@ -186,10 +189,19 @@ function playInspectSound() {
 function playRevealSound() {
   const revealSound = new Audio(revealPath);
 
-  revealSound.volume = 1;
+  revealSound.volume = 0.4;
 
   // Play both at the same time
   revealSound.play();
+}
+
+function playCompassSound() {
+  const compassSound = new Audio(compassPath);
+
+  compassSound.volume = 0.2;
+
+  // Play both at the same time
+  compassSound.play();
 }
 
 //fuck you François Beaufort
