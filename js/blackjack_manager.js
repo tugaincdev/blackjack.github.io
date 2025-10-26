@@ -15,7 +15,7 @@ function showToast(message) {
   toast.textContent = message;
   toast.style.opacity = "1";
 
-  // Hide after 5 seconds
+  // Hide after 2 seconds
   setTimeout(() => {
     toast.style.opacity = "0";
   }, 2000);
@@ -104,8 +104,6 @@ function clearPage() {
 }
 
 function getGameObject(gameType) {
-  console.log("started getGameObject next wil send gametype=");
-  console.log(gameType);
   let gameReturn = null;
   if (gameType == "basic") {
     gameVersion = "basic";
@@ -120,7 +118,9 @@ function getGameObject(gameType) {
 
 function newGame(gameType) {
   // When clicking Start buttons, check if name exists — if not, try to use textbox value
-  updateMoneyDisplay();
+
+  game = getGameObject(gameType); // ✅ initialize immediately
+
   if (!playerNameExists) {
     const name = playerNameInput.value.trim();
     if (name) {
@@ -161,7 +161,6 @@ function newGame(gameType) {
           buttonsInitialization();
           debug(game);
           console.log("Dealing done!");
-          updateMoneyDisplay();
         });
       });
     });
@@ -172,33 +171,18 @@ function updateMoneyDisplay() {
   document.getElementById("money-display").textContent = game.money.toFixed(0);
 }
 
-// New function to start game with a bet (preserves money across games)
+// New function to start game with a bet
 function placeBetAndStart() {
   const betValue = parseInt(document.getElementById("bet-input").value);
-
-  // Step 1: Preserve existing money (or use default for first-time setup)
-  const preservedMoney = game ? game.money : 1000; // Adjust default as needed (e.g., 1000 starting chips)
-
-  // Step 2: Create the correct game instance based on version
   if (gameVersion == "basic") {
     game = new Blackjack();
   } else {
     game = new Blackjack_Advanced();
   }
 
-  // Step 3: Restore the preserved money to the new instance
-  game.money = preservedMoney;
-
-  // Step 4: Update display to show the restored (pre-bet) balance
-  updateMoneyDisplay();
-
-  // Step 5: Place the bet (this will deduct from the restored money)
   if (game.placeBet(betValue)) {
-    updateMoneyDisplay(); // Update again to show post-bet balance
+    updateMoneyDisplay();
     newGameBasicOrAdvanced();
-  } else {
-    // Optional: Handle invalid bet (e.g., insufficient funds)
-    showToast("Insufficient funds!"); // Assuming you have this from earlier code
   }
 }
 
@@ -368,11 +352,9 @@ function dealerFinish() {
     if (playerNameExists) {
       showGameResult("💀 " + playerName + ", you lost!");
       game.applyBetResult("lose");
-      updateMoneyDisplay();
     } else {
       showGameResult("💀 You lost!");
       game.applyBetResult("lose");
-      updateMoneyDisplay();
     }
     return;
   }
@@ -385,37 +367,29 @@ function dealerFinish() {
       if (dealerValue > 25) {
         showGameResult("🎉 " + playerName + ", you won!");
         game.applyBetResult("win");
-        updateMoneyDisplay();
       } else if (dealerValue > playerValue) {
         showGameResult("💀 " + playerName + ", you lost!");
         game.applyBetResult("lose");
-        updateMoneyDisplay();
       } else if (dealerValue === playerValue) {
         showGameResult("🤝 " + playerName + ", you tied.");
         game.applyBetResult("tie");
-        updateMoneyDisplay();
       } else {
         showGameResult("🎉 " + playerName + ", you won!");
         game.applyBetResult("win");
-        updateMoneyDisplay();
       }
     } else {
       if (dealerValue > 25) {
         showGameResult("🎉 You won!");
         game.applyBetResult("win");
-        updateMoneyDisplay();
       } else if (dealerValue > playerValue) {
         showGameResult("💀 You lost!");
         game.applyBetResult("lose");
-        updateMoneyDisplay();
       } else if (dealerValue === playerValue) {
         showGameResult("🤝 You tied.");
         game.applyBetResult("tie");
-        updateMoneyDisplay();
       } else {
         showGameResult("🎉 You won!");
         game.applyBetResult("win");
-        updateMoneyDisplay();
       }
     }
 
@@ -441,6 +415,13 @@ function printCard(element, card, hidden = false, replace = false) {
     imagePath = `./images/svg/card_back.svg`;
   }
 
+  // Create wrapper div for this card
+  const cardSlot = document.createElement("div");
+  cardSlot.classList.add("card-slot");
+  cardSlot.style.display = "inline-block";
+  cardSlot.style.position = "relative";
+  cardSlot.style.margin = "2px";
+
   // Create a new img element
   const img = document.createElement("img");
   img.src = imagePath;
@@ -448,7 +429,10 @@ function printCard(element, card, hidden = false, replace = false) {
   img.classList.add("card-image"); // Optional: Add a CSS class for styling
   img.style.width = "60px"; // Optional: Inline style for sizing; adjust as needed
   img.style.height = "auto";
-  img.style.margin = "2px"; // Small margin between cards
+  //img.style.margin = "2px"; // Small margin between cards
+
+  img.style.display = "block";
+  cardSlot.appendChild(img);
 
   if (replace && element.children.length > 0) {
     // If replace is true, replace the last child (e.g., for revealing hidden card)
@@ -461,7 +445,7 @@ function printCard(element, card, hidden = false, replace = false) {
 
   console.log("Image path:", imagePath);
   // Append the image to the element
-  element.appendChild(img);
+  element.appendChild(cardSlot);
 }
 
 function showGameResult(message) {
