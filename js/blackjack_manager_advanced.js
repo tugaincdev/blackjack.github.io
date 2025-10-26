@@ -238,6 +238,8 @@ revealHiddenShopBtn.addEventListener("click", () => {
   lightningShopBtn.disabled = game.getBalance() < 100;
   lootboxShopBtn.disabled = game.getBalance() < 150;
   inspectShopBtn.disabled = game.getBalance() < 300;
+
+  updateMoneyDisplay();
 });
 
 compassShopBtn.addEventListener("click", () => {
@@ -254,6 +256,8 @@ compassShopBtn.addEventListener("click", () => {
   lightningShopBtn.disabled = game.getBalance() < 100;
   lootboxShopBtn.disabled = game.getBalance() < 150;
   inspectShopBtn.disabled = game.getBalance() < 300;
+
+  updateMoneyDisplay();
 });
 
 lightningShopBtn.addEventListener("click", () => {
@@ -269,6 +273,8 @@ lightningShopBtn.addEventListener("click", () => {
   lightningShopBtn.disabled = game.getBalance() < 100;
   lootboxShopBtn.disabled = game.getBalance() < 150;
   inspectShopBtn.disabled = game.getBalance() < 300;
+
+  updateMoneyDisplay();
 });
 
 inspectShopBtn.addEventListener("click", () => {
@@ -285,10 +291,14 @@ inspectShopBtn.addEventListener("click", () => {
   lightningShopBtn.disabled = game.getBalance() < 100;
   lootboxShopBtn.disabled = game.getBalance() < 150;
   inspectShopBtn.disabled = game.getBalance() < 300;
+
+  updateMoneyDisplay();
 });
 
 lootboxShopBtn.addEventListener("click", () => {
   game.money = game.money - 150;
+
+  updateMoneyDisplay();
 
   const powerUps = [
     { name: "Card Reveal", weight: 45 }, // 45% chance
