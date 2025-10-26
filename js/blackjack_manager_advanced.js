@@ -89,6 +89,8 @@ revealHiddenPowerUpsBtn.addEventListener("click", () => {
       let cardToAddName = game.dealerCards[1].printName();
       hiddenCard.src = `./images/svg/${cardToAddName}.svg`;
 
+      playRevealSound();
+
       game.powerUpList.revealHidden--;
       revealHasBeenUsedThisRound = true;
 
@@ -199,6 +201,8 @@ inspectPowerUpsBtn.addEventListener("click", () => {
 
     cardImg.src = imagePath;
     cardImg.alt = nextCardName;
+
+    playInspectSound();
 
     overlay.style.display = "block";
 
