@@ -40,6 +40,12 @@ const revealPath = "./audio/reveal.mp3";
 // Compass sound (plays when Compass Intuition is used)
 const compassPath = "./audio/compass.mp3";
 
+// Lootbox sound (plays when Lootbox is used)
+const lootboxPath = "./audio/lootbox.mp3";
+
+// Money sound (plays when money is spent in the shop)
+const moneyPath = "./audio/money_spent.mp3";
+
 // Audio elements
 const bgAudio = document.getElementById("bg-music");
 const vfxAudio = document.getElementById("vfx-sounds");
@@ -212,6 +218,24 @@ function playCompassSound() {
 
   // Play both at the same time
   compassSound.play();
+}
+
+function playLootboxSound() {
+  const lootboxSound = new Audio(lootboxPath);
+
+  lootboxSound.volume = 0.2;
+
+  // Play both at the same time
+  lootboxSound.play();
+}
+
+function playMoneySound() {
+  const moneySound = new Audio(moneyPath);
+
+  moneySound.volume = 0.2;
+
+  // Play both at the same time
+  moneySound.play();
 }
 
 //fuck you François Beaufort
